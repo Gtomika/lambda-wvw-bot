@@ -20,9 +20,5 @@ provider "aws" {
 }
 
 terraform {
-  backend "s3" {
-    bucket = "tamas-gaspar-epam-cloudx-terraform-state"
-    key = "LambdaDiscordBot.tfstate"
-    region = "eu-central-1"
-  }
+  backend "s3" {} # set dynamically
 }

@@ -4,7 +4,7 @@ import os
 command_type = os.getenv('COMMAND_TYPE')  # GLOBAL or GUILD
 application_id = os.getenv('APPLICATION_ID')
 guild_id = os.getenv('GUILD_ID')  # required of 'COMMAND_TYPE' is GUILD
-bot_token = os.getenv('BOT_TOKEN')
+bot_token = os.getenv('DISCORD_BOT_TOKEN')
 
 
 def register_slash_command(command_json_path: str):

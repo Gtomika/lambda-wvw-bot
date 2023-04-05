@@ -46,6 +46,11 @@ variable "gw2_required_permissions" {
   description = "All permissions that the GW2 API key must have to use all bot functionality"
 }
 
+variable "log_retention_days" {
+  type = number
+  description = "How long to keep CloudWatch logs"
+}
+
 # Provided from command line arguments (dynamic or sensitive) ---------------------------------------
 
 variable "aws_region" {
@@ -85,11 +90,6 @@ variable "aws_assume_role_external_id" {
   type = string
   sensitive = true
   description = "Secret required to assume the Terraform role"
-}
-
-variable "log_retention_days" {
-  type = number
-  description = "How long to keep CloudWatch logs"
 }
 
 variable "discord_application_id" {
