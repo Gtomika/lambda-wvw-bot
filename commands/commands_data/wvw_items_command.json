@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_items",
+  "description": "A WvW-s tárgyaid listázása.",
+  "dm_permission": true,
+  "options": []
+}

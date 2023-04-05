@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_legendaries",
+  "description": "Legendás WvW-s tárgyaid megtekintése.",
+  "dm_permission": true,
+  "options": []
+}

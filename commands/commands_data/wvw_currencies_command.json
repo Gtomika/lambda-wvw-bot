@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_currencies",
+  "description": "A WvW-s fizetőeszközeid listázása.",
+  "dm_permission": true,
+  "options": []
+}

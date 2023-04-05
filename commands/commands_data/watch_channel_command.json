@@ -1,0 +1,34 @@
+{
+  "type": 1,
+  "name": "watch_channel",
+  "description": "Figyelt csatornák kezelése",
+  "dm_permission": false,
+  "options": [
+    {
+      "name": "action",
+      "description": "Mit csináljon a figyelt csatornákkal?",
+      "required": true,
+      "type": 3,
+      "choices": [
+        {
+          "name": "add",
+          "value": "watched_channel_add"
+        },
+        {
+          "name": "delete",
+          "value": "watched_channel_delete"
+        },
+        {
+          "name": "list",
+          "value": "watched_channel_list"
+        }
+      ]
+    },
+    {
+      "name": "channel_name",
+      "description": "Melyik csatornát?",
+      "required": false,
+      "type": 7
+    }
+  ]
+}

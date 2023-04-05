@@ -1,0 +1,34 @@
+{
+  "type": 1,
+  "name": "manager_role",
+  "description": "A bot kezelésére jogosult rangok kezelése",
+  "dm_permission": false,
+  "options": [
+    {
+      "name": "action",
+      "description": "Mit csináljon a rangokkal?",
+      "required": true,
+      "type": 3,
+      "choices": [
+        {
+          "name": "add",
+          "value": "manager_role_add"
+        },
+        {
+          "name": "delete",
+          "value": "manager_role_delete"
+        },
+        {
+          "name": "list",
+          "value": "manager_role_list"
+        }
+      ]
+    },
+    {
+      "name": "role",
+      "description": "Melyik rangot?",
+      "required": false,
+      "type": 8
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_rank",
+  "description": "WvW szinted megtekintése.",
+  "dm_permission": true,
+  "options": []
+}

@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_raid_list",
+  "description": "WvW raid események listázása",
+  "dm_permission": false,
+  "options": []
+}

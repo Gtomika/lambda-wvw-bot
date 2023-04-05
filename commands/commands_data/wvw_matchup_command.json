@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_matchup",
+  "description": "WvW jelen állapotának lekérése.",
+  "dm_permission": false,
+  "options": []
+}

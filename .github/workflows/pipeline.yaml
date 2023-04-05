@@ -1,0 +1,231 @@
+name: deployment-pipeline
+run-name: Pipeline | ${{ github.event.head_commit.message }} | By @${{ github.actor }}
+on:
+  push:
+    branches:
+      - master
+jobs:
+
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Run request verification tests
+        run: python -m unittest bot/discord_interaction_lambda_function/test/test_verify.py
+      - name: Run Discord interaction lambda tests
+        run: python -m unittest bot/discord_interaction_lambda_function/test/test_discord_interaction_lambda.py
+      - name: Run user DynamoDB table tests
+        run: python -m unittest bot/commons/test/test_gw2_user_repo.py
+
+  package-common-layer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Package common layer
+        run: |
+          python -m pip install -r requirements.txt --target python
+          echo "Installed all dependencies in 'python' directory"
+          mkdir python/bot
+          cp -r bot/commons python/bot/commons
+          sudo apt install zip
+          zip -r common_layer.zip python
+          echo "Zipped common layer into archive 'common_layer.zip'"
+          stat common_layer.zip
+      - uses: actions/upload-artifact@v3
+        with:
+          name: common-layer-deployment-package
+          path: common_layer.zip
+    needs: [run-tests]
+
+  package-discord-interaction-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package discord interaction lambda
+        run: |
+          sudo apt install zip
+          zip -r discord_interaction_lambda.zip bot/discord_interaction_lambda_function/* -x bot/discord_interaction_lambda_function/test**
+          stat discord_interaction_lambda.zip
+      - uses: actions/upload-artifact@v3
+        with:
+          name: discord-interaction-lambda-package
+          path: discord_interaction_lambda.zip
+    needs: [run-tests]
+
+  package-help-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package help command lambda
+        run: |
+          sudo apt install zip
+          zip -r help_lambda.zip bot/help_command/* -x bot/help_command/test/\*
+          stat help_lambda.zip
+      - uses: actions/upload-artifact@v3
+        with:
+          name: help-lambda-package
+          path: help_lambda.zip
+    needs: [run-tests]
+
+  package-api-key-add-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package api key add lambda
+        run: |
+          sudo apt install zip
+          zip -r api_key_add_lambda.zip bot/api_key_add_command/* -x bot/api_key_add_command/test**
+          stat architecture_lambda.zip
+      - uses: actions/upload-artifact@v3
+        with:
+          name: api-key-add-lambda-package
+          path: api_key_add_lambda.zip
+    needs: [run-tests]
+
+  terraform-validate:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - uses: hashicorp/setup-terraform@v2
+      - name: Validate Terraform configuration
+        run: |
+          ls -R --ignore 'venv'
+          cd terraform
+          terraform init
+          terraform validate
+    needs: [package-common-layer, package-discord-interaction-lambda, package-info-lambda, package-architecture-lambda]
+
+  terraform-plan:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STS_EXTERNAL_KEY: ${{ secrets.AWS_STS_EXTERNAL_KEY }}
+      AWS_TERRAFORM_ROLE_ARN: ${{ vars.AWS_TERRAFORM_ROLE_ARN }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - uses: actions/download-artifact@v3
+      - name: Plan actions by Terraform
+        run: |
+          cd terraform
+          terraform init
+          terraform plan -out=app.tfplan -var-file=inputs.tfvars \
+            -var aws_region="$AWS_REGION" \
+            -var environment="$ENVIRONMENT" \
+            -var discord_bot_token="$DISCORD_BOT_TOKEN" \
+            -var aws_key_id="$AWS_ACCESS_KEY_ID" \
+            -var aws_secret_key="$AWS_SECRET_ACCESS_KEY" \
+            -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
+            -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY"
+          cd ..
+      - uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan
+          path: terraform/app.tfplan
+    needs: [terraform-validate]
+
+  terraform-apply:
+    runs-on: ubuntu-latest
+    environment: manual_approval_deploy
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STS_EXTERNAL_KEY: ${{ secrets.AWS_STS_EXTERNAL_KEY }}
+      AWS_TERRAFORM_ROLE_ARN: ${{ vars.AWS_TERRAFORM_ROLE_ARN }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - uses: actions/download-artifact@v3
+      - name: Apply Terraform plan
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve "./../terraform-plan/app.tfplan"
+    needs: terraform-plan
+
+  terraform-destroy:
+    runs-on: ubuntu-latest
+    environment: manual_approval_destroy
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STS_EXTERNAL_KEY: ${{ secrets.AWS_STS_EXTERNAL_KEY }}
+      AWS_TERRAFORM_ROLE_ARN: ${{ vars.AWS_TERRAFORM_ROLE_ARN }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - uses: actions/download-artifact@v3
+      - name: Destroy infrastructure with Terraform
+        run: |
+          cd terraform
+          terraform init
+          terraform destroy -var-file=inputs.tfvars \
+            -var aws_region="$AWS_REGION" \
+            -var environment="$ENVIRONMENT" \
+            -var discord_bot_token="$DISCORD_BOT_TOKEN" \
+            -var aws_key_id="$AWS_ACCESS_KEY_ID" \
+            -var aws_secret_key="$AWS_SECRET_ACCESS_KEY" \
+            -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
+            -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY"
+    needs: terraform-plan
+
+  register-commands-test-guild:
+    runs-on: ubuntu-latest
+    env:
+      BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}
+      GUILD_ID: ${{ vars.DISCORD_TEST_GUILD_ID }}
+      COMMAND_TYPE: GUILD
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install script dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Register commands to test guilds
+        run: python commands/register_slash_commands.py
+    needs: terraform-apply
+
+  register-commands-global:
+    runs-on: ubuntu-latest
+    environment: manual_approval_deploy
+    env:
+      BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      APPLICATION_ID: ${{ vars.DISCORD_APPLICATION_ID }}
+      COMMAND_TYPE: GLOBAL
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install script dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Register commands globally
+        run: |
+          python commands/register_slash_commands.py
+    needs: terraform-apply
+

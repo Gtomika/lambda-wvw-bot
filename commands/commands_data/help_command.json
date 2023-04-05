@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "help",
+  "description": "Bot információk és dokumentáció.",
+  "dm_permission": true,
+  "options": []
+}

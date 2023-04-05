@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "next_wvw_matchup",
+  "description": "Jövő heti WvW állapot becslése.",
+  "dm_permission": false,
+  "options": []
+}

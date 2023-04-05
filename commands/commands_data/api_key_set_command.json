@@ -1,0 +1,14 @@
+{
+  "type": 1,
+  "name": "api_key_add",
+  "description": "API kulcs hozzáadása",
+  "dm_permission": true,
+  "options": [
+    {
+      "name": "key",
+      "description": "Érvényes API kulcs",
+      "required": true,
+      "type": 3
+    }
+  ]
+}

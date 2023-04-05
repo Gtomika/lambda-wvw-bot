@@ -1,0 +1,34 @@
+{
+  "type": 1,
+  "name": "wvw_role",
+  "description": "WvW-vel kapcsolatos említéseknél használt rangok kezelése",
+  "dm_permission": false,
+  "options": [
+    {
+      "name": "action",
+      "description": "Mit csináljon a rangokkal?",
+      "required": true,
+      "type": 3,
+      "choices": [
+        {
+          "name": "add",
+          "value": "wvw_role_add"
+        },
+        {
+          "name": "delete",
+          "value": "wvw_role_delete"
+        },
+        {
+          "name": "list",
+          "value": "wvw_role_list"
+        }
+      ]
+    },
+    {
+      "name": "role",
+      "description": "Melyik rangot?",
+      "required": false,
+      "type": 8
+    }
+  ]
+}
