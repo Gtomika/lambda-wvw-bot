@@ -7,7 +7,7 @@ from bot.commons import discord_utils
 from bot.commons import template_utils
 from bot.commons import gw2_api_interactions
 from bot.commons import gw2_users
-import templates
+from . import templates
 
 required_key_length = 72
 

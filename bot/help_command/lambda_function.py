@@ -1,7 +1,7 @@
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
 from bot.commons import template_utils
-import templates
+from . import templates
 
 
 discord_developer_id = 416289572289249280
