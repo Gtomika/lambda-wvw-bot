@@ -7,7 +7,7 @@ import moto
 import io
 import zipfile
 
-from ...commons import discord_utils
+import discord_utils
 
 
 mock_ack_interaction = """
@@ -121,12 +121,12 @@ class DiscordInteractionLambdaTest(TestCase):
         os.environ['COMMANDS'] = commands_data
 
     @unittest.mock.patch(
-        'bot.discord_interaction_lambda_function.discord_interaction_lambda_function.is_request_verified')
+        'lambda_function.is_request_verified')
     def test_unverified_interaction(self, mock_verify_check):
         mock_verify_check.return_value = False
 
         # importing here simulates AWS lambda loading this file
-        from ...discord_interaction_lambda_function.lambda_function import lambda_handler
+        from lambda_function import lambda_handler
         response = lambda_handler({
             'headers': {},
             'body': mock_info_interaction
@@ -135,12 +135,12 @@ class DiscordInteractionLambdaTest(TestCase):
         self.assertEqual(401, response['statusCode'])
 
     @unittest.mock.patch(
-        'bot.discord_interaction_lambda_function.discord_interaction_lambda_function.is_request_verified')
+        'lambda_function.is_request_verified')
     def test_ack_interaction(self, mock_verify_check):
         mock_verify_check.return_value = True
 
         # importing here simulates AWS lambda loading this file
-        from ...discord_interaction_lambda_function.lambda_function import lambda_handler
+        from lambda_function import lambda_handler
         response = lambda_handler({
             'headers': {},
             'body': mock_ack_interaction
@@ -151,12 +151,12 @@ class DiscordInteractionLambdaTest(TestCase):
         self.assertEqual(discord_utils.ACK_TYPE, body['type'])
 
     @unittest.mock.patch(
-        'bot.discord_interaction_lambda_function.discord_interaction_lambda_function.is_request_verified')
+        'lambda_function.is_request_verified')
     def test_forward_info_interaction(self, mock_verify_check):
         mock_verify_check.return_value = True
 
         # importing here simulates AWS lambda loading this file
-        from ...discord_interaction_lambda_function.lambda_function import lambda_handler
+        from lambda_function import lambda_handler
         response = lambda_handler({
             'headers': {},
             'body': mock_info_interaction
@@ -167,12 +167,12 @@ class DiscordInteractionLambdaTest(TestCase):
         self.assertEqual(discord_utils.DEFER_TYPE, body['type'])
 
     @unittest.mock.patch(
-        'bot.discord_interaction_lambda_function.discord_interaction_lambda_function.is_request_verified')
+        'lambda_function.is_request_verified')
     def test_forward_architecture_interaction(self, mock_verify_check):
         mock_verify_check.return_value = True
 
         # importing here simulates AWS lambda loading this file
-        from ...discord_interaction_lambda_function.lambda_function import lambda_handler
+        from lambda_function import lambda_handler
         response = lambda_handler({
             'headers': {},
             'body': mock_architecture_interaction
