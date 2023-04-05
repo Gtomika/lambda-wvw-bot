@@ -65,7 +65,6 @@ jobs:
         run: |
           sudo apt install zip
           zip -r discord_interaction_lambda.zip bot/discord_interaction_lambda_function/* -x bot/discord_interaction_lambda_function/test**
-          stat discord_interaction_lambda.zip
       - uses: actions/upload-artifact@v3
         with:
           name: discord-interaction-lambda-package
@@ -80,7 +79,6 @@ jobs:
         run: |
           sudo apt install zip
           zip -r help_lambda.zip bot/help_command/* -x bot/help_command/test/\*
-          stat help_lambda.zip
       - uses: actions/upload-artifact@v3
         with:
           name: help-lambda-package
@@ -95,7 +93,6 @@ jobs:
         run: |
           sudo apt install zip
           zip -r api_key_add_lambda.zip bot/api_key_add_command/* -x bot/api_key_add_command/test/\*
-          stat architecture_lambda.zip
       - uses: actions/upload-artifact@v3
         with:
           name: api-key-add-lambda-package
