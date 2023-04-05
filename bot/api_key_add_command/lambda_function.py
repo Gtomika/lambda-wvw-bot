@@ -2,12 +2,12 @@ import os
 import boto3
 import botocore.client
 
-import discord_interactions
-import discord_utils
-import template_utils
+from bot.commons import discord_interactions
+from bot.commons import discord_utils
+from bot.commons import template_utils
+from bot.commons import gw2_api_interactions
+from bot.commons import gw2_users
 import templates
-import gw2_api_interactions
-import gw2_users
 
 required_key_length = 72
 

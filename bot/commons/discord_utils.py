@@ -1,5 +1,3 @@
-import template_utils
-
 ACK_TYPE = 1
 RESPONSE_TYPE = 4
 DEFER_TYPE = 5
@@ -20,10 +18,7 @@ def extract_info(event) -> InteractionInfo:
 
 
 def extract_locale(event) -> str:
-    if 'locale' in event:
-        return event['locale']
-    else:
-        return template_utils.default_locale
+    return event['locale']
 
 
 def extract_username(event) -> str:
