@@ -107,7 +107,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
@@ -127,7 +127,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -161,7 +161,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -181,7 +181,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -209,7 +209,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       GUILD_ID: ${{ vars.DISCORD_TEST_GUILD_ID }}
       COMMAND_TYPE: GUILD
     steps:
@@ -231,7 +231,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -265,7 +265,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -285,7 +285,7 @@ jobs:
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -313,7 +313,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
-      APPLICATION_PUBLIC_KEY: ${{ var.APPLICATION_PUBLIC_KEY }}
+      APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       COMMAND_TYPE: GLOBAL
     steps:
       - uses: actions/checkout@v3
