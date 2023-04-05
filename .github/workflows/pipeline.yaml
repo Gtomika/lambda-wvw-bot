@@ -15,7 +15,7 @@ env:
 
 jobs:
 
-  run-tests:
+  run-test-discord-interaction:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,6 +31,19 @@ jobs:
         run: python -m unittest bot/discord_interaction_lambda_function/test/test_verify.py
       - name: Run Discord interaction lambda tests
         run: python -m unittest bot/discord_interaction_lambda_function/test/test_discord_interaction_lambda.py
+
+  run-tests-commons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install test dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python -m pip install -e ./bot/commons
+          python -m pip install -e ./bot/discord_interaction_lambda_function
       - name: Run user DynamoDB table tests
         run: python -m unittest bot/commons/test/test_gw2_user_repo.py
 
@@ -55,7 +68,7 @@ jobs:
         with:
           name: common-layer-deployment-package
           path: common_layer.zip
-    needs: [run-tests]
+    needs: [run-test-discord-interaction, run-tests-commons]
 
   package-discord-interaction-lambda:
     runs-on: ubuntu-latest
@@ -69,7 +82,7 @@ jobs:
         with:
           name: discord-interaction-lambda-package
           path: discord_interaction_lambda.zip
-    needs: [run-tests]
+    needs: [run-test-discord-interaction, run-tests-commons]
 
   package-help-lambda:
     runs-on: ubuntu-latest
@@ -83,7 +96,7 @@ jobs:
         with:
           name: help-lambda-package
           path: help_lambda.zip
-    needs: [run-tests]
+    needs: [run-test-discord-interaction, run-tests-commons]
 
   package-api-key-add-lambda:
     runs-on: ubuntu-latest
@@ -97,7 +110,7 @@ jobs:
         with:
           name: api-key-add-lambda-package
           path: api_key_add_lambda.zip
-    needs: [run-tests]
+    needs: [run-test-discord-interaction, run-tests-commons]
 
   terraform-validate:
     environment: staging # does not matter technically

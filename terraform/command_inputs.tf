@@ -41,14 +41,11 @@ locals {
   help_variables = {
     APPLICATION_ID = var.discord_application_id
     BOT_TOKEN = var.discord_bot_token
-    DISCORD_DEVELOPER_ID = var.discord_developer_id
-    DOCUMENTATION_URL = var.documentation_url
   }
 
   api_key_add_variables = {
     APPLICATION_ID = var.discord_application_id
     BOT_TOKEN = var.discord_bot_token
-    REQUIRED_PERMISSIONS = var.gw2_required_permissions
     GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
   }
 

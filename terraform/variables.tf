@@ -31,21 +31,6 @@ variable "discord_interaction_path" {
   description = "URL path of the Discord interaction webhook. Must be relative and not start with '/'"
 }
 
-variable "discord_developer_id" {
-  type = number
-  description = "Discord ID of developer who is mentioned by the bot"
-}
-
-variable "documentation_url" {
-  type = string
-  description = "Link to bots documentation"
-}
-
-variable "gw2_required_permissions" {
-  type = string
-  description = "All permissions that the GW2 API key must have to use all bot functionality"
-}
-
 variable "log_retention_days" {
   type = number
   description = "How long to keep CloudWatch logs"

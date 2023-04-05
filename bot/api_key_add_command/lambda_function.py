@@ -9,7 +9,6 @@ import templates
 import gw2_api_interactions
 import gw2_users
 
-required_permissions = os.environ['REQUIRED_PERMISSIONS']
 required_key_length = 72
 
 dynamodb_resource = boto3.resource('dynamodb')
@@ -78,7 +77,7 @@ def validate_api_key(key: str, locale: str):
             locale=locale
         ).format(
             emote_no_entry=discord_utils.default_emote('no_entry_sign'),
-            permissions=required_permissions
+            permissions=gw2_api_interactions.gw2_api_permissions
         )
         return False, message
     except gw2_api_interactions.ApiException as e:

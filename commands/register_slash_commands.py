@@ -14,7 +14,7 @@ def register_slash_command(command_json_path: str):
     create_command_url = format_register_url(application_id, guild_id)
     print(f'Making create command request to {create_command_url}')
 
-    response = requests.post(create_command_url, data=command_data, headers={
+    response = requests.post(create_command_url, data=command_data.encode('utf-8'), headers={
         'Authorization': f'Bot {bot_token}',
         'Content-Type': 'application/json'
     })

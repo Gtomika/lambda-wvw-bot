@@ -1,7 +1,7 @@
 import template_utils
 
-
 ACK_TYPE = 1
+RESPONSE_TYPE = 4
 DEFER_TYPE = 5
 
 

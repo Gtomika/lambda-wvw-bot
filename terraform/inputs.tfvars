@@ -23,9 +23,4 @@ command_data = [
 ]
 
 discord_interaction_path = "api/discord/interaction"
-discord_developer_id = 416289572289249280
-
-documentation_url = "https://gtomika.github.io/mod-wvw-bot/" # TODO update this
-gw2_required_permissions = "account, inventories, characters, wallet, unlocks, progression" # for the GW2 API
-
 log_retention_days = 30
