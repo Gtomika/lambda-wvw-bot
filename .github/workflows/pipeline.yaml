@@ -23,7 +23,9 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install test dependencies
-        run: python -m pip install -r requirements-dev.txt
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python -m pip install -e ./bot/commons
       - name: Run request verification tests
         run: python -m unittest bot/discord_interaction_lambda_function/test/test_verify.py
       - name: Run Discord interaction lambda tests
