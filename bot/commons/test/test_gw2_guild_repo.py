@@ -1,7 +1,7 @@
 import os
 import unittest
-import gw2_guilds
-import common_exceptions
+from bot.commons import gw2_guilds
+from bot.commons import common_exceptions
 import moto
 import boto3
 
