@@ -43,15 +43,15 @@ data aws_iam_policy_document "guilds_table_policy" {
 
 data "aws_iam_policy_document" "api_key_add_lambda_policy" {
   source_policy_documents = [
-    data.aws_iam_policy_document.log_policy,
-    data.aws_iam_policy_document.users_table_policy
+    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.users_table_policy.json
   ]
 }
 
 data "aws_iam_policy_document" "home_world_lambda_policy" {
   source_policy_documents = [
-    data.aws_iam_policy_document.log_policy,
-    data.aws_iam_policy_document.guilds_table_policy
+    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.guilds_table_policy.json
   ]
 }
 
