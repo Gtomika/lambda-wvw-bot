@@ -76,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package discord interaction lambda
-        run: zip -r discord_interaction_lambda.zip "bot/discord_interaction_lambda_function/*" -x "bot/discord_interaction_lambda_function/test*"
+        run: zip -r discord_interaction_lambda.zip bot/discord_interaction_lambda_function/* -x bot/discord_interaction_lambda_function/test*
       - uses: actions/upload-artifact@v3
         with:
           name: discord-interaction-lambda-package
