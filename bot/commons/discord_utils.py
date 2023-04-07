@@ -79,7 +79,7 @@ def is_from_guild(event) -> bool:
 
 def is_admin(event) -> bool:
     if is_from_guild(event):
-        permissions = event['member']['permissions']
+        permissions = int(event['member']['permissions'])
         return permissions & admin_permission == admin_permission
     else:
         return False
