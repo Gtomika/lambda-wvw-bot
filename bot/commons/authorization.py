@@ -12,7 +12,7 @@ class CommandAuthorizer:
     def __init__(self, repo: gw2_guilds.Gw2GuildRepo):
         self.repo = repo
 
-    def authorize_command(self, guild_id: int, event):
+    def authorize_command(self, guild_id: str, event):
         """
         Throws: UnauthorizedException
         """
