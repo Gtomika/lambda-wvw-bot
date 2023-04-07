@@ -7,7 +7,7 @@ provider "aws" {
   assume_role {
     role_arn = var.aws_terraform_role_arn
     external_id = var.aws_assume_role_external_id
-    duration = "3600" # seconds
+    duration = "1h"
     session_name = "TerraformSession"
   }
 
