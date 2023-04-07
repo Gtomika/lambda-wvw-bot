@@ -62,26 +62,26 @@ locals {
   }
 
   # Build map objects from the lambda environments: to be used later
-  lambda_environments = tomap({
+  lambda_environments = {
 
-    Help = tomap({
-      policy = data.aws_iam_policy_document.log_policy
+    Help = {
+      policy    = data.aws_iam_policy_document.log_policy
       variables = local.common_variables
-    })
+    }
 
-    ApiKeyAdd = tomap({
-      policy = data.aws_iam_policy_document.api_key_add_lambda_policy
+    ApiKeyAdd = {
+      policy    = data.aws_iam_policy_document.api_key_add_lambda_policy
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
-    })
+    }
 
-    HomeWorld = tomap({
-      policy = data.aws_iam_policy_document.home_world_lambda_policy
+    HomeWorld = {
+      policy    = data.aws_iam_policy_document.home_world_lambda_policy
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
-    })
+    }
 
-  })
+  }
 }
