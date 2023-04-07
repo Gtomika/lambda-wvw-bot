@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package help command lambda
-        run: zip -r help_lambda.zip "bot/help_command/*" -x "bot/help_command/test/*"
+        run: zip -r help_lambda.zip bot/help_command/* -x bot/help_command/test/*
       - uses: actions/upload-artifact@v3
         with:
           name: help-lambda-package
@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package api key add lambda
-        run: zip -r api_key_add_lambda.zip "bot/api_key_add_command/*" -x "bot/api_key_add_command/test/*"
+        run: zip -r api_key_add_lambda.zip bot/api_key_add_command/* -x bot/api_key_add_command/test/*
       - uses: actions/upload-artifact@v3
         with:
           name: api-key-add-lambda-package
@@ -112,7 +112,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package home world lambda
-        run: zip -r home_world_lambda.zip "bot/home_world_command/*" -x "bot/home_world_command/test/*"
+        run: zip -r home_world_lambda.zip bot/home_world_command/* -x bot/home_world_command/test/*
       - uses: actions/upload-artifact@v3
         with:
           name: home-world-lambda-package
@@ -124,7 +124,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package manager role lambda
-        run: zip -r manager_role_lambda.zip "bot/manager_role_command/*" -x "bot/manager_role_command/test/*"
+        run: zip -r manager_role_lambda.zip bot/manager_role_command/* -x bot/manager_role_command/test/*
       - uses: actions/upload-artifact@v3
         with:
           name: manager-role-lambda-package
@@ -149,7 +149,9 @@ jobs:
           cd terraform
           terraform init -backend-config="bucket=$TERRAFORM_STATE_BUCKET" -backend-config="key=$TERRAFORM_STATE_FILE" -backend-config="region=$AWS_REGION"
           terraform validate
-    needs: [package-common-layer, package-discord-interaction-lambda, package-help-lambda, package-api-key-add-lambda]
+    needs: [
+      package-common-layer, package-discord-interaction-lambda, package-help-lambda,
+      package-api-key-add-lambda, package-manager-role-lambda]
 
   terraform-plan-stg:
     environment: staging
