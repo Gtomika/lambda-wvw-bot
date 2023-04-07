@@ -20,15 +20,21 @@ class BadRequestException(ApiException):
 
 
 def get_account(api_key: str):
-    return gw2_api_request(api_key, '/account')
+    return gw2_api_request(api_key=api_key, url='/account')
 
 
-def gw2_api_request(api_key: str, url: str):
+def get_home_worlds():
+    return gw2_api_request(api_key=None, url='/worlds?ids=all')
+
+
+def gw2_api_request(api_key, url: str):
+    headers = {
+            'Authorization': f'Bearer {api_key}'
+    } if api_key is not None else None
+
     response = requests.get(
         url=f'{gw2_api_base_url}{url}',
-        headers={
-            'Authorization': f'Bearer {api_key}'
-        },
+        headers=headers,
         timeout=gw2_api_timeout
     )
     code = response.status_code

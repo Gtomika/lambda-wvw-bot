@@ -24,3 +24,8 @@ variable "gw2_users_hash_key" {
   type = string
   default = "UserId"
 }
+
+variable "gw2_guilds_hash_key" {
+  type = string
+  default = "GuildId"
+}

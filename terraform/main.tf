@@ -33,8 +33,8 @@ module "command_lambda_modules" {
   path_to_deployment_package = "${path.module}/${var.command_data[count.index].path_to_deployment_package}"
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
 
-  command_policy = lookup(local.command_policies, var.command_data[count.index].command_name)
-  environment_variables = lookup(local.environment_variables, var.command_data[count.index].command_name)
+  command_policy = lookup("policy", lookup(local.lambda_environments, var.command_data[count.index].command_name))
+  environment_variables = lookup("variables", lookup(local.lambda_environments, var.command_data[count.index].command_name))
   log_retention_days = var.log_retention_days
 }
 

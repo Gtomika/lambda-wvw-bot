@@ -46,6 +46,8 @@ jobs:
           python -m pip install -e ./bot/discord_interaction_lambda_function
       - name: Run user DynamoDB table tests
         run: python -m unittest bot/commons/test/test_gw2_user_repo.py
+      - name: Run guild DynamoDB table tests
+        run: python -m unittest bot/commons/test/test_gw2_guild_repo.py
 
   package-common-layer:
     runs-on: ubuntu-latest

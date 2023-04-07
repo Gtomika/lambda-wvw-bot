@@ -19,6 +19,12 @@ command_data = [
     command_name_discord = "api_key_add"
     handler = "bot/api_key_add_command/lambda_function.lambda_handler"
     path_to_deployment_package = "../api-key-add-lambda-package/api_key_add_lambda.zip"
+  },
+  {
+    command_name = "HomeWorld"
+    command_name_discord = "home_world"
+    handler = "bot/home_world_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../home-world-lambda-package/home_world_lambda.zip"
   }
 ]
 

@@ -3,7 +3,7 @@
 default_locale = 'hu'
 
 
-def get_localized_template(template_map, locale: str) -> str:
+def get_localized_template(template_map, locale: str):
     if locale in template_map:
         return template_map[locale]
     else:
@@ -12,4 +12,8 @@ def get_localized_template(template_map, locale: str) -> str:
 
 common_template_internal_error = {
     'hu': 'Ismeretlen hiba történt! Kérlek próbáld újra, és ha ez továbbra is fent áll, jelezd a készítőmnek!'
+}
+
+common_template_unauthorized = {
+    'hu': 'Ehhez nincs jogosultságod, nekem csak egy commander {emote_commander} parancsolhat!'
 }

@@ -2,6 +2,16 @@ ACK_TYPE = 1
 RESPONSE_TYPE = 4
 DEFER_TYPE = 5
 
+loading_emote_id = 971306366687928371
+gem_emote_id = 970640961468248144
+commander_emote_id = 970638912458469426
+
+admin_permission = 0x0000000000000008
+
+
+class OptionNotFoundException(Exception):
+    pass
+
 
 class InteractionInfo:
     def __init__(self, event):
@@ -40,16 +50,36 @@ def extract_interaction_token(event) -> str:
 
 
 def extract_option(event, option_name: str):
-    for option in event['options']:
+    """
+    Get one option from the interaction event. Throws:
+     - OptionNotFoundException
+    """
+    for option in event['data']['options']:
         if option['name'] == option_name:
             return option
-    raise Exception(f'Option with name {option_name} was not found')
+    raise OptionNotFoundException
+
+
+def extract_member_roles(event):
+    """
+    Only call this if event is from guild!
+    """
+    return event['member']['roles']
+
 
 # ------- event conditions ------------
 
 
 def is_from_guild(event) -> bool:
     return 'member' in event
+
+
+def is_admin(event) -> bool:
+    if is_from_guild(event):
+        permissions = event['member']['permissions']
+        return permissions & admin_permission == admin_permission
+    else:
+        return False
 
 # ------- message formatting ------------
 

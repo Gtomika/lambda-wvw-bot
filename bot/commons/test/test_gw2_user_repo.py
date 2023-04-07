@@ -38,7 +38,7 @@ class TestGw2UserRepo(unittest.TestCase):
         create_users_table(dynamodb_resource, table_name='users')
 
         repo = gw2_users.Gw2UsersRepo(table_name='users', dynamodb_resource=dynamodb_resource)
-        repo.put_user({  # user already exists
+        repo._Gw2UsersRepo__save_user({  # user already exists
             gw2_users.user_id_field_name: mock_user_id,
             gw2_users.api_key_field_name: mock_api_key + "ABCD"  # some other key already exists
         })
@@ -49,7 +49,7 @@ class TestGw2UserRepo(unittest.TestCase):
         self.assertEqual(mock_api_key, returned_api_key)
 
     @moto.mock_dynamodb
-    def test_update_and_get_api_key_when_user_exists(self):
+    def test_update_and_get_api_key_when_user_does_not_exists(self):
         dynamodb_resource = boto3.resource('dynamodb')
         create_users_table(dynamodb_resource, table_name='users')
 

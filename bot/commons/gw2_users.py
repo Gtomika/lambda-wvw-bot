@@ -1,4 +1,4 @@
-import boto3
+from bot.commons import common_exceptions
 
 user_id_field_name = 'UserId'
 api_key_field_name = 'ApiKey'
@@ -6,33 +6,27 @@ api_key_field_name = 'ApiKey'
 
 class Gw2UsersRepo:
     """
-    Manage the dynamo DB table gw2 users
+    Manage the dynamo DB table gw2 users. This table has the following format:
+    {
+        "UserId": 123457677,
+        "ApiKey": "ABC-123"
+    }
     """
 
     def __init__(self, table_name, dynamodb_resource):
-        self.table_name = table_name
-        self.dynamodb_resource = dynamodb_resource
-        self.gw2_users_table = self.dynamodb_resource.Table(self.table_name)
+        self.gw2_users_table = dynamodb_resource.Table(table_name)
 
     def save_api_key(self, user_id: int, api_key: str) -> None:
         """
         Save new API key for user. Throws:
          - ClientError: internal error
         """
-
-        response = self.gw2_users_table.get_item(Key={user_id_field_name: user_id})
-        if 'Item' in response:
-            # user already exists
-            user = response['Item']
-            user[api_key_field_name] = api_key
-            self.put_user(user)
-        else:
-            # this user does not yet exist
-            user = {
-                user_id_field_name: user_id,
-                api_key_field_name: api_key
-            }
-            self.put_user(user)
+        try:
+            user = self.__get_user(user_id)
+        except common_exceptions.NotFoundException:
+            user = self.__empty_user(user_id)
+        user[api_key_field_name] = api_key
+        self.__save_user(user)
 
     def get_api_key(self, user_id: int):
         """
@@ -43,8 +37,17 @@ class Gw2UsersRepo:
         response = self.gw2_users_table.get_item(Key={user_id_field_name: user_id})
         return response['Item'][api_key_field_name]
 
-    def put_user(self, user):
+    def __empty_user(self, user_id: int):
+        return { user_id_field_name: user_id }
+
+    def __save_user(self, user):
         """
         Do not use in code, only internal and for tests
         """
         self.gw2_users_table.put_item(Item=user)
+
+    def __get_user(self, user_id: int):
+        response = self.gw2_users_table.get_item(Key={user_id_field_name: user_id})
+        if 'Item' not in response:
+            raise common_exceptions.NotFoundException
+        return response['Item']
