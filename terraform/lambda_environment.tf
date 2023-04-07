@@ -1,7 +1,7 @@
 # Some common policies for all lambdas to use
 
 data "aws_iam_policy_document" "log_policy" {
-    statement {
+  statement {
     sid = "AllowLambdaToLog"
     effect = "Allow"
     actions = [
@@ -12,14 +12,36 @@ data "aws_iam_policy_document" "log_policy" {
   }
 }
 
+data "aws_iam_policy_document" "dynamodb_describe_policy" {
+  statement {
+    sid = "AllowLambdaToDescribeDynamoDb"
+    effect = "Allow"
+    actions = [
+      "dynamodb:List*",
+      "dynamodb:DescribeReservedCapacity*",
+      "dynamodb:DescribeLimits",
+      "dynamodb:DescribeTimeToLive"
+    ]
+    resources = ["*"]
+  }
+}
+
 data aws_iam_policy_document "users_table_policy" {
   statement {
     sid = "AllowLambdaToAccessUsersTable"
     effect = "Allow"
     actions = [
-      "dynamodb:Scan",
+      "dynamodb:BatchGet*",
+      "dynamodb:DescribeStream",
+      "dynamodb:DescribeTable",
+      "dynamodb:Get*",
       "dynamodb:Query",
-      "dynamodb:*Item"
+      "dynamodb:Scan",
+      "dynamodb:BatchWrite*",
+      "dynamodb:CreateTable",
+      "dynamodb:Delete*",
+      "dynamodb:Update*",
+      "dynamodb:PutItem"
     ]
     resources = [module.dynamodb_tables.gw2_users_table_arn]
   }
@@ -30,9 +52,17 @@ data aws_iam_policy_document "guilds_table_policy" {
     sid = "AllowLambdaToAccessGuildsTable"
     effect = "Allow"
     actions = [
-      "dynamodb:Scan",
+      "dynamodb:BatchGet*",
+      "dynamodb:DescribeStream",
+      "dynamodb:DescribeTable",
+      "dynamodb:Get*",
       "dynamodb:Query",
-      "dynamodb:*Item"
+      "dynamodb:Scan",
+      "dynamodb:BatchWrite*",
+      "dynamodb:CreateTable",
+      "dynamodb:Delete*",
+      "dynamodb:Update*",
+      "dynamodb:PutItem"
     ]
     resources = [module.dynamodb_tables.gw2_guilds_table_arn]
   }
@@ -44,6 +74,7 @@ data aws_iam_policy_document "guilds_table_policy" {
 data "aws_iam_policy_document" "api_key_add_lambda_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.dynamodb_describe_policy.json,
     data.aws_iam_policy_document.users_table_policy.json
   ]
 }
@@ -51,6 +82,7 @@ data "aws_iam_policy_document" "api_key_add_lambda_policy" {
 data "aws_iam_policy_document" "home_world_lambda_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.dynamodb_describe_policy.json,
     data.aws_iam_policy_document.guilds_table_policy.json
   ]
 }

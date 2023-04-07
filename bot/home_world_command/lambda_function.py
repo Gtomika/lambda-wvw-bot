@@ -59,7 +59,9 @@ def set_home_world(guild_id: int, home_world: str, info: discord_utils.Interacti
     except gw2_api_interactions.ApiException:
         error_message = template_utils.get_localized_template(templates.api_error, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
-    except botocore.client.ClientError:
+    except botocore.client.ClientError as e:
+        print(f'Failed to save home world for guild with ID {guild_id}')
+        print(e)
         error_message = template_utils.get_localized_template(template_utils.common_template_internal_error, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
 

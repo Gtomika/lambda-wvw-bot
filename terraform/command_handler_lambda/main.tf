@@ -14,7 +14,7 @@ resource "aws_iam_role" "command_execution_role" {
   name = "${var.app_name}-${var.command_name}-${var.environment}-${var.aws_region}"
   assume_role_policy = data.aws_iam_policy_document.command_assume_role_policy.json
   inline_policy {
-    name = "CommandPolicy"
+    name = "${var.command_name}CommandPolicy"
     policy = var.command_policy.json
   }
 }

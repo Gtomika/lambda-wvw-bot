@@ -28,25 +28,16 @@ def lambda_handler(event, context):
     # key is valid, proceed to save
     if is_valid:
         try:
-            gw2_user_repo.save_api_key(
-                user_id=interaction_info.user_id,
-                api_key=key
-            )
+            gw2_user_repo.save_api_key(interaction_info.user_id, key)
             # message does not need to be changed
             print(f'Saved new API key for user {interaction_info.username}, Discord ID {str(interaction_info.user_id)}')
         except botocore.client.ClientError as e:
-            print(f'Failed to save API key of user with ID {str(interaction_info.user_id)}: {str(e)}')
+            print(f'Failed to save API key of user with ID {str(interaction_info.user_id)}')
+            print(e)
             # some error prevented the valid key from saving
-            message = template_utils.get_localized_template(
-                template_map=template_utils.common_template_internal_error,
-                locale=interaction_info.locale
-            )
-
+            message = template_utils.get_localized_template(template_utils.common_template_internal_error,interaction_info.locale)
     # send response: message depends on what happened before
-    discord_interactions.respond_to_discord_interaction(
-        interaction_token=interaction_info.interaction_token,
-        message=message
-    )
+    discord_interactions.respond_to_discord_interaction(interaction_info.interaction_token, message)
 
 
 def validate_api_key(key: str, locale: str):
@@ -59,10 +50,7 @@ def validate_api_key(key: str, locale: str):
 
     # format validations
     if len(key) != required_key_length:
-        message = template_utils.get_localized_template(
-            template_map=templates.invalid_key_response_template,
-            locale=locale
-        ).format(
+        message = template_utils.get_localized_template(templates.invalid_key_response_template,locale).format(
             emote_key=discord_utils.default_emote('key'),
             api_key_length=required_key_length
         )
@@ -72,27 +60,19 @@ def validate_api_key(key: str, locale: str):
     try:
         account = gw2_api_interactions.get_account(key)
     except gw2_api_interactions.UnauthorizedException:
-        message = template_utils.get_localized_template(
-            template_map=templates.unauthorized_response_template,
-            locale=locale
-        ).format(
+        message = template_utils.get_localized_template(templates.unauthorized_response_template,locale).format(
             emote_no_entry=discord_utils.default_emote('no_entry_sign'),
             permissions=gw2_api_interactions.gw2_api_permissions
         )
         return False, message
     except gw2_api_interactions.ApiException as e:
         print(f'Unexpected exception while validating API key against GW2 API: {str(e)}')
-        message = template_utils.get_localized_template(
-            template_map=templates.api_error_response_template,
-            locale=locale
-        ).format(emote_no_entry=discord_utils.default_emote('no_entry_sign'))
+        message = template_utils.get_localized_template(templates.api_error_response_template,locale)\
+            .format(emote_no_entry=discord_utils.default_emote('no_entry_sign'))
         return False, message
 
     # key valid, because GW2 API responded
-    message = template_utils.get_localized_template(
-        template_map=templates.success_response_template,
-        locale=locale
-    ).format(
+    message = template_utils.get_localized_template(templates.success_response_template, locale).format(
         emote_key=discord_utils.default_emote('key'),
         gw2_account_name=account['name']
     )
