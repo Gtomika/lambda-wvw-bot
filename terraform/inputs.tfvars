@@ -25,6 +25,12 @@ command_data = [
     command_name_discord = "home_world"
     handler = "bot/home_world_command/lambda_function.lambda_handler"
     path_to_deployment_package = "../home-world-lambda-package/home_world_lambda.zip"
+  },
+  {
+    command_name = "ManagerRole"
+    command_name_discord = "manager_role"
+    handler = "bot/manager_role_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../manager-role-lambda-package/manager_role_lambda.zip"
   }
 ]
 

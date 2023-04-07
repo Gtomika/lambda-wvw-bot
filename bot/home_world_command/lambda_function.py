@@ -21,7 +21,7 @@ authorizer = authorization.CommandAuthorizer(repo)
 def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
     # guaranteed to be from a guild (by Discord)
-    guild_id = event['guild_id']
+    guild_id = discord_utils.extract_guild_id(event)
 
     loading_message = template_utils.get_localized_template(templates.updating_home_world, info.locale) \
         .format(emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id))
@@ -54,7 +54,7 @@ def set_home_world(guild_id: int, home_world: str, info: discord_utils.Interacti
             .format(home_world=home_world)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
     except common_exceptions.NotFoundException:
-        error_message = template_utils.get_localized_template(templates.invalid_home_world, info.locale)
+        error_message = template_utils.get_localized_template(templates.invalid_home_world, info.locale).format(home_world=home_world)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
     except gw2_api_interactions.ApiException:
         error_message = template_utils.get_localized_template(templates.api_error, info.locale)

@@ -1,7 +1,7 @@
 {
   "type": 1,
   "name": "manager_role",
-  "description": "A bot kezelésére jogosult rangok kezelése",
+  "description": "A bot kezelésére jogosult rangok beállítása",
   "dm_permission": false,
   "options": [
     {

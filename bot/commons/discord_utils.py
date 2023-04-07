@@ -23,6 +23,13 @@ class InteractionInfo:
 # ------- data extraction ------------
 
 
+def extract_guild_id(event):
+    """
+    Only call if event is guaranteed to be from guild
+    """
+    return event['guild_id']
+
+
 def extract_info(event) -> InteractionInfo:
     return InteractionInfo(event)
 
@@ -99,8 +106,12 @@ def animated_emote(name: str, emote_id: int) -> str:
     return f'<a:{name}:{str(emote_id)}>'
 
 
-def mention_user(user_id: int) -> str:
-    return f'<@{str(user_id)}>'
+def mention_user(user_id: str) -> str:
+    return f'<@{user_id}>'
+
+
+def mention_role(role_id: str) -> str:
+    return f'<@&{role_id}>'
 
 
 def escaped_link(link: str) -> str:

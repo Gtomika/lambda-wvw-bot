@@ -87,6 +87,14 @@ data "aws_iam_policy_document" "home_world_lambda_policy" {
   ]
 }
 
+data "aws_iam_policy_document" "manager_role_lambda_policy" {
+  source_policy_documents = [
+    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.dynamodb_describe_policy.json,
+    data.aws_iam_policy_document.guilds_table_policy.json
+  ]
+}
+
 locals {
   common_variables = {
     APPLICATION_ID = var.discord_application_id
@@ -110,6 +118,13 @@ locals {
 
     HomeWorld = {
       policy    = data.aws_iam_policy_document.home_world_lambda_policy
+      variables = merge(local.common_variables, {
+        GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
+      })
+    }
+
+    ManagerRole = {
+      policy = data.aws_iam_policy_document.manager_role_lambda_policy
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
