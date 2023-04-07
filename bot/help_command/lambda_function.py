@@ -21,7 +21,7 @@ def lambda_handler(event, context):
     message = response_template.format(
         developer=discord_utils.mention_user(discord_developer_id),
         emote_docu=discord_utils.default_emote('bookmark_tabs'),
-        docu_url=f'<{documentation_url}>',  # <> symbols disable preview in discord
+        docu_url=discord_utils.escaped_link(documentation_url),
         emote_e=discord_utils.default_emote('regional_indicator_e'),
         emote_n=discord_utils.default_emote('regional_indicator_n')
     )

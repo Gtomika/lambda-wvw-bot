@@ -20,5 +20,5 @@ invalid_key_response_template = {
     'hu': '''Ez nem egy érvényes API kulcs {emote_key}!
     - A kulcsok mindig {api_key_length} karakter hosszúak.
     - A kulcsok egy speciális formátumban vannak megadva.  
-    Javaslom, hogy másold ki onnan ahol létrehoztad, így biztos nem rontod el.'''
+    Javaslom, hogy másold ki onnan ahol létrehoztad, így biztos nem rontod el: {api_key_url}'''
 }

@@ -10,6 +10,7 @@ from bot.commons import gw2_users
 from . import templates
 
 required_key_length = 72
+api_key_url = 'https://account.arena.net/applications'
 
 dynamodb_resource = boto3.resource('dynamodb')
 gw2_users_table_name = os.environ['GW2_USERS_TABLE_NAME']
@@ -54,7 +55,8 @@ def validate_api_key(key: str, locale: str):
     if len(key) != required_key_length:
         message = template_utils.get_localized_template(templates.invalid_key_response_template, locale).format(
             emote_key=discord_utils.default_emote('key'),
-            api_key_length=required_key_length
+            api_key_length=required_key_length,
+            api_key_url=discord_utils.escaped_link(api_key_url)
         )
         return False, message
 

@@ -101,3 +101,7 @@ def animated_emote(name: str, emote_id: int) -> str:
 
 def mention_user(user_id: int) -> str:
     return f'<@{str(user_id)}>'
+
+
+def escaped_link(link: str) -> str:
+    return f'<{link}>'
