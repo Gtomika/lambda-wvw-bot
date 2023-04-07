@@ -91,7 +91,9 @@ def get_home_world(guild_id: int, info: discord_utils.InteractionInfo):
     except common_exceptions.NotFoundException:
         error_message = template_utils.get_localized_template(templates.home_world_not_set, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
-    except botocore.client.ClientError:
+    except botocore.client.ClientError as e:
+        print(f'Failed to get home world for guild with ID {guild_id}')
+        print(e)
         error_message = template_utils.get_localized_template(template_utils.common_template_internal_error, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
 
