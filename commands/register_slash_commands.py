@@ -1,11 +1,13 @@
 import requests
 import os
+from requests.adapters import HTTPAdapter, Retry
 
 command_type = os.getenv('COMMAND_TYPE')  # GLOBAL or GUILD
 application_id = os.getenv('APPLICATION_ID')
 guild_id = os.getenv('GUILD_ID')  # required of 'COMMAND_TYPE' is GUILD
 bot_token = os.getenv('DISCORD_BOT_TOKEN')
 
+retry = Retry(total=5, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
 
 def register_slash_command(command_json_path: str):
     with open(command_json_path, 'r') as command_file:
@@ -14,7 +16,10 @@ def register_slash_command(command_json_path: str):
     create_command_url = format_register_url(application_id, guild_id)
     print(f'Making create command request to {create_command_url}')
 
-    response = requests.post(create_command_url, data=command_data.encode('utf-8'), headers={
+    session = requests.Session()
+    session.mount('https://', HTTPAdapter(max_retries=retry))
+
+    response = session.post(create_command_url, data=command_data.encode('utf-8'), headers={
         'Authorization': f'Bot {bot_token}',
         'Content-Type': 'application/json'
     })
