@@ -8,7 +8,7 @@ resource "aws_dynamodb_table" "gw2_users_table" {
 
   attribute {
     name = var.gw2_users_hash_key
-    type = "N"
+    type = "S"
   }
   hash_key = var.gw2_users_hash_key
 }
@@ -23,7 +23,7 @@ resource "aws_dynamodb_table" "gw2_guilds_table" {
 
   attribute {
     name = var.gw2_guilds_hash_key
-    type = "N"
+    type = "S"
   }
   hash_key = var.gw2_guilds_hash_key
 }

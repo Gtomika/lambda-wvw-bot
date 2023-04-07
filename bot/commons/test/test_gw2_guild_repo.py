@@ -13,9 +13,9 @@ os.environ["AWS_SESSION_TOKEN"] = "testing"
 os.environ["AWS_DEFAULT_REGION"] = "eu-central-1"
 os.environ['AWS_REGION'] = "eu-central-1"
 
-mock_guild_id = 12475414
+mock_guild_id = "12475414"
 mock_home_world = 'Piken Square'
-mock_role_id = 239348
+mock_role_id = "239348"
 
 
 def create_guilds_table(dynamodb_resource, table_name: str):
@@ -25,7 +25,7 @@ def create_guilds_table(dynamodb_resource, table_name: str):
             {'AttributeName': gw2_guilds.guild_id_field_name, 'KeyType': 'HASH'}
         ],
         AttributeDefinitions=[
-            {'AttributeName': gw2_guilds.guild_id_field_name, 'AttributeType': 'N'}
+            {'AttributeName': gw2_guilds.guild_id_field_name, 'AttributeType': 'S'}
         ],
         ProvisionedThroughput={'ReadCapacityUnits': 5, 'WriteCapacityUnits': 5})
     table.wait_until_exists()
@@ -51,7 +51,7 @@ class TestGw2GuildRepo(unittest.TestCase):
 
         repo = gw2_guilds.Gw2GuildRepo(table_name='guilds', dynamodb_resource=dynamodb_resource)
         with self.assertRaises(common_exceptions.NotFoundException):
-            repo.get_guild_home_world(mock_guild_id + 123)
+            repo.get_guild_home_world("1237546")
 
     @moto.mock_dynamodb
     def test_manager_role_operations(self):

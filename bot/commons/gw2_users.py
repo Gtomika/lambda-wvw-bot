@@ -16,7 +16,7 @@ class Gw2UsersRepo:
     def __init__(self, table_name, dynamodb_resource):
         self.gw2_users_table = dynamodb_resource.Table(table_name)
 
-    def save_api_key(self, user_id: int, api_key: str) -> None:
+    def save_api_key(self, user_id: str, api_key: str) -> None:
         """
         Save new API key for user. Throws:
          - ClientError: internal error
@@ -28,7 +28,7 @@ class Gw2UsersRepo:
         user[api_key_field_name] = api_key
         self.__save_user(user)
 
-    def get_api_key(self, user_id: int):
+    def get_api_key(self, user_id: str):
         """
         Get API key of user. Throws:
          - ClientError: internal error
@@ -37,8 +37,8 @@ class Gw2UsersRepo:
         response = self.gw2_users_table.get_item(Key={user_id_field_name: user_id})
         return response['Item'][api_key_field_name]
 
-    def __empty_user(self, user_id: int):
-        return { user_id_field_name: user_id }
+    def __empty_user(self, user_id: str):
+        return {user_id_field_name: user_id}
 
     def __save_user(self, user):
         """
@@ -46,7 +46,7 @@ class Gw2UsersRepo:
         """
         self.gw2_users_table.put_item(Item=user)
 
-    def __get_user(self, user_id: int):
+    def __get_user(self, user_id: str):
         response = self.gw2_users_table.get_item(Key={user_id_field_name: user_id})
         if 'Item' not in response:
             raise common_exceptions.NotFoundException

@@ -13,11 +13,11 @@ class Gw2GuildRepo:
     Manage the DynamoDB table gw2 guilds: all info related to a guild that this bot is in.
     This table has the following structure:
     {
-        "GuildId": 1234567,
+        "GuildId": "1234567",
         "HomeWorld": "Far Shiverpeaks",
-        "AnnouncementChannels": [12345, 123986],
-        "ManagerRoles": [872344, 123456],
-        "WvwRoles": [39841894, 12931931],
+        "AnnouncementChannels": ["12345", "123986"],
+        "ManagerRoles": ["872344", "123456"],
+        "WvwRoles": ["39841894", "12931931"],
         "WvwRaids": [TODO]
     }
     Note that GuildID is the discord guild ID in this case.
@@ -26,7 +26,7 @@ class Gw2GuildRepo:
     def __init__(self, table_name, dynamodb_resource):
         self.gw2_guild_table = dynamodb_resource.Table(table_name)
 
-    def save_guild_home_world(self, guild_id: int, home_world: str) -> None:
+    def save_guild_home_world(self, guild_id: str, home_world: str) -> None:
         """
         Save a new home world for the selected guild. Throws:
          - ClientError: internal error
@@ -35,7 +35,7 @@ class Gw2GuildRepo:
         guild[home_world_field_name] = home_world
         self.__save_guild(guild)
 
-    def get_guild_home_world(self, guild_id: int) -> str:
+    def get_guild_home_world(self, guild_id: str) -> str:
         """
         Get selected guilds home world. Throws:
          - ClientError: internal error
@@ -46,7 +46,7 @@ class Gw2GuildRepo:
             raise common_exceptions.NotFoundException
         return guild[home_world_field_name]
 
-    def add_manager_role(self, guild_id: int, role_id: int) -> bool:
+    def add_manager_role(self, guild_id: str, role_id: str) -> bool:
         """
         Save a new role as manager role. Returns true if the role was
         added, false if the role was already present and not added again.
@@ -65,7 +65,7 @@ class Gw2GuildRepo:
             self.__save_guild(guild)
             return True
 
-    def delete_manager_role(self, guild_id: int, role_id: int) -> bool:
+    def delete_manager_role(self, guild_id: str, role_id: str) -> bool:
         """
         Delete a new role as manager role. Returns true if the role was
         deleted, false if the role was not present and nothing needed deletion.
@@ -81,7 +81,7 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return False
 
-    def get_manager_roles(self, guild_id: int):
+    def get_manager_roles(self, guild_id: str):
         """
         Array of role IDs. If guild has no manager roles, empty array is returned.
         """
@@ -94,7 +94,7 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return []
 
-    def __get_guild(self, guild_id: int):
+    def __get_guild(self, guild_id: str):
         response = self.gw2_guild_table.get_item(Key={guild_id_field_name: guild_id})
         if 'Item' not in response:
             raise common_exceptions.NotFoundException
@@ -103,10 +103,10 @@ class Gw2GuildRepo:
     def __save_guild(self, guild):
         self.gw2_guild_table.put_item(Item=guild)
 
-    def __empty_guild(self, guild_id: int):
+    def __empty_guild(self, guild_id: str):
         return { guild_id_field_name: guild_id }
 
-    def __get_or_empty_guild(self, guild_id: int):
+    def __get_or_empty_guild(self, guild_id: str):
         try:
             return self.__get_guild(guild_id)
         except common_exceptions.NotFoundException:

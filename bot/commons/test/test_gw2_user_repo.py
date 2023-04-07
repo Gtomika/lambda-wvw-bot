@@ -13,7 +13,7 @@ os.environ["AWS_SESSION_TOKEN"] = "testing"
 os.environ["AWS_DEFAULT_REGION"] = "eu-central-1"
 os.environ['AWS_REGION'] = "eu-central-1"
 
-mock_user_id = 12475414
+mock_user_id = "12475414"
 mock_api_key = "ABCDEFGH"
 
 
@@ -24,7 +24,7 @@ def create_users_table(dynamodb_resource, table_name: str):
             {'AttributeName': gw2_users.user_id_field_name, 'KeyType': 'HASH'}
         ],
         AttributeDefinitions=[
-            {'AttributeName': gw2_users.user_id_field_name, 'AttributeType': 'N'}
+            {'AttributeName': gw2_users.user_id_field_name, 'AttributeType': 'S'}
         ],
         ProvisionedThroughput={'ReadCapacityUnits': 5, 'WriteCapacityUnits': 5})
     table.wait_until_exists()
