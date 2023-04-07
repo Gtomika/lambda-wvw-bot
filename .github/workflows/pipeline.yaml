@@ -62,7 +62,6 @@ jobs:
           echo "Installed all dependencies in 'python' directory"
           mkdir python/bot
           cp -r bot/commons python/bot/commons
-          sudo apt install zip
           zip -r common_layer.zip python
           echo "Zipped common layer into archive 'common_layer.zip'"
           stat common_layer.zip
@@ -77,9 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package discord interaction lambda
-        run: |
-          sudo apt install zip
-          zip -r discord_interaction_lambda.zip bot/discord_interaction_lambda_function/* -x bot/discord_interaction_lambda_function/test**
+        run: zip -r discord_interaction_lambda.zip bot/discord_interaction_lambda_function/* -x bot/discord_interaction_lambda_function/test**
       - uses: actions/upload-artifact@v3
         with:
           name: discord-interaction-lambda-package
@@ -91,9 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package help command lambda
-        run: |
-          sudo apt install zip
-          zip -r help_lambda.zip bot/help_command/* -x bot/help_command/test/\*
+        run: zip -r help_lambda.zip bot/help_command/* -x bot/help_command/test/\*
       - uses: actions/upload-artifact@v3
         with:
           name: help-lambda-package
@@ -105,14 +100,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Package api key add lambda
-        run: |
-          sudo apt install zip
-          zip -r api_key_add_lambda.zip bot/api_key_add_command/* -x bot/api_key_add_command/test/\*
+        run: zip -r api_key_add_lambda.zip bot/api_key_add_command/* -x bot/api_key_add_command/test/\*
       - uses: actions/upload-artifact@v3
         with:
           name: api-key-add-lambda-package
           path: api_key_add_lambda.zip
     needs: [run-test-discord-interaction, run-tests-commons]
+
+  package-home-world-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package home world lambda
+        run: zip -r home_world_lambda.zip bot/home_world_command/* -x bot/home_world_command/test/\*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: home-world-lambda-package
+          path: home_world_lambda.zip
+    needs: [ run-test-discord-interaction, run-tests-commons ]
 
   terraform-validate:
     environment: staging # does not matter technically
