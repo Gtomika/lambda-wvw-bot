@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
 
     try:
-        home_world = discord_utils.extract_option(event, 'world_name')['value']
+        home_world = discord_utils.extract_option(event, 'world_name')
         # user provided new world, they want to set it: this must be authorized
         authorizer.authorize_command(guild_id, event)
 

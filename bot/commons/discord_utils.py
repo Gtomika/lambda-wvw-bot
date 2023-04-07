@@ -60,7 +60,7 @@ def extract_option(event, option_name: str):
 
     for option in options:
         if option['name'] == option_name:
-            return option
+            return option['value']
     raise OptionNotFoundException
 
 
