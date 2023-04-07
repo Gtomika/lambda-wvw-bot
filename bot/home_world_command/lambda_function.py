@@ -29,7 +29,7 @@ def lambda_handler(event, context):
 
     try:
         home_world = discord_utils.extract_option(event, 'world_name')['value']
-        # user provided new world, they want to set it
+        # user provided new world, they want to set it: this must be authorized
         authorizer.authorize_command(guild_id, event)
 
         set_home_world(guild_id, home_world, info)
@@ -42,6 +42,7 @@ def lambda_handler(event, context):
             template_map=template_utils.common_template_unauthorized,
             locale=info.locale
         ).format(emote_commander=discord_utils.custom_emote('commander', discord_utils.commander_emote_id))
+        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
 
 
 def set_home_world(guild_id: int, home_world: str, info: discord_utils.InteractionInfo):

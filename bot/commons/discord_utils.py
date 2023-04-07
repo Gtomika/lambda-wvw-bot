@@ -54,16 +54,19 @@ def extract_option(event, option_name: str):
     Get one option from the interaction event. Throws:
      - OptionNotFoundException
     """
-    for option in event['data']['options']:
+    if 'options' not in event['data']:
+        raise OptionNotFoundException
+    options = event['data']['options']
+
+    for option in options:
         if option['name'] == option_name:
             return option
     raise OptionNotFoundException
 
 
 def extract_member_roles(event):
-    """
-    Only call this if event is from guild!
-    """
+    if not is_from_guild(event):
+        return []
     return event['member']['roles']
 
 

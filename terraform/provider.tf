@@ -11,9 +11,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      application = "Lambda Discord Bot"
+      application = "LambdaWvvBot"
       managed_by = "Terraform"
-      repository = "https://github.com/Gtomika/lambda-discord-bot"
+      repository = "https://github.com/Gtomika/lambda-wvw-bot"
       owner = "Tamas Gaspar"
     }
   }
