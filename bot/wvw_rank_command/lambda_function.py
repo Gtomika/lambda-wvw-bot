@@ -58,6 +58,6 @@ def lambda_handler(event, context):
 def find_wvw_title(users_wvw_rank, wvw_ranks_data):
     for wvw_rank_data in reversed(wvw_ranks_data):
         if users_wvw_rank >= wvw_rank_data['min_rank']:
-            return wvw_ranks_data['title']
+            return wvw_rank_data['title']
     return 'Unknown'
 
