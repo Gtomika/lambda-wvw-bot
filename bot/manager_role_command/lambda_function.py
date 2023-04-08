@@ -1,6 +1,5 @@
 import os
 import boto3
-import botocore.client
 
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
@@ -45,7 +44,7 @@ def add_manager_role(event, guild_id, info):
     except discord_utils.OptionNotFoundException:
         message = template_utils.get_localized_template(templates.role_not_provided, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
-    except botocore.client.ClientError as e:
+    except Exception as e:
         print(f'Failed to add manager role for guild with ID {guild_id}')
         print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)
@@ -66,7 +65,7 @@ def remove_manager_role(event, guild_id, info):
     except discord_utils.OptionNotFoundException:
         message = template_utils.get_localized_template(templates.role_not_provided, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
-    except botocore.client.ClientError as e:
+    except Exception as e:
         print(f'Failed to remove manager role for guild with ID {guild_id}')
         print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)
@@ -81,7 +80,7 @@ def list_manager_roles(guild_id, info):
         else:
             success_message = template_utils.get_localized_template(templates.manager_roles_empty, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except botocore.client.ClientError as e:
+    except Exception as e:
         print(f'Failed to list manager roles for guild with ID {guild_id}')
         print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)

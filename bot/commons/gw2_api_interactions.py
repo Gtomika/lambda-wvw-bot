@@ -31,8 +31,8 @@ def get_home_world_by_id(world_id: int):
 
 
 def get_home_worlds_by_ids(world_ids):
-    ids_as_query = ','.join(world_ids)
-    return gw2_api_request(api_key=None, url=f'/worlds?ids={ids_as_query}')
+    ids_as_string = ','.join([str(world_id) for world_id in world_ids])
+    return gw2_api_request(api_key=None, url=f'/worlds?ids={ids_as_string}')
 
 
 def get_wvw_ranks():
@@ -40,7 +40,7 @@ def get_wvw_ranks():
 
 
 def get_wvw_matchup_report(world_id: int):
-    return gw2_api_request(api_key=None, url=f'/wvw/matches?world={world_id}')
+    return gw2_api_request(api_key=None, url=f'/wvw/matches?world={str(world_id)}')
 
 
 def gw2_api_request(api_key, url: str):

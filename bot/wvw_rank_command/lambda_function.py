@@ -1,6 +1,5 @@
 import os
 import boto3
-import botocore.client
 
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
@@ -51,7 +50,9 @@ def lambda_handler(event, context):
         template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
-    except botocore.client.ClientError:
+    except Exception as e:
+        print(f'Error while getting WvW rank of user {info.username}')
+        print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 

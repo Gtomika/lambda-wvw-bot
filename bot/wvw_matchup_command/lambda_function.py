@@ -1,6 +1,5 @@
 import os
 import boto3
-import botocore.client
 import pendulum
 
 from bot.commons import discord_interactions
@@ -36,14 +35,14 @@ def lambda_handler(event, context):
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
     except common_exceptions.NotFoundException:
         template_utils.format_and_response_home_world_not_set(discord_interactions, info)
-    except botocore.client.ClientError as e:
-        print(f'Error while creating matchup report of guild with id {guild_id}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
     except gw2_api_interactions.ApiKeyUnauthorizedException:
         template_utils.format_and_respond_api_key_unauthorized(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
+    except Exception as e:
+        print(f'Error while creating matchup report of guild with id {guild_id}')
+        print(e)
+        template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
 def create_matchup_report(home_world_id: int) -> matchup_utils.Matchup:
@@ -77,9 +76,7 @@ def format_matchup_report(home_world: matchup_utils.WvwWorld, matchup: matchup_u
 
 
 def format_matchup_side(side: matchup_utils.MatchupSide, placement: int, locale) -> str:
-    linked_world_names = []
-    for linked_world in side.linked_worlds:
-        linked_world_names.append(linked_world.world_name)
+    linked_world_names = [linked_world.world_name for linked_world in side.linked_worlds]
     linked_world_names_joined = ', '.join(linked_world_names)
 
     return template_utils.get_localized_template(templates.matchup_side_report, locale).format(

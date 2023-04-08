@@ -182,24 +182,8 @@ def __pick_main_world(worlds, main_world_id):
 
 def __parse_tier(matchup_id: str) -> int:
     parts = matchup_id.split('-')
-    return int(parts[1]) # part 0 is region, part 1 is tier
+    return int(parts[1])  # part 0 is region, part 1 is tier
 
-
-'''
-def get_next_wvw_reset_time(current_time: pendulum.DateTime) -> pendulum.DateTime:
-    """
-    Get date time of the next Wvw matchup: 'time_zone_info' should be selected
-    from locale_time_zones
-    """
-    is_day_light_savings = current_time.is_dst()
-    reset_hour = reset_time_summer if is_day_light_savings else reset_time_winter
-
-    if current_time.day_of_week == pendulum.FRIDAY and current_time.hour < reset_hour:
-        # this is already a friday BEFORE reset -> must find reset time on THIS friday
-        return current_time.at(hour=reset_hour, minute=0, second=0)
-    else:
-        return current_time.next(day_of_week=pendulum.FRIDAY).at(hour=reset_hour, minute=0, second=0)
-'''
 
 
 
