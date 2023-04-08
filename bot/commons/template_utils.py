@@ -64,7 +64,7 @@ common_template_api_key_unauthorized = {
 }
 
 
-def format_and_respond_api_key_no_permissions(discord_interactions, discord_utils, info):
+def format_and_respond_api_key_unauthorized(discord_interactions, discord_utils, info):
     error_message = get_localized_template(common_template_api_key_unauthorized, info.locale).format(
         emote_key=discord_utils.default_emote('key'),
         anet_applications_url=discord_utils.escaped_link(anet_accounts_url),
@@ -80,4 +80,14 @@ common_template_gw2_api_error = {
 
 def format_and_respond_gw2_api_error(discord_interactions, info):
     error_message = get_localized_template(common_template_gw2_api_error, info.locale)
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+
+
+common_template_home_world_not_set = {
+    'hu': 'A guild-nek nincs beállított világa! Először állíts be egyet a "/home_world [világ neve]" parancssal (ehhez kezelői jog szükséges).'
+}
+
+
+def format_and_response_home_world_not_set(discord_interactions, info):
+    error_message = get_localized_template(common_template_home_world_not_set, info.locale)
     discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)

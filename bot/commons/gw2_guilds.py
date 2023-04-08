@@ -26,18 +26,18 @@ class Gw2GuildRepo:
     def __init__(self, table_name, dynamodb_resource):
         self.gw2_guild_table = dynamodb_resource.Table(table_name)
 
-    def save_guild_home_world(self, guild_id: str, home_world: str) -> None:
+    def save_guild_home_world(self, guild_id: str, home_world_id: int) -> None:
         """
-        Save a new home world for the selected guild. Throws:
+        Save a new home world for the selected guild. By World ID. Throws:
          - ClientError: internal error
         """
         guild = self.__get_or_empty_guild(guild_id)
-        guild[home_world_field_name] = home_world
+        guild[home_world_field_name] = home_world_id
         self.__save_guild(guild)
 
-    def get_guild_home_world(self, guild_id: str) -> str:
+    def get_guild_home_world(self, guild_id: str) -> int:
         """
-        Get selected guilds home world. Throws:
+        Get selected guilds home world. Gets world ID. Throws:
          - ClientError: internal error
          - NotFoundException: this guild does not have home world set
         """

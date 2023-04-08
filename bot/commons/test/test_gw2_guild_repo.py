@@ -14,7 +14,7 @@ os.environ["AWS_DEFAULT_REGION"] = "eu-central-1"
 os.environ['AWS_REGION'] = "eu-central-1"
 
 mock_guild_id = "12475414"
-mock_home_world = 'Piken Square'
+mock_home_world = 1001
 mock_role_id = "239348"
 
 

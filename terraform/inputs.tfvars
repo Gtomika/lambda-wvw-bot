@@ -43,6 +43,12 @@ command_data = [
     command_name_discord = "wvw_rank"
     handler = "bot/wvw_rank_command/lambda_function.lambda_handler"
     path_to_deployment_package = "../wvw-rank-lambda-package/wvw_rank_lambda.zip"
+  },
+  {
+    command_name = "WvwMatchup"
+    command_name_discord = "wvw_matchup"
+    handler = "bot/wvw_matchup_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../wvw-matchup-lambda-package/wvw_matchup_lambda.zip"
   }
 ]
 

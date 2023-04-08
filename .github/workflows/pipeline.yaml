@@ -155,6 +155,18 @@ jobs:
           path: wvw_rank_lambda.zip
     needs: [ run-test-discord-interaction, run-tests-commons ]
 
+  package-wvw-matchup-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package wvw matchup lambda
+        run: zip -r wvw_matchup_lambda.zip bot/wvw_matchup_command/* -x bot/wvw_matchup_command/test/*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wvw-matchup-lambda-package
+          path: wvw_matchup_lambda.zip
+    needs: [ run-test-discord-interaction, run-tests-commons ]
+
   terraform-validate:
     environment: staging # does not matter technically
     runs-on: ubuntu-latest

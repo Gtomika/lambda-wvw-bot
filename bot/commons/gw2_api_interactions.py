@@ -29,8 +29,18 @@ def get_home_worlds():
 def get_home_world_by_id(world_id: int):
     return gw2_api_request(api_key=None, url=f'/worlds?ids={str(world_id)}')[0]
 
+
+def get_home_worlds_by_ids(world_ids):
+    ids_as_query = ','.join(world_ids)
+    return gw2_api_request(api_key=None, url=f'/worlds?ids={ids_as_query}')
+
+
 def get_wvw_ranks():
     return gw2_api_request(api_key=None, url='/wvw/ranks?ids=all')
+
+
+def get_wvw_matchup_report(world_id: int):
+    return gw2_api_request(api_key=None, url=f'/wvw/matches?world={world_id}')
 
 
 def gw2_api_request(api_key, url: str):
