@@ -71,7 +71,7 @@ data aws_iam_policy_document "guilds_table_policy" {
 # Here are declared all the IAM policies for the command lambda functions
 # In case the lambda has no complex policy (one of the policies from above is enough) it is not declared here
 
-data "aws_iam_policy_document" "api_key_add_lambda_policy" {
+data "aws_iam_policy_document" "user_table_manager_lambda_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.log_policy.json,
     data.aws_iam_policy_document.dynamodb_describe_policy.json,
@@ -79,15 +79,7 @@ data "aws_iam_policy_document" "api_key_add_lambda_policy" {
   ]
 }
 
-data "aws_iam_policy_document" "home_world_lambda_policy" {
-  source_policy_documents = [
-    data.aws_iam_policy_document.log_policy.json,
-    data.aws_iam_policy_document.dynamodb_describe_policy.json,
-    data.aws_iam_policy_document.guilds_table_policy.json
-  ]
-}
-
-data "aws_iam_policy_document" "manager_role_lambda_policy" {
+data "aws_iam_policy_document" "guild_table_manager_lambda_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.log_policy.json,
     data.aws_iam_policy_document.dynamodb_describe_policy.json,
@@ -110,23 +102,37 @@ locals {
     }
 
     ApiKeyAdd = {
-      policy    = data.aws_iam_policy_document.api_key_add_lambda_policy
+      policy    = data.aws_iam_policy_document.user_table_manager_lambda_policy
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
     }
 
     HomeWorld = {
-      policy    = data.aws_iam_policy_document.home_world_lambda_policy
+      policy    = data.aws_iam_policy_document.guild_table_manager_lambda_policy
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
     }
 
     ManagerRole = {
-      policy = data.aws_iam_policy_document.manager_role_lambda_policy
+      policy = data.aws_iam_policy_document.guilds_table_policy
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
+      })
+    }
+
+    WvwRole = {
+      policy = data.aws_iam_policy_document.guild_table_manager_lambda_policy
+      variables = merge(local.common_variables, {
+        GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
+      })
+    }
+
+    WvwRank = {
+      policy    = data.aws_iam_policy_document.user_table_manager_lambda_policy
+      variables = merge(local.common_variables, {
+        GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
     }
 

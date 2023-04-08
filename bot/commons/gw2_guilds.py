@@ -94,6 +94,54 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return []
 
+    def add_wvw_role(self, guild_id: str, role_id: str) -> bool:
+        """
+        Save a new role as wvw role. Returns true if the role was
+        added, false if the role was already present and not added again.
+        """
+        guild = self.__get_or_empty_guild(guild_id)
+        if wvw_roles_field_name in guild:
+            if role_id in guild[wvw_roles_field_name]:
+                guild[wvw_roles_field_name].append(role_id)
+                self.__save_guild(guild)
+                return True
+            else:
+                return False
+        else:
+            wvw_roles = [role_id]
+            guild[wvw_roles_field_name] = wvw_roles
+            self.__save_guild(guild)
+            return True
+
+    def delete_wvw_role(self, guild_id: str, role_id: str) -> bool:
+        """
+        Delete a new role as wvw role. Returns true if the role was
+        deleted, false if the role was not present and nothing needed deletion.
+        """
+        try:
+            guild = self.__get_guild(guild_id)
+            if wvw_roles_field_name in guild and role_id in guild[wvw_roles_field_name]:
+                guild[wvw_roles_field_name].remove(role_id)
+                self.__save_guild(guild)
+                return True
+            else:
+                return False
+        except common_exceptions.NotFoundException:
+            return False
+
+    def get_wvw_roles(self, guild_id: str):
+        """
+        Array of role IDs. If guild has no wvw roles, empty array is returned.
+        """
+        try:
+            guild = self.__get_guild(guild_id)
+            if wvw_roles_field_name in guild:
+                return guild[wvw_roles_field_name]
+            else:
+                return []
+        except common_exceptions.NotFoundException:
+            return []
+
     def __get_guild(self, guild_id: str):
         response = self.gw2_guild_table.get_item(Key={guild_id_field_name: guild_id})
         if 'Item' not in response:

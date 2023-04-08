@@ -32,10 +32,17 @@ class Gw2UsersRepo:
         """
         Get API key of user. Throws:
          - ClientError: internal error
-         - KeyError: if user has no API key set
+         - NotFoundError: if user has no API key set
         """
         response = self.gw2_users_table.get_item(Key={user_id_field_name: user_id})
-        return response['Item'][api_key_field_name]
+        if 'Item' in response:
+            item = response['Item']
+            if api_key_field_name in item:
+                return item[api_key_field_name]
+            else:
+                raise common_exceptions.NotFoundException
+        else:
+            raise common_exceptions.NotFoundException
 
     def __empty_user(self, user_id: str):
         return {user_id_field_name: user_id}

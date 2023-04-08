@@ -30,4 +30,4 @@ class CommandAuthorizer:
         for member_role in member_roles:
             if member_role in guild_manager_roles:
                 return
-        raise common_exceptions.UserUnauthorizedException
+        raise common_exceptions.CommandUnauthorizedException

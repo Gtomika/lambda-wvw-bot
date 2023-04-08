@@ -31,6 +31,18 @@ command_data = [
     command_name_discord = "manager_role"
     handler = "bot/manager_role_command/lambda_function.lambda_handler"
     path_to_deployment_package = "../manager-role-lambda-package/manager_role_lambda.zip"
+  },
+  {
+    command_name = "WvwRole"
+    command_name_discord = "wvw_role"
+    handler = "bot/wvw_role_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../wvw-role-lambda-package/wvw_role_lambda.zip"
+  },
+  {
+    command_name = "WvwRank"
+    command_name_discord = "wvw_rank"
+    handler = "bot/wvw_rank_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../wvw-rank-lambda-package/wvw_rank_lambda.zip"
   }
 ]
 

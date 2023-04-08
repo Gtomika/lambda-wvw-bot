@@ -72,6 +72,25 @@ class TestGw2GuildRepo(unittest.TestCase):
         self.assertTrue(deleted)
         self.assertEqual([], manager_roles)
 
+    @moto.mock_dynamodb
+    def test_wvw_role_operations(self):
+        dynamodb_resource = boto3.resource('dynamodb')
+        create_guilds_table(dynamodb_resource, 'guilds')
+        repo = gw2_guilds.Gw2GuildRepo(table_name='guilds', dynamodb_resource=dynamodb_resource)
+
+        wvw_roles = repo.get_wvw_roles(mock_guild_id)
+        self.assertEqual([], wvw_roles)
+
+        added = repo.add_wvw_role(mock_guild_id, mock_role_id)
+        wvw_roles = repo.get_wvw_roles(mock_guild_id)
+        self.assertTrue(added)
+        self.assertEqual([mock_role_id], wvw_roles)
+
+        deleted = repo.delete_wvw_role(mock_guild_id, mock_role_id)
+        wvw_roles = repo.get_wvw_roles(mock_guild_id)
+        self.assertTrue(deleted)
+        self.assertEqual([], wvw_roles)
+
 
 if __name__ == "__main__":
     unittest.main()

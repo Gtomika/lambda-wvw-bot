@@ -10,7 +10,6 @@ from bot.commons import gw2_users
 from . import templates
 
 required_key_length = 72
-api_key_url = 'https://account.arena.net/applications'
 
 dynamodb_resource = boto3.resource('dynamodb')
 gw2_users_table_name = os.environ['GW2_USERS_TABLE_NAME']
@@ -32,15 +31,15 @@ def lambda_handler(event, context):
             gw2_user_repo.save_api_key(interaction_info.user_id, key)
             # message does not need to be changed
             print(f'Saved new API key for user {interaction_info.username}, Discord ID {str(interaction_info.user_id)}. Key: {key}')
+            discord_interactions.respond_to_discord_interaction(interaction_info.interaction_token, message)
         except botocore.client.ClientError as e:
             print(f'Failed to save API key of user with ID {str(interaction_info.user_id)}')
             print(e)
             # some error prevented the valid key from saving
-            message = template_utils.get_localized_template(template_utils.common_template_internal_error,interaction_info.locale)
+            template_utils.format_and_respond_internal_error(discord_interactions, interaction_info)
     else:
         print(f'Key that user {interaction_info.username} sent was invalid: {key}')
-    # send response: message depends on what happened before
-    discord_interactions.respond_to_discord_interaction(interaction_info.interaction_token, message)
+        discord_interactions.respond_to_discord_interaction(interaction_info.interaction_token, message)
 
 
 def validate_api_key(key: str, locale: str):
@@ -56,17 +55,17 @@ def validate_api_key(key: str, locale: str):
         message = template_utils.get_localized_template(templates.invalid_key_response_template, locale).format(
             emote_key=discord_utils.default_emote('key'),
             api_key_length=required_key_length,
-            api_key_url=discord_utils.escaped_link(api_key_url)
+            api_key_url=discord_utils.escaped_link(template_utils.anet_accounts_url)
         )
         return False, message
 
     # format should be valid, check key with real call
     try:
         account = gw2_api_interactions.get_account(key)
-    except gw2_api_interactions.UnauthorizedException:
+    except gw2_api_interactions.ApiKeyUnauthorizedException:
         message = template_utils.get_localized_template(templates.unauthorized_response_template, locale).format(
             emote_no_entry=discord_utils.default_emote('no_entry_sign'),
-            permissions=gw2_api_interactions.gw2_api_permissions
+            permissions=template_utils.gw2_api_permissions
         )
         return False, message
     except gw2_api_interactions.ApiException as e:

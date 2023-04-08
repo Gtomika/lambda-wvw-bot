@@ -1,5 +1,5 @@
 manager_role_added = {
-    'hu': 'A(z) {role} ranggal rendelkezők mostantól kezelhetik parancsolhatnak nekem.'
+    'hu': 'A(z) {role} ranggal rendelkezők mostantól parancsolhatnak nekem.'
 }
 
 manager_role_removed = {

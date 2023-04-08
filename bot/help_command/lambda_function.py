@@ -4,7 +4,7 @@ from bot.commons import template_utils
 from . import templates
 
 
-discord_developer_id = 416289572289249280
+discord_developer_id = "416289572289249280"
 documentation_url = 'https://gtomika.github.io/mod-wvw-bot/'  # TODO update this
 
 

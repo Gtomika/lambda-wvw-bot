@@ -4,5 +4,5 @@ class NotFoundException(Exception):
 
 # When user invoking the command has no permissions!
 # This is not related to GW2 API unauthorized
-class UserUnauthorizedException(Exception):
+class CommandUnauthorizedException(Exception):
     pass

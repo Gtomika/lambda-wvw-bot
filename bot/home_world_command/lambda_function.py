@@ -37,15 +37,11 @@ def lambda_handler(event, context):
     except discord_utils.OptionNotFoundException:
         # user did not provide world, they just want to get info about current
         get_home_world(guild_id, info)
-    except common_exceptions.UserUnauthorizedException:
-        error_message = template_utils.get_localized_template(
-            template_map=template_utils.common_template_unauthorized,
-            locale=info.locale
-        ).format(emote_commander=discord_utils.custom_emote('commander', discord_utils.commander_emote_id))
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+    except common_exceptions.CommandUnauthorizedException:
+        template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
 
 
-def set_home_world(guild_id: int, home_world: str, info: discord_utils.InteractionInfo):
+def set_home_world(guild_id: str, home_world: str, info: discord_utils.InteractionInfo):
     try:
         validate_home_world(home_world)
         # GW2 API says this world is valid, we can save it
@@ -57,16 +53,14 @@ def set_home_world(guild_id: int, home_world: str, info: discord_utils.Interacti
         error_message = template_utils.get_localized_template(templates.invalid_home_world, info.locale).format(home_world=home_world)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
     except gw2_api_interactions.ApiException:
-        error_message = template_utils.get_localized_template(templates.api_error, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+        template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except botocore.client.ClientError as e:
         print(f'Failed to save home world for guild with ID {guild_id}')
         print(e)
-        error_message = template_utils.get_localized_template(template_utils.common_template_internal_error, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+        template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
-def get_home_world(guild_id: int, info: discord_utils.InteractionInfo):
+def get_home_world(guild_id: str, info: discord_utils.InteractionInfo):
     try:
         # current selected home world
         home_world = repo.get_guild_home_world(guild_id)
@@ -86,16 +80,14 @@ def get_home_world(guild_id: int, info: discord_utils.InteractionInfo):
             )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
     except gw2_api_interactions.ApiException:
-        error_message = template_utils.get_localized_template(templates.api_error, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+        template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except common_exceptions.NotFoundException:
         error_message = template_utils.get_localized_template(templates.home_world_not_set, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
     except botocore.client.ClientError as e:
         print(f'Failed to get home world for guild with ID {guild_id}')
         print(e)
-        error_message = template_utils.get_localized_template(template_utils.common_template_internal_error, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+        template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
 def validate_home_world(home_world: str):

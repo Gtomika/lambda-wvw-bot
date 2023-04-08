@@ -131,6 +131,30 @@ jobs:
           path: manager_role_lambda.zip
     needs: [ run-test-discord-interaction, run-tests-commons ]
 
+  package-wvw-role-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package wvw role lambda
+        run: zip -r wvw_role_lambda.zip bot/wvw_role_command/* -x bot/wvw_role_command/test/*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wvw-role-lambda-package
+          path: wvw_role_lambda.zip
+    needs: [ run-test-discord-interaction, run-tests-commons ]
+
+  package-wvw-rank-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package wvw rank lambda
+        run: zip -r wvw_rank_lambda.zip bot/wvw_rank_command/* -x bot/wvw_rank_command/test/*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wvw-rank-lambda-package
+          path: wvw_rank_lambda.zip
+    needs: [ run-test-discord-interaction, run-tests-commons ]
+
   terraform-validate:
     environment: staging # does not matter technically
     runs-on: ubuntu-latest

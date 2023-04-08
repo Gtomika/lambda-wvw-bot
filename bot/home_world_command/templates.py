@@ -2,10 +2,6 @@ home_world_not_set = {
     'hu': "Jelenleg nincs beállítva WvW világ a guildnek. Ez szükséges egyes parancsok működéséhez, és a **'/home_world [világ neve]'** utasítással tehető meg."
 }
 
-api_error = {
-    'hu': 'A GW2 API hibás választ adott, vagy nem válaszolt. Sajnos nem sikerült beállítani/lekérdezni a világot.'
-}
-
 invalid_home_world = {
     'hu': "A *'{home_world}'* nem egy GW2 világ. Ellenőrizd, hogy nem gépelted-e el. **Figyelem**, a nem angol világoknál a nyelvi tag is a név része, pl: *'Dzagonur [DE]'*."
 }
