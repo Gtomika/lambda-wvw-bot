@@ -89,7 +89,7 @@ def extract_subcommand(event):
 
     In this case 'options' is always provided with exactly one "option": the subcommand
     """
-    return event['options'][0]
+    return event['data']['options'][0]
 
 
 def extract_member_roles(event):

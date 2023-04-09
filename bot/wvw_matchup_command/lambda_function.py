@@ -9,6 +9,7 @@ from bot.commons import template_utils
 from bot.commons import gw2_api_interactions
 from bot.commons import gw2_guilds
 from bot.commons import matchup_utils
+from bot.commons import time_utils
 from . import templates
 
 dynamodb_resource = boto3.resource('dynamodb')
@@ -71,7 +72,7 @@ def format_matchup_report(home_world: matchup_utils.WvwWorld, matchup: matchup_u
     return template_utils.get_localized_template(templates.matchup_report, locale).format(
         home_world_name=home_world.world_name,
         tier=matchup.tier,
-        reset_time=reset_end_time.format(fmt=matchup_utils.reset_time_format),
+        reset_time=time_utils.format_date_time(reset_end_time),
         emote_clock=discord_utils.default_emote('clock'),
         remaining_time=current_time.diff_for_humans(reset_end_time, absolute=True),
         matchup_side_first_place=first_place_string,

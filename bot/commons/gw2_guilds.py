@@ -1,5 +1,29 @@
 from bot.commons import common_exceptions
 
+
+class WvwRaid:
+    """
+    WvW raid event representation.
+    """
+
+    def __init__(self, event_name: str, day: str, start_time: str, duration_hours: int):
+        """
+        Attribute names are intentionally short
+        """
+        self.name = event_name
+        self.day = day
+        self.time = start_time
+        self.dur = duration_hours
+
+
+def __raid_from_dict(raid_dict) -> WvwRaid:
+    """
+    Convert dict extracted from dynamodb into WvW raid object.
+    Should not be used on any other dict.
+    """
+    return WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'], raid_dict['dur'], raid_dict['rep'])
+
+
 guild_id_field_name = 'GuildId'
 home_world_field_name = 'HomeWorld'
 announcement_channels_field_name = 'AnnouncementChannels'
@@ -184,6 +208,42 @@ class Gw2GuildRepo:
             guild = self.__get_guild(guild_id)
             if announcement_channels_field_name in guild:
                 return guild[announcement_channels_field_name]
+            else:
+                return []
+        except common_exceptions.NotFoundException:
+            return []
+
+    def add_wvw_raid(self, guild_id: str, raid: WvwRaid):
+        guild = self.__get_or_empty_guild(guild_id)
+        if wvw_raids_field_name in guild:
+            raids = guild[wvw_raids_field_name]
+            raids.append(vars(raid))
+        else:
+            raids = [vars(raid)]
+            guild[wvw_raids_field_name] = raids
+        self.__save_guild(guild)
+
+    def delete_wvw_raid(self, guild_id: str, raid_name: str) -> bool:
+        try:
+            guild = self.__get_guild(guild_id)
+            if wvw_raids_field_name in guild:
+                original_raids = guild[wvw_raids_field_name]
+                new_raids = [raid for raid in original_raids if raid['name'] != raid_name]
+                if len(original_raids) != len(new_raids):
+                    guild[wvw_raids_field_name] = new_raids
+                    self.__save_guild(guild)
+                    return True
+                return False
+            else:
+                return False
+        except common_exceptions.NotFoundException:
+            return False
+
+    def list_wvw_raids(self, guild_id: str):
+        try:
+            guild = self.__get_guild(guild_id)
+            if wvw_raids_field_name in guild:
+                return guild[wvw_raids_field_name]
             else:
                 return []
         except common_exceptions.NotFoundException:

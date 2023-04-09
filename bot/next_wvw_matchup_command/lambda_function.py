@@ -1,6 +1,5 @@
 import os
 import boto3
-import pendulum
 
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
@@ -50,7 +49,7 @@ def lambda_handler(event, context):
     except common_exceptions.NotFoundException:
         template_utils.format_and_response_home_world_not_set(discord_interactions, info)
     except RelinkException:
-        error_message = template_utils.get_localized_template(templates.relink_response)\
+        error_message = template_utils.get_localized_template(templates.relink_response, info.locale)\
             .format(emote_link=discord_utils.default_emote('link'))
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
     except gw2_api_interactions.ApiKeyUnauthorizedException:

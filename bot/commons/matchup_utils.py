@@ -134,8 +134,6 @@ locale_time_zones = {
     'hu': "Europe/Budapest"
 }
 
-reset_time_format = 'YYYY-MM-DD, HH:mm'
-
 
 def build_matchup_id(region_id: int, tier: int) -> str:
     return f'{str(region_id)}-{str(tier)}'

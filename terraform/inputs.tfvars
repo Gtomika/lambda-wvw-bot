@@ -70,6 +70,13 @@ command_data = [
     handler = "bot/announcement_channel_command/lambda_function.lambda_handler"
     path_to_deployment_package = "../announcement-channel-lambda-package/announcement_channel_lambda.zip"
     timeout_seconds = 3
+  },
+  {
+    command_name = "WvwRaid"
+    command_name_discord = "wvw_raid"
+    handler = "bot/wvw_raid_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../wvw-raid-lambda-package/wvw_raid_lambda.zip"
+    timeout_seconds = 3
   }
 ]
 

@@ -13,7 +13,9 @@
           "name": "world_name",
           "description": "A világ (szerver) neve, például 'Piken Square' vagy 'Dzagonur [DE]'.",
           "required": false,
-          "type": 3
+          "type": 3,
+          "min_length": 3,
+          "max_length": 100
         }
       ]
     },
