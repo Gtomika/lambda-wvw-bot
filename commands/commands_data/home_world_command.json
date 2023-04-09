@@ -5,10 +5,22 @@
   "dm_permission": false,
   "options": [
     {
-      "name": "world_name",
-      "description": "A világ (szerver) neve, például 'Piken Square' vagy 'Dzagonur [DE]'.",
-      "required": false,
-      "type": 3
+      "type": 1,
+      "name": "set",
+      "description": "Új világ megadása a guild számára",
+      "options": [
+        {
+          "name": "world_name",
+          "description": "A világ (szerver) neve, például 'Piken Square' vagy 'Dzagonur [DE]'.",
+          "required": false,
+          "type": 3
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name": "view",
+      "description": "A guild világának, továbbá telítettségi és transfer adatok mutatása"
     }
   ]
 }

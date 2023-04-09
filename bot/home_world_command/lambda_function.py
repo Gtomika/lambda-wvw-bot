@@ -1,3 +1,4 @@
+import json
 import os
 import boto3
 
@@ -18,6 +19,7 @@ authorizer = authorization.CommandAuthorizer(repo)
 
 
 def lambda_handler(event, context):
+    print(json.dumps(event, indent=4))
     info = discord_utils.InteractionInfo(event)
     # guaranteed to be from a guild (by Discord)
     guild_id = discord_utils.extract_guild_id(event)

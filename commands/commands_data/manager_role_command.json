@@ -1,34 +1,38 @@
 {
   "type": 1,
   "name": "manager_role",
-  "description": "A bot kezelésére jogosult rangok beállítása",
+  "description": "WvW kezelő rangok beállítása",
   "dm_permission": false,
   "options": [
     {
-      "name": "action",
-      "description": "Mit csináljon a rangokkal?",
-      "required": true,
-      "type": 3,
-      "choices": [
+      "name": "add",
+      "description": "Új WvW kezelő hozzáadása",
+      "type": 1,
+      "options": [
         {
-          "name": "add",
-          "value": "manager_role_add"
-        },
-        {
-          "name": "delete",
-          "value": "manager_role_delete"
-        },
-        {
-          "name": "list",
-          "value": "manager_role_list"
+          "name": "role",
+          "description": "Melyik rangot?",
+          "type": 8
         }
       ]
     },
     {
-      "name": "role",
-      "description": "Melyik rangot?",
-      "required": false,
-      "type": 8
+      "name": "delete",
+      "description": "WvW kezelő rang eltávolítása",
+      "type": 1,
+      "options": [
+        {
+          "name": "role",
+          "description": "Melyik rangot?",
+          "required": false,
+          "type": 8
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "description": "WvW kezelő rangok mutatása",
+      "type": 1
     }
   ]
 }

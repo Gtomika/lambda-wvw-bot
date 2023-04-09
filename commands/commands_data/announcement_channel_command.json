@@ -1,34 +1,39 @@
 {
   "type": 1,
   "name": "announcement_channel",
-  "description": "Hirdetéshez használt csatornák kezelése",
+  "description": "WvW hirdető csatornák beállítása",
   "dm_permission": false,
   "options": [
     {
-      "name": "action",
-      "description": "Mit csináljon a hirdetéshez használt csatornákkal?",
-      "required": true,
-      "type": 3,
-      "choices": [
+      "name": "add",
+      "description": "Új hirdető csatorna hozzáadása",
+      "type": 1,
+      "options": [
         {
-          "name": "add",
-          "value": "announcement_channel_add"
-        },
-        {
-          "name": "delete",
-          "value": "announcement_channel_delete"
-        },
-        {
-          "name": "list",
-          "value": "announcement_channel_list"
+          "name": "channel",
+          "description": "Melyik csatornát?",
+          "type": 7,
+          "required": true
         }
       ]
     },
     {
-      "name": "channel_name",
-      "description": "Melyik csatornát?",
-      "required": false,
-      "type": 7
+      "name": "delete",
+      "description": "Hirdető csatorna eltávolítása",
+      "type": 1,
+      "options": [
+        {
+          "name": "channel",
+          "description": "Melyik csatornát?",
+          "type": 7,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "description": "Hirdető csatornák mutatása",
+      "type": 1
     }
   ]
 }
