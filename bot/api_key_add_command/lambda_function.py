@@ -1,6 +1,5 @@
 import os
 import boto3
-import botocore.client
 
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
@@ -32,7 +31,7 @@ def lambda_handler(event, context):
             # message does not need to be changed
             print(f'Saved new API key for user {interaction_info.username}, Discord ID {str(interaction_info.user_id)}. Key: {key}')
             discord_interactions.respond_to_discord_interaction(interaction_info.interaction_token, message)
-        except botocore.client.ClientError as e:
+        except BaseException as e:
             print(f'Failed to save API key of user with ID {str(interaction_info.user_id)}')
             print(e)
             # some error prevented the valid key from saving

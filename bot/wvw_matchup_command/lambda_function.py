@@ -39,7 +39,7 @@ def lambda_handler(event, context):
         template_utils.format_and_respond_api_key_unauthorized(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
-    except Exception as e:
+    except BaseException as e:
         print(f'Error while creating matchup report of guild with id {guild_id}')
         print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)
@@ -49,7 +49,7 @@ def create_matchup_report(home_world_id: int) -> matchup_utils.Matchup:
     """
     Query and compile the current wvw matchup of the selected world.
     """
-    matchup_data = gw2_api_interactions.get_wvw_matchup_report(world_id=home_world_id)
+    matchup_data = gw2_api_interactions.get_wvw_matchup_report_of_world(world_id=home_world_id)
     return matchup_utils.parse_matchup(matchup_data, gw2_api_interactions)
 
 
@@ -59,29 +59,34 @@ def format_matchup_report(home_world: matchup_utils.WvwWorld, matchup: matchup_u
     current_time = pendulum.now(time_zone)
     reset_end_time = time_zone.convert(matchup.end_at)
 
-    first_place_string = format_matchup_side(matchup.get_first_place(), 1, locale)
-    second_place_string = format_matchup_side(matchup.get_second_place(), 2, locale)
-    third_place_string = format_matchup_side(matchup.get_third_place(), 3, locale)
+    first_side = matchup.get_first_place()
+    first_place_string = format_matchup_side(first_side, 1, first_side.contains_world(home_world.world_id), locale)
+
+    second_side = matchup.get_second_place()
+    second_place_string = format_matchup_side(second_side, 2, second_side.contains_world(home_world.world_id), locale)
+
+    third_side = matchup.get_third_place()
+    third_place_string = format_matchup_side(third_side, 3, third_side.contains_world(home_world.world_id), locale)
 
     return template_utils.get_localized_template(templates.matchup_report, locale).format(
         home_world_name=home_world.world_name,
         tier=matchup.tier,
-        reset_time=reset_end_time.isoformat(),
+        reset_time=reset_end_time.format(fmt=matchup_utils.reset_time_format),
         emote_clock=discord_utils.default_emote('clock'),
-        remaining_time=current_time.diff_for_humans(reset_end_time),
+        remaining_time=current_time.diff_for_humans(reset_end_time, absolute=True),
         matchup_side_first_place=first_place_string,
         matchup_side_second_place=second_place_string,
         matchup_side_third_place=third_place_string
     )
 
 
-def format_matchup_side(side: matchup_utils.MatchupSide, placement: int, locale) -> str:
+def format_matchup_side(side: matchup_utils.MatchupSide, placement: int, is_home_team: bool, locale) -> str:
     linked_world_names = [linked_world.world_name for linked_world in side.linked_worlds]
     linked_world_names_joined = ', '.join(linked_world_names)
 
     return template_utils.get_localized_template(templates.matchup_side_report, locale).format(
         emote_color=discord_utils.default_emote(side.color.emote_name),
-        emote_house=discord_utils.default_emote('house'),
+        emote_house=discord_utils.default_emote('house') if is_home_team else '',
         main_world_name=side.main_world.world_name,
         linked_world_names=linked_world_names_joined,
         points=str(side.points),

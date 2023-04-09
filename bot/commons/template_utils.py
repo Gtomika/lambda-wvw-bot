@@ -74,7 +74,8 @@ def format_and_respond_api_key_unauthorized(discord_interactions, discord_utils,
 
 
 common_template_gw2_api_error = {
-    'hu': 'A GW2 API hibás választ adott, vagy nem válaszolt: sajnos ez előfordul, kérlek próbáld meg újra.'
+    'hu': """A GW2 API hibás választ adott, vagy nem válaszolt: sajnos ez előfordul, kérlek próbáld meg újra.
+     - Reset után néhány óráig a WvW API megbízhatatlan. Ebben az esetben érdemes várni."""
 }
 
 

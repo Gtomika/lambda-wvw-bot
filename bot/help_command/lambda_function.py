@@ -13,19 +13,23 @@ def lambda_handler(event, context):
     Handler for the 'help' slash command
     """
     info = discord_utils.InteractionInfo(event)
-
-    response_template = template_utils.get_localized_template(
-        template_map=templates.help_response_template,
-        locale=info.locale
-    )
-    message = response_template.format(
-        developer=discord_utils.mention_user(discord_developer_id),
-        emote_docu=discord_utils.default_emote('bookmark_tabs'),
-        docu_url=discord_utils.escaped_link(documentation_url),
-        emote_e=discord_utils.default_emote('regional_indicator_e'),
-        emote_n=discord_utils.default_emote('regional_indicator_n')
-    )
-    discord_interactions.respond_to_discord_interaction(
-        interaction_token=info.interaction_token,
-        message=message
-    )
+    try:
+        response_template = template_utils.get_localized_template(
+            template_map=templates.help_response_template,
+            locale=info.locale
+        )
+        message = response_template.format(
+            developer=discord_utils.mention_user(discord_developer_id),
+            emote_docu=discord_utils.default_emote('bookmark_tabs'),
+            docu_url=discord_utils.escaped_link(documentation_url),
+            emote_e=discord_utils.default_emote('regional_indicator_e'),
+            emote_n=discord_utils.default_emote('regional_indicator_n')
+        )
+        discord_interactions.respond_to_discord_interaction(
+            interaction_token=info.interaction_token,
+            message=message
+        )
+    except BaseException as e:
+        print(f'Error while responding to help command of user {info.username}')
+        print(e)
+        template_utils.format_and_respond_internal_error(discord_interactions, info)

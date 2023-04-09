@@ -53,7 +53,7 @@ def set_home_world(guild_id: str, home_world: str, info: discord_utils.Interacti
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
-    except Exception as e:
+    except BaseException as e:
         print(f'Failed to save home world for guild with ID {guild_id}')
         print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)
@@ -82,7 +82,7 @@ def get_home_world(guild_id: str, info: discord_utils.InteractionInfo):
     except common_exceptions.NotFoundException:
         error_message = template_utils.get_localized_template(templates.home_world_not_set, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
-    except Exception as e:
+    except BaseException as e:
         print(f'Failed to get home world for guild with ID {guild_id}')
         print(e)
         template_utils.format_and_respond_internal_error(discord_interactions, info)

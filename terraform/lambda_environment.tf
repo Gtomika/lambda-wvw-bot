@@ -143,5 +143,12 @@ locals {
       })
     }
 
+    NextWvwMatchup = {
+      policy    = data.aws_iam_policy_document.guild_table_manager_lambda_policy
+      variables = merge(local.common_variables, {
+        GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
+      })
+    }
+
   }
 }

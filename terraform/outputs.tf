@@ -14,6 +14,14 @@ output "command_handler_lambda_names" {
   }]
 }
 
+output "gw2_users_table_name" {
+  value = module.dynamodb_tables.gw2_users_table_name
+}
+
+output "gw2_guilds_table_name" {
+  value = module.dynamodb_tables.gw2_guilds_table_name
+}
+
 output "discord_interaction_webhook_url" {
   value = module.api_gateway.discord_interaction_webhook_url
 }

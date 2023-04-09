@@ -79,7 +79,7 @@ class Matchup:
     def __init__(self, tier: int, end_at: pendulum.DateTime, sides):
         self.tier = tier
         self.end_at = end_at
-        self.sides = sorted(sides, key=lambda x: x.points)
+        self.sides = sorted(sides, key=lambda x: x.points, reverse=True)
 
     def get_first_place(self) -> MatchupSide:
         return self.sides[0]
@@ -117,18 +117,28 @@ class MatchupResult:
     The result of a Wvw matchup for a single world. Use constant values of it.
     """
 
-    def __init__(self, offset: int):
+    def __init__(self, offset: int, emote_name: str):
         self.offset = offset
+        self.emote_name = emote_name
+
+    def __eq__(self, other):
+        return self.offset == other.offset
 
 
-result_advances = MatchupResult(1)
-result_stays = MatchupResult(0)
-result_drops = MatchupResult(-1)
+result_advances = MatchupResult(1, 'arrow_up')
+result_stays = MatchupResult(0, 'chains')
+result_drops = MatchupResult(-1, 'arrow_down')
 
 
 locale_time_zones = {
     'hu': "Europe/Budapest"
 }
+
+reset_time_format = 'YYYY-MM-DD, HH:mm'
+
+
+def build_matchup_id(region_id: int, tier: int) -> str:
+    return f'{str(region_id)}-{str(tier)}'
 
 
 def parse_matchup(matchup_api_data, gw2_api_interactions) -> Matchup:
@@ -185,8 +195,21 @@ def __parse_tier(matchup_id: str) -> int:
     return int(parts[1])  # part 0 is region, part 1 is tier
 
 
-
-
-
+def is_relink(next_reset_time: pendulum.DateTime) -> bool:
+    """
+    Relink is on odd months last friday.
+    """
+    now = pendulum.now()
+    is_odd_month = now.month % 2 != 0
+    if is_odd_month:
+        # re-link is on the last friday of this month
+        relink_day = now.last_of(unit="month", day_of_week=pendulum.FRIDAY)
+        # we have already passed this re-link, even though it was this month
+        if relink_day.is_past():
+            relink_day = now.add(months=1).last_of(unit='month', day_of_week=pendulum.FRIDAY)
+    else:
+        # re-link is on the last friday of NEXT month
+        relink_day = now.add(months=1).last_of(unit='month', day_of_week=pendulum.FRIDAY)
+    return next_reset_time.is_same_day(relink_day)
 
 

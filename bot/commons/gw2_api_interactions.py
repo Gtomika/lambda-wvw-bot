@@ -39,8 +39,12 @@ def get_wvw_ranks():
     return gw2_api_request(api_key=None, url='/wvw/ranks?ids=all')
 
 
-def get_wvw_matchup_report(world_id: int):
+def get_wvw_matchup_report_of_world(world_id: int):
     return gw2_api_request(api_key=None, url=f'/wvw/matches?world={str(world_id)}')
+
+
+def get_wvw_matchup_report_by_id(matchup_id: str):
+    return gw2_api_request(api_key=None, url=f'/wvw/matches/{matchup_id}')
 
 
 def gw2_api_request(api_key, url: str):
