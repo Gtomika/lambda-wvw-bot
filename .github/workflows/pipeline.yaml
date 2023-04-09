@@ -213,7 +213,7 @@ jobs:
       package-common-layer, package-discord-interaction-lambda, package-help-lambda,
       package-api-key-lambda, package-manager-role-lambda, package-wvw-role-lambda,
       package-wvw-rank-lambda, package-wvw-matchup-lambda, package-next-wvw-matchup-lambda,
-      package-announcement-channel-lambda]
+      package-announcement-channel-lambda, package-home-world-lambda]
 
   terraform-plan-stg:
     environment: staging
