@@ -19,25 +19,24 @@ authorizer = authorization.CommandAuthorizer(repo)
 
 
 def lambda_handler(event, context):
-    print(json.dumps(event, indent=4))
     info = discord_utils.InteractionInfo(event)
     # guaranteed to be from a guild (by Discord)
     guild_id = discord_utils.extract_guild_id(event)
 
-    loading_message = template_utils.get_localized_template(templates.updating_home_world, info.locale) \
-        .format(emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id))
-    discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
-
     try:
-        home_world = discord_utils.extract_option(event, 'world_name')
-        # user provided new world, they want to set it: this must be authorized
-        authorizer.authorize_command(guild_id, event)
+        loading_message = template_utils.get_localized_template(templates.updating_home_world, info.locale) \
+            .format(emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id))
+        discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
 
-        set_home_world(guild_id, home_world, info)
-        print(f'Home world of guild with ID {str(guild_id)} was changed to {home_world}')
-    except discord_utils.OptionNotFoundException:
-        # user did not provide world, they just want to get info about current
-        get_home_world(guild_id, info)
+        subcommand = discord_utils.extract_subcommand(event)
+        if subcommand['name'] == 'set':
+            home_world = discord_utils.extract_subcommand_option(subcommand, 'world_name')
+            # user provided new world, they want to set it: this must be authorized
+            authorizer.authorize_command(guild_id, event)
+            set_home_world(guild_id, home_world, info)
+            print(f'Home world of guild with ID {str(guild_id)} was changed to {home_world}')
+        else:  # view home world
+            get_home_world(guild_id, info)
     except common_exceptions.CommandUnauthorizedException:
         template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
 

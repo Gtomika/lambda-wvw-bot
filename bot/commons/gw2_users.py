@@ -44,6 +44,19 @@ class Gw2UsersRepo:
         else:
             raise common_exceptions.NotFoundException
 
+    def delete_api_key(self, user_id: str):
+        """
+        Delete API key of user. Nothing happens if this user does not exist or has no key.
+        """
+        try:
+            user = self.__get_user(user_id)
+            if api_key_field_name not in user:
+                return
+            del user[api_key_field_name]
+            self.__save_user(user)
+        except common_exceptions.NotFoundException:
+            return
+
     def __empty_user(self, user_id: str):
         return {user_id_field_name: user_id}
 

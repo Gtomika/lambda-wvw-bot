@@ -20,20 +20,20 @@ def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
     guild_id = discord_utils.extract_guild_id(event)
 
-    action = discord_utils.extract_option(event, 'action')
-    if action == 'wvw_role_add':
-        add_wvw_role(event, guild_id, info)
-    elif action == 'wvw_role_delete':
-        remove_wvw_role(event, guild_id, info)
+    subcommand = discord_utils.extract_subcommand(event)
+    if subcommand['name'] == 'add':
+        add_wvw_role(event, subcommand, guild_id, info)
+    elif subcommand['name'] == 'delete':
+        remove_wvw_role(event, subcommand, guild_id, info)
     else:  # list, can be done by anyone
         list_wvw_roles(guild_id, info)
 
 
-def add_wvw_role(event, guild_id, info):
+def add_wvw_role(event, subcommand, guild_id, info):
     try:
         authorizer.authorize_command(guild_id, event)
 
-        role_id = discord_utils.extract_option(event, 'role')
+        role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
         # TODO added variable not used for now
         added = repo.add_wvw_role(guild_id, role_id)
         success_message = template_utils.get_localized_template(templates.wvw_role_added, info.locale)\
@@ -50,11 +50,11 @@ def add_wvw_role(event, guild_id, info):
         template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
-def remove_wvw_role(event, guild_id, info):
+def remove_wvw_role(event, subcommand, guild_id, info):
     try:
         authorizer.authorize_command(guild_id, event)
 
-        role_id = discord_utils.extract_option(event, 'role')
+        role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
         # TODO removed variable not used for now
         removed = repo.delete_manager_role(guild_id, role_id)
         success_message = template_utils.get_localized_template(templates.wvw_role_removed, info.locale) \

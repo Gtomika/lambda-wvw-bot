@@ -71,6 +71,27 @@ def extract_option(event, option_name: str):
     raise OptionNotFoundException
 
 
+def extract_subcommand_option(subcommand, option_name: str):
+    """
+    Extract an option from the subcommand object. Throws:
+     - OptionNotFoundException
+    """
+    for option in subcommand['options']:
+        if option['name'] == option_name:
+            return option['value']
+    raise OptionNotFoundException
+
+
+def extract_subcommand(event):
+    """
+    Call this when the command has subcommands, and would like to
+    find out which subcommand was invoked.
+
+    In this case 'options' is always provided with exactly one "option": the subcommand
+    """
+    return event['options'][0]
+
+
 def extract_member_roles(event):
     if not is_from_guild(event):
         return []

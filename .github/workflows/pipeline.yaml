@@ -95,16 +95,16 @@ jobs:
           path: help_lambda.zip
     needs: [run-test-discord-interaction, run-tests-commons]
 
-  package-api-key-add-lambda:
+  package-api-key-lambda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Package api key add lambda
-        run: zip -r api_key_add_lambda.zip bot/api_key_add_command/* -x bot/api_key_add_command/test/*
+        run: zip -r api_key_lambda.zip bot/api_key_command/* -x bot/api_key_command/test/*
       - uses: actions/upload-artifact@v3
         with:
-          name: api-key-add-lambda-package
-          path: api_key_add_lambda.zip
+          name: api-key-lambda-package
+          path: api_key_lambda.zip
     needs: [run-test-discord-interaction, run-tests-commons]
 
   package-home-world-lambda:

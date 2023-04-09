@@ -16,10 +16,10 @@ command_data = [
     timeout_seconds = 3
   },
   {
-    command_name = "ApiKeyAdd"
-    command_name_discord = "api_key_add"
-    handler = "bot/api_key_add_command/lambda_function.lambda_handler"
-    path_to_deployment_package = "../api-key-add-lambda-package/api_key_add_lambda.zip"
+    command_name = "ApiKey"
+    command_name_discord = "api_key"
+    handler = "bot/api_key_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../api-key-lambda-package/api_key_lambda.zip"
     timeout_seconds = 3
   },
   {

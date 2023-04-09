@@ -1,0 +1,28 @@
+{
+  "type": 1,
+  "name": "api_key_add",
+  "description": "API kulcs hozzáadása",
+  "dm_permission": true,
+  "options": [
+    {
+      "type": 1,
+      "name": "set",
+      "description": "Új API kulcs megadása",
+      "options": [
+        {
+          "name": "key",
+          "description": "Érvényes GW2 API kulcs",
+          "required": true,
+          "type": 3,
+          "min_length": 72,
+          "max_length": 72
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name": "delete",
+      "description": "Az API kulcsod elfelejtése"
+    }
+  ]
+}

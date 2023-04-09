@@ -20,19 +20,19 @@ def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
     guild_id = discord_utils.extract_guild_id(event)
 
-    action = discord_utils.extract_option(event, 'action')
-    if action == 'announcement_channel_add':
-        add_announcement_channel(event, guild_id, info)
-    elif action == 'announcement_channel_delete':
-        remove_announcement_channel(event, guild_id, info)
+    subcommand = discord_utils.extract_subcommand(event)
+    if subcommand['name'] == 'add':
+        add_announcement_channel(event, subcommand, guild_id, info)
+    elif subcommand['name'] == 'delete':
+        remove_announcement_channel(event, subcommand, guild_id, info)
     else:  # list, can be done by anyone
         list_announcement_channels(guild_id, info)
 
 
-def add_announcement_channel(event, guild_id, info):
+def add_announcement_channel(event, subcommand, guild_id, info):
     try:
         authorizer.authorize_command(guild_id, event)
-        channel_id = discord_utils.extract_option(event, 'channel_name')  # it's ID actually
+        channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
         repo.add_announcement_channel(guild_id, channel_id)
 
         success_message = template_utils.get_localized_template(templates.channel_added, info.locale).format(
@@ -51,10 +51,10 @@ def add_announcement_channel(event, guild_id, info):
         template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
-def remove_announcement_channel(event, guild_id, info):
+def remove_announcement_channel(event, subcommand, guild_id, info):
     try:
         authorizer.authorize_command(guild_id, event)
-        channel_id = discord_utils.extract_option(event, 'channel_name')  # it's ID actually
+        channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
         repo.delete_announcement_channel(guild_id, channel_id)
 
         success_message = template_utils.get_localized_template(templates.channel_deleted, info.locale).format(
