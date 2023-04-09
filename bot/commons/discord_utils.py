@@ -114,5 +114,9 @@ def mention_role(role_id: str) -> str:
     return f'<@&{role_id}>'
 
 
+def mention_channel(channel_id: str) -> str:
+    return f'<#{channel_id}>'
+
+
 def escaped_link(link: str) -> str:
     return f'<{link}>'

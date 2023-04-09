@@ -44,3 +44,7 @@ variable "log_retention_days" {
   type = number
   description = "How long to keep CloudWatch logs"
 }
+
+variable "timeout_seconds" {
+  type = number
+}

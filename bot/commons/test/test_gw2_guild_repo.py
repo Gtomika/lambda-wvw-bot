@@ -16,6 +16,7 @@ os.environ['AWS_REGION'] = "eu-central-1"
 mock_guild_id = "12475414"
 mock_home_world = 1001
 mock_role_id = "239348"
+mock_channel_id = "3857173"
 
 
 def create_guilds_table(dynamodb_resource, table_name: str):
@@ -90,6 +91,25 @@ class TestGw2GuildRepo(unittest.TestCase):
         wvw_roles = repo.get_wvw_roles(mock_guild_id)
         self.assertTrue(deleted)
         self.assertEqual([], wvw_roles)
+
+    @moto.mock_dynamodb
+    def test_announcement_channel_operations(self):
+        dynamodb_resource = boto3.resource('dynamodb')
+        create_guilds_table(dynamodb_resource, 'guilds')
+        repo = gw2_guilds.Gw2GuildRepo(table_name='guilds', dynamodb_resource=dynamodb_resource)
+
+        channels = repo.get_announcement_channels(mock_guild_id)
+        self.assertEqual([], channels)
+
+        added = repo.add_announcement_channel(mock_guild_id, mock_channel_id)
+        channels = repo.get_announcement_channels(mock_guild_id)
+        self.assertEqual([mock_channel_id], channels)
+        self.assertTrue(added)
+
+        deleted = repo.delete_announcement_channel(mock_guild_id, mock_channel_id)
+        channels = repo.get_announcement_channels(mock_guild_id)
+        self.assertEqual([], channels)
+        self.assertTrue(deleted)
 
 
 if __name__ == "__main__":

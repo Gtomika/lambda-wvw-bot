@@ -30,6 +30,7 @@ module "command_lambda_modules" {
   command_name = var.command_data[count.index].command_name
   command_name_discord = var.command_data[count.index].command_name_discord
   handler_name = var.command_data[count.index].handler
+  timeout_seconds = var.command_data[count.index].timeout_seconds
   path_to_deployment_package = "${path.module}/${var.command_data[count.index].path_to_deployment_package}"
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
 

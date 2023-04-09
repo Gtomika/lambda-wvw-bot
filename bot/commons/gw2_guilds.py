@@ -142,6 +142,53 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return []
 
+    def add_announcement_channel(self, guild_id: str, channel_id: str):
+        """
+        Save a discord channel ID as announcement channel for this guild
+        """
+        guild = self.__get_or_empty_guild(guild_id)
+        if announcement_channels_field_name in guild:
+            if channel_id in guild[announcement_channels_field_name]:
+                guild[announcement_channels_field_name].append(channel_id)
+                self.__save_guild(guild)
+                return True
+            else:
+                return False
+        else:
+            announcement_channels = [channel_id]
+            guild[announcement_channels_field_name] = announcement_channels
+            self.__save_guild(guild)
+            return True
+
+    def delete_announcement_channel(self, guild_id: str, channel_id: str) -> bool:
+        """
+        Delete an announcement channel. Returns true if the channel was
+        deleted, false if the channel was not present and nothing needed deletion.
+        """
+        try:
+            guild = self.__get_guild(guild_id)
+            if announcement_channels_field_name in guild and channel_id in guild[announcement_channels_field_name]:
+                guild[announcement_channels_field_name].remove(channel_id)
+                self.__save_guild(guild)
+                return True
+            else:
+                return False
+        except common_exceptions.NotFoundException:
+            return False
+
+    def get_announcement_channels(self, guild_id: str):
+        """
+        Array of announcement channel IDs. If guild has no announcement channels, empty array is returned.
+        """
+        try:
+            guild = self.__get_guild(guild_id)
+            if announcement_channels_field_name in guild:
+                return guild[announcement_channels_field_name]
+            else:
+                return []
+        except common_exceptions.NotFoundException:
+            return []
+
     def __get_guild(self, guild_id: str):
         response = self.gw2_guild_table.get_item(Key={guild_id_field_name: guild_id})
         if 'Item' not in response:

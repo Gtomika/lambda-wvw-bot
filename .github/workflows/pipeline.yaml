@@ -179,6 +179,18 @@ jobs:
           path: next_wvw_matchup_lambda.zip
     needs: [ run-test-discord-interaction, run-tests-commons ]
 
+  package-announcement-channel-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package next announcement channel lambda
+        run: zip -r announcement_channel_lambda.zip bot/announcement_channel_command/* -x bot/announcement_channel_command/test/*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: announcement-channel-lambda-package
+          path: announcement_channel_lambda.zip
+    needs: [ run-test-discord-interaction, run-tests-commons ]
+
   terraform-validate:
     environment: staging # does not matter technically
     runs-on: ubuntu-latest

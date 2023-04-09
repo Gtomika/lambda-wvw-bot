@@ -44,6 +44,8 @@ resource "aws_lambda_function" "command_lambda" {
     variables = var.environment_variables
   }
 
+  timeout = var.timeout_seconds
+
   depends_on = [aws_cloudwatch_log_group.lambda_log_group]
 }
 
