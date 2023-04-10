@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "assets_bucket_policy" {
     principals {
       identifiers = ["*"]
       type        = "*"
-    },
+    }
     resources = ["${aws_s3_bucket.assets_bucket.arn}/*"]
   }
 }

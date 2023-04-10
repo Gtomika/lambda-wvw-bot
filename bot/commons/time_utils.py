@@ -24,7 +24,7 @@ def find_next_occurrence(day: str, time: str) -> pendulum.DateTime:
     """
     parsed_time = pendulum.parse(time)
     hours = parsed_time.hour
-    minutes = parsed_time.minutes
+    minutes = parsed_time.minute
 
     if day == 'every_day':
         # event happens every day. has it already happened today?
