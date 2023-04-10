@@ -16,7 +16,7 @@ def get_localized_template(template_map, locale: str):
 
 common_template_internal_error = {
     'hu': """Ismeretlen hiba történt! Kérlek próbáld újra, és ha ez továbbra is fent áll, jelezd a készítőmnek!
-    Figyelem, {developer}! Vizsgáld ezt ki, mert semmi jót nem jelent...
+    - Figyelem, {developer}, ezt a hibát vizsgáld meg!
     """
 }
 

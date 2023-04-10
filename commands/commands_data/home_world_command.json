@@ -21,6 +21,11 @@
     },
     {
       "type": 1,
+      "name": "forget",
+      "description": "A guild világának elfelejtése"
+    },
+    {
+      "type": 1,
       "name": "view",
       "description": "A guild világának, továbbá telítettségi és transfer adatok mutatása"
     }

@@ -25,3 +25,11 @@ output "gw2_guilds_table_name" {
 output "discord_interaction_webhook_url" {
   value = module.api_gateway.discord_interaction_webhook_url
 }
+
+output "assets_s3_bucket_arn" {
+  value = module.s3.assets_bucket_arn
+}
+
+output "app_icon_url" {
+  value = module.s3.app_icon_url
+}

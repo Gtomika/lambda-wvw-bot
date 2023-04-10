@@ -1,6 +1,6 @@
 import pendulum
 
-__date_time_format = 'YYYY-MM-DD, HH:mm'
+__date_time_format = 'YYYY-MM-DD HH:mm'
 
 
 def format_date_time(dt: pendulum.DateTime) -> str:
@@ -61,4 +61,17 @@ day_mappings = {
     'saturday': pendulum.SATURDAY,
     'sunday': pendulum.SUNDAY,
     'every_day': 100  # just has to be bigger then all other
+}
+
+day_localizations = {
+    'hu': {
+        'monday': 'hétfő',
+        'tuesday': 'kedd',
+        'wednesday': 'szerda',
+        'thursday': 'csütörtök',
+        'friday': 'péntek',
+        'saturday': 'szombat',
+        'sunday': 'vasárnap',
+        'every_day': 'minden nap'
+    }
 }

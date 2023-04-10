@@ -95,6 +95,7 @@ def format_and_respond_with_prediction(
     success_message = template_utils.get_localized_template(templates.next_matchup_response, info.locale).format(
         home_world_name=home_world.world_name,
         emote_warning=discord_utils.default_emote('warning'),
+        tier=str(predicted_tier - predicted_result.offset),
         prediction_string=prediction_string,
         predicted_teams_string=predicted_sides_string,
     )

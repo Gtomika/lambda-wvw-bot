@@ -38,7 +38,11 @@ class Gw2GuildRepo:
     This table has the following structure:
     {
         "GuildId": "1234567",
-        "HomeWorld": "Far Shiverpeaks",
+        "HomeWorld": {
+            "id": 1003,
+            "name": "Far Shiverpeaks",
+            "population": "Full"
+        },
         "AnnouncementChannels": [
             {
                 "id": "12345",
@@ -66,18 +70,31 @@ class Gw2GuildRepo:
     def __init__(self, table_name, dynamodb_resource):
         self.gw2_guild_table = dynamodb_resource.Table(table_name)
 
-    def save_guild_home_world(self, guild_id: str, home_world_id: int) -> None:
+    def save_guild_home_world(self, guild_id: str, home_world_id: int, home_world_name: str, population: str) -> None:
         """
-        Save a new home world for the selected guild. By World ID. Throws:
+        Save a new home world for the selected guild. Throws:
          - ClientError: internal error
         """
         guild = self.__get_or_empty_guild(guild_id)
-        guild[home_world_field_name] = home_world_id
+        guild[home_world_field_name] = {
+            'id': home_world_id,
+            'name': home_world_name,
+            'population': population
+        }
         self.__save_guild(guild)
 
-    def get_guild_home_world(self, guild_id: str) -> int:
+    def delete_home_world(self, guild_id: str):
+        try:
+            guild = self.__get_guild(guild_id)
+            if home_world_field_name in guild:
+                del guild[home_world_field_name]
+                self.__save_guild(guild)
+        except common_exceptions.NotFoundException:
+            return
+
+    def get_guild_home_world(self, guild_id: str) -> dict:
         """
-        Get selected guilds home world. Gets world ID. Throws:
+        Get selected guilds home world. Throws:
          - ClientError: internal error
          - NotFoundException: this guild does not have home world set
         """

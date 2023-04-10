@@ -7,7 +7,7 @@ manager_role_removed = {
 }
 
 manager_role_listed = {
-    'hu': 'Ezekkel a rangokkal lehet nekem parancsolni: {roles}'
+    'hu': 'Ezekkel a rangokkal lehet nekem parancsolni: {roles} Továbbá, az adminoknak mindig engedelmeskedem.'
 }
 
 manager_roles_empty = {

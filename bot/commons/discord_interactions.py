@@ -47,10 +47,14 @@ def create_webhook_message(webhook_url: str, message: str, personality: WebhookP
     """
     Create a new message on Discord using the given webhook.
     """
-    requests.post(url=webhook_url, json={
+    response = requests.post(url=f'{webhook_url}?wait=true', json={
         'content': message,
         'username': personality.bot_name,
         'avatar_url': personality.bot_icon_url
-    })
+    }, headers={
+        'Content-Type': 'application/json'
+    }, timeout=discord_interaction_timeout)
 
+    if response.status_code >= 400:
+        print(f'Error response from Discord API while making webhook call to {webhook_url} The message was: {message}')
 

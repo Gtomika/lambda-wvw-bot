@@ -14,10 +14,14 @@ home_world_set = {
     'hu': "A guild WvW világa mostantól **{home_world}**!"
 }
 
+home_word_forget = {
+    'hu': 'Töröltem a guild WvW világát. Figyelem {emote_warning}, egyes utasítások csak akkor működnek ha van választott világ!'
+}
+
 home_world_get = {
     'hu': """A guild WvW világa jelenleg: **{home_world}**
-    - A világ telítettsége: {home_world_population}
-    - A transfer költsége: {transfer_cost} {emote_gem}"""
+- A világ telítettsége: {home_world_population}
+- A transfer költsége: {transfer_cost} {emote_gem}"""
 }
 
 populations = {

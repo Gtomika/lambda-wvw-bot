@@ -4,8 +4,8 @@ time_parsing_failed = {
 
 raid_added = {
     'hu': """Elementettem ezt az eseményt:
-     - {raid_description}
-     A */wvw_raid list* utasítással kérheted le az összes eseményt."""
+ - {raid_description}
+A */wvw_raid list* utasítással kérheted le az összes eseményt."""
 }
 
 raid_deleted = {
@@ -18,7 +18,8 @@ raid_not_found = {
 
 raids_listed = {
     'hu': """Ezekről a WvW eseményekről tudok:
-    {raid_descriptions}"""
+    
+{raid_descriptions}"""
 }
 
 raids_not_found = {
@@ -26,5 +27,5 @@ raids_not_found = {
 }
 
 raid_description = {
-    'hu': '{event_name}: {day} {time},  Hossz: {hours} óra. Következő alkalom: {next_occurrence}'
+    'hu': '**{event_name}**: {day} {time},  Hossz: {hours} óra. Következő alkalom: {next_occurrence}'
 }
