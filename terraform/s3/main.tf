@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "assets_bucket" {
-  bucket = "Assets-${var.app_name}-${var.environment}-${var.aws_region}"
+  bucket = "assets-${lower(var.app_name)}-${var.environment}-${var.aws_region}"
   force_destroy = true
 }
 
