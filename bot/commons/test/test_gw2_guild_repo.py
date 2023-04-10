@@ -14,7 +14,9 @@ os.environ["AWS_DEFAULT_REGION"] = "eu-central-1"
 os.environ['AWS_REGION'] = "eu-central-1"
 
 mock_guild_id = "12475414"
-mock_home_world = 1001
+mock_home_world_id = 1001
+mock_home_world_name = 'Dzagonur [DE]'
+mock_home_world_population = 'Medium'
 mock_role_id = "239348"
 mock_channel_id = "3857173"
 mock_webhook_url = "https://discord.webhook.com/xc/abc"
@@ -41,10 +43,14 @@ class TestGw2GuildRepo(unittest.TestCase):
         create_guilds_table(dynamodb_resource, 'guilds')
 
         repo = gw2_guilds.Gw2GuildRepo(table_name='guilds', dynamodb_resource=dynamodb_resource)
-        repo.save_guild_home_world(mock_guild_id, mock_home_world)
+        repo.save_guild_home_world(mock_guild_id, mock_home_world_id, mock_home_world_name, mock_home_world_population)
 
         home_world = repo.get_guild_home_world(mock_guild_id)
-        self.assertEqual(mock_home_world, home_world)
+        self.assertEqual({
+            'id': mock_home_world_id,
+            'name': mock_home_world_name,
+            'population': mock_home_world_population
+        }, home_world)
 
     @moto.mock_dynamodb
     def test_get_home_world_does_not_exist(self):
