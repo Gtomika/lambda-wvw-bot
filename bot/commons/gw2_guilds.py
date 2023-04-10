@@ -39,10 +39,26 @@ class Gw2GuildRepo:
     {
         "GuildId": "1234567",
         "HomeWorld": "Far Shiverpeaks",
-        "AnnouncementChannels": ["12345", "123986"],
+        "AnnouncementChannels": [
+            {
+                "id": "12345",
+                "webhook": "https://..."
+            },
+            {
+                "id": "12345",
+                "webhook": "https://..."
+            }
+        ],
         "ManagerRoles": ["872344", "123456"],
         "WvwRoles": ["39841894", "12931931"],
-        "WvwRaids": [TODO]
+        "WvwRaids": [
+            {
+                "name": "Morning Raid",
+                "day": "monday",
+                "time": "08:00",
+                "dur": 2
+            }
+        ]
     }
     Note that GuildID is the discord guild ID in this case.
     """
@@ -70,40 +86,31 @@ class Gw2GuildRepo:
             raise common_exceptions.NotFoundException
         return guild[home_world_field_name]
 
-    def add_manager_role(self, guild_id: str, role_id: str) -> bool:
+    def add_manager_role(self, guild_id: str, role_id: str):
         """
-        Save a new role as manager role. Returns true if the role was
-        added, false if the role was already present and not added again.
+        Save a new role as manager role
         """
         guild = self.__get_or_empty_guild(guild_id)
         if manager_roles_field_name in guild:
             if role_id in guild[manager_roles_field_name]:
                 guild[manager_roles_field_name].append(role_id)
                 self.__save_guild(guild)
-                return True
-            else:
-                return False
         else:
             manager_roles = [role_id]
             guild[manager_roles_field_name] = manager_roles
             self.__save_guild(guild)
-            return True
 
-    def delete_manager_role(self, guild_id: str, role_id: str) -> bool:
+    def delete_manager_role(self, guild_id: str, role_id: str):
         """
-        Delete a new role as manager role. Returns true if the role was
-        deleted, false if the role was not present and nothing needed deletion.
+        Delete a new role as manager role
         """
         try:
             guild = self.__get_guild(guild_id)
             if manager_roles_field_name in guild and role_id in guild[manager_roles_field_name]:
                 guild[manager_roles_field_name].remove(role_id)
                 self.__save_guild(guild)
-                return True
-            else:
-                return False
         except common_exceptions.NotFoundException:
-            return False
+            return
 
     def get_manager_roles(self, guild_id: str):
         """
@@ -118,7 +125,7 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return []
 
-    def add_wvw_role(self, guild_id: str, role_id: str) -> bool:
+    def add_wvw_role(self, guild_id: str, role_id: str):
         """
         Save a new role as wvw role. Returns true if the role was
         added, false if the role was already present and not added again.
@@ -128,30 +135,22 @@ class Gw2GuildRepo:
             if role_id in guild[wvw_roles_field_name]:
                 guild[wvw_roles_field_name].append(role_id)
                 self.__save_guild(guild)
-                return True
-            else:
-                return False
         else:
             wvw_roles = [role_id]
             guild[wvw_roles_field_name] = wvw_roles
             self.__save_guild(guild)
-            return True
 
-    def delete_wvw_role(self, guild_id: str, role_id: str) -> bool:
+    def delete_wvw_role(self, guild_id: str, role_id: str):
         """
-        Delete a new role as wvw role. Returns true if the role was
-        deleted, false if the role was not present and nothing needed deletion.
+        Delete a new role as wvw role
         """
         try:
             guild = self.__get_guild(guild_id)
             if wvw_roles_field_name in guild and role_id in guild[wvw_roles_field_name]:
                 guild[wvw_roles_field_name].remove(role_id)
                 self.__save_guild(guild)
-                return True
-            else:
-                return False
         except common_exceptions.NotFoundException:
-            return False
+            return
 
     def get_wvw_roles(self, guild_id: str):
         """
@@ -166,39 +165,36 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return []
 
-    def add_announcement_channel(self, guild_id: str, channel_id: str):
+    def add_announcement_channel(self, guild_id: str, channel_id: str, webhook_url: str):
         """
         Save a discord channel ID as announcement channel for this guild
         """
+        announcement_channel_dict = {
+            'id': channel_id,
+            'webhook': webhook_url
+        }
         guild = self.__get_or_empty_guild(guild_id)
         if announcement_channels_field_name in guild:
             if channel_id in guild[announcement_channels_field_name]:
-                guild[announcement_channels_field_name].append(channel_id)
+                guild[announcement_channels_field_name].append(announcement_channel_dict)
                 self.__save_guild(guild)
-                return True
-            else:
-                return False
         else:
-            announcement_channels = [channel_id]
+            announcement_channels = [announcement_channel_dict]
             guild[announcement_channels_field_name] = announcement_channels
             self.__save_guild(guild)
-            return True
 
-    def delete_announcement_channel(self, guild_id: str, channel_id: str) -> bool:
+    def delete_announcement_channel(self, guild_id: str, channel_id: str):
         """
-        Delete an announcement channel. Returns true if the channel was
-        deleted, false if the channel was not present and nothing needed deletion.
+        Delete an announcement channel.
         """
         try:
             guild = self.__get_guild(guild_id)
-            if announcement_channels_field_name in guild and channel_id in guild[announcement_channels_field_name]:
-                guild[announcement_channels_field_name].remove(channel_id)
+            if announcement_channels_field_name in guild:
+                current_channels = guild[announcement_channels_field_name]
+                guild[announcement_channels_field_name] = [channel_data for channel_data in current_channels if channel_data['id'] != channel_id]
                 self.__save_guild(guild)
-                return True
-            else:
-                return False
         except common_exceptions.NotFoundException:
-            return False
+            return
 
     def get_announcement_channels(self, guild_id: str):
         """

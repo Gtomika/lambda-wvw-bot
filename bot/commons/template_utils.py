@@ -15,12 +15,16 @@ def get_localized_template(template_map, locale: str):
 
 
 common_template_internal_error = {
-    'hu': 'Ismeretlen hiba történt! Kérlek próbáld újra, és ha ez továbbra is fent áll, jelezd a készítőmnek!'
+    'hu': """Ismeretlen hiba történt! Kérlek próbáld újra, és ha ez továbbra is fent áll, jelezd a készítőmnek!
+    Figyelem, {developer}! Vizsgáld ezt ki, mert semmi jót nem jelent...
+    """
 }
 
 
-def format_and_respond_internal_error(discord_interactions, info):
-    error_message = get_localized_template(common_template_internal_error, info.locale)
+def format_and_respond_internal_error(discord_interactions, discord_utils, info):
+    error_message = get_localized_template(common_template_internal_error, info.locale).format(
+        developer = discord_utils.mention_user(discord_utils.developer_id)
+    )
     discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
 
 

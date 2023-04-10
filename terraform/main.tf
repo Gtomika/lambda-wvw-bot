@@ -1,3 +1,12 @@
+module "s3" {
+  source = "./s3"
+  app_name = var.app_name
+  aws_region = var.aws_region
+  environment = var.environment
+  path_to_app_icon = "${path.module}/../static/commander.png"
+  key_of_app_icon = "app_icon.png"
+}
+
 module "dynamodb_tables" {
   source = "./dynamodb"
   app_name = var.app_name

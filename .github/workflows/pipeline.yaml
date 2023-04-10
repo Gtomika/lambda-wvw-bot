@@ -234,6 +234,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
@@ -253,7 +254,8 @@ jobs:
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
-            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY"
+            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
+            -var discord_application_name="$DISCORD_APP_NAME"
           cd ..
       - uses: actions/upload-artifact@v3
         with:
@@ -268,6 +270,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
@@ -288,6 +291,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
@@ -307,7 +311,8 @@ jobs:
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
-            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY"
+            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
+            -var discord_application_name="$DISCORD_APP_NAME"
     needs: terraform-plan-stg
 
   register-commands-test-guild:
@@ -338,6 +343,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
@@ -357,7 +363,8 @@ jobs:
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
-            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY"
+            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
+            -var discord_application_name="$DISCORD_APP_NAME"
           cd ..
       - uses: actions/upload-artifact@v3
         with:
@@ -372,6 +379,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
@@ -392,6 +400,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
@@ -411,7 +420,8 @@ jobs:
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
-            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY"
+            -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
+            -var discord_application_name="$DISCORD_APP_NAME"
     needs: terraform-plan-prd
 
   register-commands-global:

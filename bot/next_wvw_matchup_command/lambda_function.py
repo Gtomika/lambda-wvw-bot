@@ -1,5 +1,6 @@
 import os
 import boto3
+import traceback
 
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
@@ -58,8 +59,8 @@ def lambda_handler(event, context):
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except BaseException as e:
         print(f'Error while creating matchup report of guild with id {guild_id}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
 
 def format_and_respond_with_prediction(

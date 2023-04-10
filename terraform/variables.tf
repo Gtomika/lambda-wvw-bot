@@ -87,3 +87,8 @@ variable "discord_application_public_key" {
   type = string
   description = "Public key for the bot"
 }
+
+variable "discord_application_name" {
+  type = string
+  description = "The Bots name as it appears in Discord"
+}

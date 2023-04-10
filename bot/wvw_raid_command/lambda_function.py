@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import boto3
 import pendulum
 import pendulum.parsing
@@ -40,8 +42,8 @@ def lambda_handler(event, context):
         template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
     except BaseException as e:
         print('Error while doing wvw raid operation')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
 
 def add_wvw_raid(subcommand, guild_id, info):

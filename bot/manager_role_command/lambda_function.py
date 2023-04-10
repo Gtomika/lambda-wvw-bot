@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import boto3
 
 from bot.commons import discord_interactions
@@ -20,13 +22,20 @@ def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
     guild_id = discord_utils.extract_guild_id(event)
 
-    subcommand = discord_utils.extract_subcommand(event)
-    if subcommand['name'] == 'add':
-        add_manager_role(event, subcommand, guild_id, info)
-    elif subcommand['name'] == 'delete':
-        remove_manager_role(event, subcommand, guild_id, info)
-    else:  # list, can be done by anyone
-        list_manager_roles(guild_id, info)
+    try:
+        subcommand = discord_utils.extract_subcommand(event)
+        if subcommand['name'] == 'add':
+            add_manager_role(event, subcommand, guild_id, info)
+        elif subcommand['name'] == 'delete':
+            remove_manager_role(event, subcommand, guild_id, info)
+        else:  # list, can be done by anyone
+            list_manager_roles(guild_id, info)
+    except common_exceptions.CommandUnauthorizedException:
+        template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
+    except BaseException as e:
+        print(f'Failed to add manager role for guild with ID {guild_id}')
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
 
 def add_manager_role(event, subcommand, guild_id, info):
@@ -35,19 +44,13 @@ def add_manager_role(event, subcommand, guild_id, info):
 
         role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
         # TODO added variable not used for now
-        added = repo.add_manager_role(guild_id, role_id)
+        repo.add_manager_role(guild_id, role_id)
         success_message = template_utils.get_localized_template(templates.manager_role_added, info.locale)\
             .format(role=discord_utils.mention_role(role_id))
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except common_exceptions.CommandUnauthorizedException:
-        template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
     except discord_utils.OptionNotFoundException:
         message = template_utils.get_localized_template(templates.role_not_provided, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
-    except BaseException as e:
-        print(f'Failed to add manager role for guild with ID {guild_id}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
 def remove_manager_role(event, subcommand, guild_id, info):
@@ -56,34 +59,24 @@ def remove_manager_role(event, subcommand, guild_id, info):
 
         role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
         # TODO removed variable not used for now
-        removed = repo.delete_manager_role(guild_id, role_id)
+        repo.delete_manager_role(guild_id, role_id)
         success_message = template_utils.get_localized_template(templates.manager_role_removed, info.locale) \
             .format(role=discord_utils.mention_role(role_id))
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except common_exceptions.CommandUnauthorizedException:
-        template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
     except discord_utils.OptionNotFoundException:
         message = template_utils.get_localized_template(templates.role_not_provided, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
-    except BaseException as e:
-        print(f'Failed to remove manager role for guild with ID {guild_id}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
 
 
 def list_manager_roles(guild_id, info):
-    try:
-        manager_roles = repo.get_manager_roles(guild_id)
-        if len(manager_roles) > 0:
-            roles_data = build_formatted_roles(manager_roles)
-            success_message = template_utils.get_localized_template(templates.manager_role_listed, info.locale).format(roles=roles_data)
-        else:
-            success_message = template_utils.get_localized_template(templates.manager_roles_empty, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except BaseException as e:
-        print(f'Failed to list manager roles for guild with ID {guild_id}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+    manager_roles = repo.get_manager_roles(guild_id)
+    if len(manager_roles) > 0:
+        roles_data = build_formatted_roles(manager_roles)
+        success_message = template_utils.get_localized_template(templates.manager_role_listed, info.locale).format(
+            roles=roles_data)
+    else:
+        success_message = template_utils.get_localized_template(templates.manager_roles_empty, info.locale)
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
 
 
 def build_formatted_roles(role_ids) -> str:

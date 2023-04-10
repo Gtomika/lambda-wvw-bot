@@ -6,6 +6,8 @@ loading_emote_id = 971306366687928371
 gem_emote_id = 970640961468248144
 commander_emote_id = 970638912458469426
 
+developer_id = "416289572289249280"
+
 admin_permission = 0x0000000000000008
 
 

@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import boto3
 
 from bot.commons import discord_interactions
@@ -35,8 +37,8 @@ def lambda_handler(event, context):
             discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
     except BaseException as e:
         print(f'Failed to save/delete API key of user with ID {str(info.user_id)}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
 
 

@@ -1,10 +1,10 @@
+import traceback
+
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
 from bot.commons import template_utils
 from . import templates
 
-
-discord_developer_id = "416289572289249280"
 documentation_url = 'https://gtomika.github.io/mod-wvw-bot/'  # TODO update this
 
 
@@ -19,7 +19,7 @@ def lambda_handler(event, context):
             locale=info.locale
         )
         message = response_template.format(
-            developer=discord_utils.mention_user(discord_developer_id),
+            developer=discord_utils.mention_user(discord_utils.developer_id),
             emote_docu=discord_utils.default_emote('bookmark_tabs'),
             docu_url=discord_utils.escaped_link(documentation_url),
             emote_e=discord_utils.default_emote('regional_indicator_e'),
@@ -31,5 +31,5 @@ def lambda_handler(event, context):
         )
     except BaseException as e:
         print(f'Error while responding to help command of user {info.username}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)

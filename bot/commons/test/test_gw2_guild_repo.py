@@ -17,6 +17,7 @@ mock_guild_id = "12475414"
 mock_home_world = 1001
 mock_role_id = "239348"
 mock_channel_id = "3857173"
+mock_webhook_url = "https://discord.webhook.com/xc/abc"
 
 
 def create_guilds_table(dynamodb_resource, table_name: str):
@@ -63,14 +64,12 @@ class TestGw2GuildRepo(unittest.TestCase):
         manager_roles = repo.get_manager_roles(mock_guild_id)
         self.assertEqual([], manager_roles)
 
-        added = repo.add_manager_role(mock_guild_id, mock_role_id)
+        repo.add_manager_role(mock_guild_id, mock_role_id)
         manager_roles = repo.get_manager_roles(mock_guild_id)
-        self.assertTrue(added)
         self.assertEqual([mock_role_id], manager_roles)
 
-        deleted = repo.delete_manager_role(mock_guild_id, mock_role_id)
+        repo.delete_manager_role(mock_guild_id, mock_role_id)
         manager_roles = repo.get_manager_roles(mock_guild_id)
-        self.assertTrue(deleted)
         self.assertEqual([], manager_roles)
 
     @moto.mock_dynamodb
@@ -82,14 +81,12 @@ class TestGw2GuildRepo(unittest.TestCase):
         wvw_roles = repo.get_wvw_roles(mock_guild_id)
         self.assertEqual([], wvw_roles)
 
-        added = repo.add_wvw_role(mock_guild_id, mock_role_id)
+        repo.add_wvw_role(mock_guild_id, mock_role_id)
         wvw_roles = repo.get_wvw_roles(mock_guild_id)
-        self.assertTrue(added)
         self.assertEqual([mock_role_id], wvw_roles)
 
-        deleted = repo.delete_wvw_role(mock_guild_id, mock_role_id)
+        repo.delete_wvw_role(mock_guild_id, mock_role_id)
         wvw_roles = repo.get_wvw_roles(mock_guild_id)
-        self.assertTrue(deleted)
         self.assertEqual([], wvw_roles)
 
     @moto.mock_dynamodb
@@ -101,15 +98,16 @@ class TestGw2GuildRepo(unittest.TestCase):
         channels = repo.get_announcement_channels(mock_guild_id)
         self.assertEqual([], channels)
 
-        added = repo.add_announcement_channel(mock_guild_id, mock_channel_id)
+        repo.add_announcement_channel(mock_guild_id, mock_channel_id, mock_webhook_url)
         channels = repo.get_announcement_channels(mock_guild_id)
-        self.assertEqual([mock_channel_id], channels)
-        self.assertTrue(added)
+        self.assertEqual([{
+            'id': mock_channel_id,
+            'webhook': mock_webhook_url
+        }], channels)
 
-        deleted = repo.delete_announcement_channel(mock_guild_id, mock_channel_id)
+        repo.delete_announcement_channel(mock_guild_id, mock_channel_id)
         channels = repo.get_announcement_channels(mock_guild_id)
         self.assertEqual([], channels)
-        self.assertTrue(deleted)
 
 
 if __name__ == "__main__":

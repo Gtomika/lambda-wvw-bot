@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import boto3
 import pendulum
 
@@ -42,8 +44,8 @@ def lambda_handler(event, context):
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except BaseException as e:
         print(f'Error while creating matchup report of guild with id {guild_id}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
 
 def create_matchup_report(home_world_id: int) -> matchup_utils.Matchup:

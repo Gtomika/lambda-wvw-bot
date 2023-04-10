@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import boto3
 
 from bot.commons import discord_interactions
@@ -52,8 +54,8 @@ def lambda_handler(event, context):
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except BaseException as e:
         print(f'Error while getting WvW rank of user {info.username}')
-        print(e)
-        template_utils.format_and_respond_internal_error(discord_interactions, info)
+        traceback.print_exc()
+        template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
 
 def find_wvw_title(users_wvw_rank, wvw_ranks_data):
