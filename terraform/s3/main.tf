@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "assets_bucket_policy" {
   statement {
     sid = "AllowPublicGet"
     effect = "Allow"
-    actions = ["s3:GetItem"]
+    actions = ["s3:GetObject"]
     principals {
       identifiers = ["*"]
       type        = "*"
