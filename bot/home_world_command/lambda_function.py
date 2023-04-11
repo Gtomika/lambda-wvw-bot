@@ -110,8 +110,7 @@ def find_home_world_with_name(home_world_array, home_world: str):
     raise common_exceptions.NotFoundException
 
 
-def get_localized_population(home_world_data, locale) -> str:
-    population = home_world_data['population']
+def get_localized_population(population: str, locale: str) -> str:
     localized_populations = template_utils.get_localized_template(templates.populations, locale)
     return localized_populations[population]
 

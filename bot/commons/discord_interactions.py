@@ -56,5 +56,7 @@ def create_webhook_message(webhook_url: str, message: str, personality: WebhookP
     }, timeout=discord_interaction_timeout)
 
     if response.status_code >= 400:
-        print(f'Error response from Discord API while making webhook call to {webhook_url} The message was: {message}')
+        print(f"""Error response from Discord API while making webhook request
+        - Status {response.status_code}
+        - Response: {response.text}""")
 

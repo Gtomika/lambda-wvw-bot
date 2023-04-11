@@ -7,5 +7,5 @@ output "assets_bucket_name" {
 }
 
 output "app_icon_url" {
-  value = "${aws_s3_bucket.assets_bucket.bucket_regional_domain_name}/${var.key_of_app_icon}"
+  value = "https://${aws_s3_bucket.assets_bucket.bucket_regional_domain_name}/${var.key_of_app_icon}"
 }
