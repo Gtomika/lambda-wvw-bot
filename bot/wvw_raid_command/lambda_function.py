@@ -87,7 +87,7 @@ def list_wvw_raids(guild_id, info):
 
 
 def create_all_raid_descriptions(raids, locale: str) -> str:
-    raids_sorted_by_days = sorted(raids, key=lambda x: time_utils.day_mappings[x['day']])
+    raids_sorted_by_days = sorted(raids, key=lambda x: time_utils.day_mappings[x.day])
     descriptions = []
     for raid in raids_sorted_by_days:
         descriptions.append(create_raid_description(raid, locale))

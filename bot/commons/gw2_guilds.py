@@ -16,14 +16,6 @@ class WvwRaid:
         self.dur = duration_hours
 
 
-def __raid_from_dict(raid_dict) -> WvwRaid:
-    """
-    Convert dict extracted from dynamodb into WvW raid object.
-    Should not be used on any other dict.
-    """
-    return WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'], raid_dict['dur'], raid_dict['rep'])
-
-
 guild_id_field_name = 'GuildId'
 home_world_field_name = 'HomeWorld'
 announcement_channels_field_name = 'AnnouncementChannels'
@@ -256,7 +248,7 @@ class Gw2GuildRepo:
         try:
             guild = self.__get_guild(guild_id)
             if wvw_raids_field_name in guild:
-                return guild[wvw_raids_field_name]
+                return [self.__raid_from_dict(raid_dict) for raid_dict in guild[wvw_raids_field_name]]
             else:
                 return []
         except common_exceptions.NotFoundException:
@@ -279,4 +271,12 @@ class Gw2GuildRepo:
             return self.__get_guild(guild_id)
         except common_exceptions.NotFoundException:
             return self.__empty_guild(guild_id)
+
+    def __raid_from_dict(self, raid_dict) -> WvwRaid:
+        """
+        Convert dict extracted from dynamodb into WvW raid object.
+        Should not be used on any other dict.
+        """
+        return WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'], raid_dict['dur'])
+
 
