@@ -166,5 +166,10 @@ locals {
       })
     }
 
+    WvwDaily = {
+      policy    = data.aws_iam_policy_document.log_policy
+      variables = local.common_variables
+    }
+
   }
 }

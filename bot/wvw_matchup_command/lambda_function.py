@@ -23,17 +23,16 @@ def lambda_handler(event, context):
     info = discord_utils.extract_info(event)
     guild_id = discord_utils.extract_guild_id(event)
     try:
-        home_world_id = repo.get_guild_home_world(guild_id)
+        home_world = repo.get_guild_home_world(guild_id)
 
         loading_message = template_utils.get_localized_template(templates.matchup_calculation_in_progress, info.locale).format(
             emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id)
         )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
 
-        home_world = gw2_api_interactions.get_home_world_by_id(home_world_id)
         home_world = matchup_utils.WvwWorld(world_id=home_world['id'], world_name=home_world['name'])
 
-        matchup = create_matchup_report(home_world_id)
+        matchup = create_matchup_report(home_world.world_id)
         success_message = format_matchup_report(home_world, matchup, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
     except common_exceptions.NotFoundException:

@@ -195,12 +195,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Package next wvw raid lambda
+      - name: Package wvw raid lambda
         run: zip -r wvw_raid_lambda.zip bot/wvw_raid_command/* -x bot/wvw_raid_command/test/*
       - uses: actions/upload-artifact@v3
         with:
           name: wvw-raid-lambda-package
           path: wvw_raid_lambda.zip
+    needs: [ run-test-discord-interaction, run-tests-commons ]
+
+  package-wvw-daily-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Package wvw daily lambda
+        run: zip -r wvw_daily_lambda.zip bot/wvw_daily_command/* -x bot/wvw_daily_command/test/*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wvw-daily-lambda-package
+          path: wvw_daily_lambda.zip
     needs: [ run-test-discord-interaction, run-tests-commons ]
 
   terraform-validate:
@@ -225,7 +237,8 @@ jobs:
       package-common-layer, package-discord-interaction-lambda, package-help-lambda,
       package-api-key-lambda, package-manager-role-lambda, package-wvw-role-lambda,
       package-wvw-rank-lambda, package-wvw-matchup-lambda, package-next-wvw-matchup-lambda,
-      package-announcement-channel-lambda, package-home-world-lambda, package-wvw-raid-lambda]
+      package-announcement-channel-lambda, package-home-world-lambda, package-wvw-raid-lambda,
+      package-wvw-daily-lambda]
 
   terraform-plan-stg:
     environment: staging

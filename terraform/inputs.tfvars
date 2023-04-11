@@ -77,6 +77,13 @@ command_data = [
     handler = "bot/wvw_raid_command/lambda_function.lambda_handler"
     path_to_deployment_package = "../wvw-raid-lambda-package/wvw_raid_lambda.zip"
     timeout_seconds = 3
+  },
+  {
+    command_name = "WvwDaily"
+    command_name_discord = "wvw_daily"
+    handler = "bot/wvw_daily_command/lambda_function.lambda_handler"
+    path_to_deployment_package = "../wvw-daily-lambda-package/wvw_daily_lambda.zip"
+    timeout_seconds = 3
   }
 ]
 

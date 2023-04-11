@@ -47,6 +47,15 @@ def get_wvw_matchup_report_by_id(matchup_id: str):
     return gw2_api_request(api_key=None, url=f'/wvw/matches/{matchup_id}')
 
 
+def get_daily_achievements():
+    return gw2_api_request(api_key=None, url='/achievements/daily')
+
+
+def get_achievements_by_ids(ids):
+    ids_query = ','.join([str(achi_id) for achi_id in ids])
+    return gw2_api_request(api_key=None, url=f'/achievements?ids{ids_query}')
+
+
 def gw2_api_request(api_key, url: str):
     headers = {
             'Authorization': f'Bearer {api_key}'
@@ -59,9 +68,12 @@ def gw2_api_request(api_key, url: str):
     )
     code = response.status_code
     if code == 401 or code == 403:
-        raise ApiKeyUnauthorizedException(f'Unauthorized to make response to GW2 API - code: {response.status_code}, content: {response.content}')
+        print(f'Unauthorized to make response to GW2 API - code: {response.status_code}, content: {response.content}')
+        raise ApiKeyUnauthorizedException
     if 400 <= code < 500:
-        raise BadRequestException(f'Bad request made to GW2 API - code: {response.status_code}, content: {response.content}')
+        print(f'Bad request made to GW2 API - code: {response.status_code}, content: {response.content}')
+        raise BadRequestException
     if response.status_code >= 500:
-        raise ApiException(f'Internal error from GW2 API - code: {response.status_code}, content: {response.content}')
+        print(f'Internal error from GW2 API - code: {response.status_code}, content: {response.content}')
+        raise ApiException()
     return response.json()

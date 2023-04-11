@@ -16,8 +16,7 @@ def get_localized_template(template_map, locale: str):
 
 common_template_internal_error = {
     'hu': """Ismeretlen hiba történt! Kérlek próbáld újra, és ha ez továbbra is fent áll, jelezd a készítőmnek!
-    - Figyelem, {developer}, ezt a hibát vizsgáld meg!
-    """
+ - Figyelem, {developer}, ezt a hibát vizsgáld meg!"""
 }
 
 
@@ -41,11 +40,10 @@ def format_and_respond_to_command_unauthorized(discord_interactions, discord_uti
 
 common_template_api_key_required = {
     'hu': """Ahhoz, hogy ezt a parancsot végre tudjam hajtani, szükségem van egy GW2 API kulcsra {emote_key}
-      - Ilyet az ArenaNet fiókodnál tudsz létrehozni: {anet_applications_url}
-      - Add hozzá **legalább** ezeket az engedélyeket: {permissions}
-      - Add meg nekem a '/api_key_add' paranccsal.
-      - Az API kulcs megadása semmilyen veszélyt nem jelent a GW2 fiókodra. Itt olvashatsz róla bővebben: {api_key_info_url} 
-    """
+- Ilyet az ArenaNet fiókodnál tudsz létrehozni: {anet_applications_url}
+- Add hozzá **legalább** ezeket az engedélyeket: {permissions}
+- Add meg nekem a '/api_key_add' paranccsal.
+- Az API kulcs megadása semmilyen veszélyt nem jelent a GW2 fiókodra. Itt olvashatsz róla bővebben: {api_key_info_url}"""
 }
 
 
@@ -61,10 +59,9 @@ def format_and_respond_api_key_required(discord_interactions, discord_utils, inf
 
 common_template_api_key_unauthorized = {
     'hu': """Az API kulcsodnak {emote_key} nincs meg minden szükséges engedélye, ezért a parancs végrehajtása nem sikerült.
-      - Ilyet az ArenaNet fiókodnál tudsz létrehozni: {anet_applications_url}
-      - Add hozzá **legalább** ezeket az engedélyeket: {permissions}
-      - Az új kulcsot add meg nekem a '/api_key_add' parancssal. 
-    """
+- Ilyet az ArenaNet fiókodnál tudsz létrehozni: {anet_applications_url}
+- Add hozzá **legalább** ezeket az engedélyeket: {permissions}
+- Az új kulcsot add meg nekem a '/api_key_add' parancssal."""
 }
 
 
@@ -79,7 +76,7 @@ def format_and_respond_api_key_unauthorized(discord_interactions, discord_utils,
 
 common_template_gw2_api_error = {
     'hu': """A GW2 API hibás választ adott, vagy nem válaszolt: sajnos ez előfordul, kérlek próbáld meg újra.
-     - Reset után néhány óráig a WvW API megbízhatatlan. Ebben az esetben érdemes várni."""
+- Reset után néhány óráig a WvW API megbízhatatlan. Ebben az esetben érdemes várni."""
 }
 
 

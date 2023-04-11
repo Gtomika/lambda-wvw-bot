@@ -24,27 +24,26 @@ def lambda_handler(event, context):
     info = discord_utils.extract_info(event)
     guild_id = discord_utils.extract_guild_id(event)
     try:
-        home_world_id = repo.get_guild_home_world(guild_id)
+        home_world = repo.get_guild_home_world(guild_id)
 
         loading_message = template_utils.get_localized_template(templates.matchup_calculation_in_progress, info.locale).format(
             emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id)
         )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
 
-        home_world = gw2_api_interactions.get_home_world_by_id(home_world_id)
         home_world = matchup_utils.WvwWorld(world_id=home_world['id'], world_name=home_world['name'])
 
-        matchup = create_matchup_report(home_world_id)
+        matchup = create_matchup_report(home_world.world_id)
         if matchup_utils.is_relink(matchup.end_at):
             raise RelinkException
 
-        predicted_result, predicted_tier = predict_results(home_world_id, matchup)
+        predicted_result, predicted_tier = predict_results(home_world.world_id, matchup)
         predicted_sides = predict_next_matchup_sides(
             current_matchup=matchup,
             predicted_tier=predicted_tier,
             predicted_result=predicted_result,
-            home_world_side=matchup.get_side_of_world(home_world_id),
-            home_world_placement=matchup.get_placement_of_world(home_world_id)
+            home_world_side=matchup.get_side_of_world(home_world.world_id),
+            home_world_placement=matchup.get_placement_of_world(home_world.world_id)
         )
         format_and_respond_with_prediction(info, predicted_sides, predicted_tier, predicted_result, home_world)
     except common_exceptions.NotFoundException:
