@@ -1,3 +1,10 @@
+
+locals {
+  common_layer_package_path = "${path.module}/${var.commons_layer_deployment_path}"
+  discord_interaction_lambda_package_path = "${path.module}/${var.discord_interaction_lambda_data.path_to_deployment_package}"
+  scheduled_lambda_package_path = "${path.module}/${var.scheduled_lambda_data.path_to_deployment_package}"
+}
+
 module "s3" {
   source = "./s3"
   app_name = var.app_name
@@ -14,9 +21,33 @@ module "dynamodb_tables" {
   environment = var.environment
 }
 
-locals {
-  common_layer_package_path = "${path.module}/${var.commons_layer_deployment_path}"
-  discord_interaction_lambda_package_path = "${path.module}/${var.discord_interaction_lambda_data.path_to_deployment_package}"
+module "scheduled_lambda" {
+  source = "./scheduled_lambda"
+
+  app_name = var.app_name
+  aws_region = var.aws_region
+  environment = var.environment
+
+  handler_name = var.scheduled_lambda_data.handler
+  path_to_deployment_package = local.scheduled_lambda_package_path
+  common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
+
+  environment_variables = {
+    APPLICATION_ID = var.discord_application_id
+    BOT_TOKEN = var.discord_bot_token
+    # TODO pass table names
+  }
+  log_retention_days = var.log_retention_days
+}
+
+module "scheduler" {
+  source = "./event_bridge_scheduler"
+
+  app_name = var.app_name
+  aws_region = var.aws_region
+  environment = var.environment
+
+  scheduled_lambda_arn = module.scheduled_lambda.scheduled_lambda_arn
 }
 
 # The lambda layer that contains the libraries

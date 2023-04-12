@@ -6,6 +6,10 @@ output "discord_interaction_lambda_arn" {
   value = module.discord_interaction_lambda.discord_interaction_lambda_arn
 }
 
+output "scheduled_lambda_arn" {
+  value = module.scheduled_lambda.scheduled_lambda_arn
+}
+
 output "command_handler_lambda_names" {
   value = [for command_handler_module in module.command_lambda_modules: {
     command_name_discord: command_handler_module.command_name_discord
@@ -32,4 +36,8 @@ output "assets_s3_bucket_arn" {
 
 output "app_icon_url" {
   value = module.s3.app_icon_url
+}
+
+output "schedule_group_arn" {
+  value = module.scheduler.schedule_group_arn
 }

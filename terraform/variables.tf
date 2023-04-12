@@ -16,6 +16,13 @@ variable "discord_interaction_lambda_data" {
   })
 }
 
+variable "scheduled_lambda_data" {
+  type = object({
+    handler: string
+    path_to_deployment_package: string
+  })
+}
+
 variable "command_data" {
   type = list(object({
     command_name: string # Terraform friendly command name

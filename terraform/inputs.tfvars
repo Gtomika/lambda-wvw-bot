@@ -7,6 +7,11 @@ discord_interaction_lambda_data = {
   path_to_deployment_package = "../discord-interaction-lambda-package/discord_interaction_lambda.zip"
 }
 
+scheduled_lambda_data = {
+  handler = "bot/scheduled_lambda_function/lambda_function.lambda_handler"
+  path_to_deployment_package = "../scheduled-lambda-package/scheduled_lambda.zip"
+}
+
 command_data = [
   {
     command_name = "Help"

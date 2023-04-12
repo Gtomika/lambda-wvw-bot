@@ -1,3 +1,14 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.60.0"
+    }
+  }
+
+  backend "s3" {} # set dynamically
+}
+
 provider "aws" {
   # these credentials do not allow access: for that role must be assumed
   access_key = var.aws_key_id
@@ -19,8 +30,4 @@ provider "aws" {
       owner = "Tamas Gaspar"
     }
   }
-}
-
-terraform {
-  backend "s3" {} # set dynamically
 }

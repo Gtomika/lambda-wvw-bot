@@ -33,3 +33,11 @@ to write messages to the specified channels.
 A GitHub pipeline is created which runs tests, packages all lambda functions and finally: runs Terraform to 
 provision the infrastructure in AWS. Slash commands are also registered by the pipeline.
 
+## Invite links
+
+Staging bot. You cannot add it, not public.
+
+```https://discord.com/api/oauth2/authorize?client_id=968767607501115462&permissions=2048&scope=applications.commands%20bot```
+
+Live bot. TODO
+

@@ -2,9 +2,11 @@ ACK_TYPE = 1
 RESPONSE_TYPE = 4
 DEFER_TYPE = 5
 
-loading_emote_id = 971306366687928371
-gem_emote_id = 970640961468248144
-commander_emote_id = 970638912458469426
+loading_emote_id = 1095760395198808214
+gem_emote_id = 1095760385149243443
+commander_emote_id = 1095760375393308723
+reward_potion_emote_id = 1095760398902362256
+gold_emote_id = 1095767249475866765
 
 developer_id = "416289572289249280"
 

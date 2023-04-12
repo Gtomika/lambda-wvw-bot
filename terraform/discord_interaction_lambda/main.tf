@@ -50,7 +50,7 @@ resource "aws_iam_role" "discord_interaction_role" {
   name = "DiscordInteraction-${var.app_name}-${var.environment}-${var.aws_region}"
   assume_role_policy = data.aws_iam_policy_document.discord_interaction_assume_role_policy.json
   inline_policy {
-    name = "AllowLambdaToLog"
+    name = "AllowLambdaToLogAndInvoke"
     policy = data.aws_iam_policy_document.discord_interaction_policy.json
   }
 }

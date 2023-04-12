@@ -3,6 +3,8 @@ import requests
 gw2_api_base_url = 'https://api.guildwars2.com/v2'
 gw2_api_timeout = 10  # sec
 
+wvw_potion_api_id = 78485
+
 
 # GW2 API 500
 class ApiException(Exception):
@@ -53,7 +55,12 @@ def get_daily_achievements():
 
 def get_achievements_by_ids(ids):
     ids_query = ','.join([str(achi_id) for achi_id in ids])
-    return gw2_api_request(api_key=None, url=f'/achievements?ids{ids_query}')
+    return gw2_api_request(api_key=None, url=f'/achievements?ids={ids_query}')
+
+
+def get_achievement_progress_by_ids(api_key: str, ids):
+    ids_query = ','.join([str(achi_id) for achi_id in ids])
+    return gw2_api_request(api_key=api_key, url=f'/account/achievements?ids={ids_query}')
 
 
 def gw2_api_request(api_key, url: str):
@@ -77,3 +84,14 @@ def gw2_api_request(api_key, url: str):
         print(f'Internal error from GW2 API - code: {response.status_code}, content: {response.content}')
         raise ApiException()
     return response.json()
+
+
+def get_reward_amount_from_achievement(achievement, item_id: int) -> int:
+    """
+    Find how much of a certain item the achievement rewards. Item id is expected in GW2 API format.
+    If there is no such reward, 0 is returned.
+    """
+    for reward in achievement['rewards']:
+        if reward['type'] == 'Item' and reward['id'] == item_id:
+            return reward['count']
+    return 0
