@@ -3,6 +3,7 @@ locals {
   common_layer_package_path = "${path.module}/${var.commons_layer_deployment_path}"
   discord_interaction_lambda_package_path = "${path.module}/${var.discord_interaction_lambda_data.path_to_deployment_package}"
   scheduled_lambda_package_path = "${path.module}/${var.scheduled_lambda_data.path_to_deployment_package}"
+  command_lambda_path_prefix = "${path.module}/../command-lambda-packages/command_lambda_packages"
 }
 
 module "s3" {
@@ -71,7 +72,7 @@ module "command_lambda_modules" {
   command_name_discord = var.command_data[count.index].command_name_discord
   handler_name = var.command_data[count.index].handler
   timeout_seconds = var.command_data[count.index].timeout_seconds
-  path_to_deployment_package = "${path.module}/${var.command_data[count.index].path_to_deployment_package}"
+  path_to_deployment_package = "${local.command_lambda_path_prefix}/${var.command_data[count.index].package_zip_name}"
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
 
   # in the pre-defined map, find the policy and the variables for this lambda

@@ -28,6 +28,14 @@ by a user).
 To send messages without an interaction, scheduled lambda functions are used, which trigger **Discord webhooks** 
 to write messages to the specified channels.
 
+### GW2 API side
+
+The GW2 API is used to read data about the game and the users who provided API keys to the bot. Including but not limited to:
+
+ - WvW matchup data.
+ - Items in player bank or characters.
+ - Achievement details and progress.
+
 ## CI/CD and IaC
 
 A GitHub pipeline is created which runs tests, packages all lambda functions and finally: runs Terraform to 

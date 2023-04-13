@@ -28,7 +28,7 @@ variable "command_data" {
     command_name: string # Terraform friendly command name
     command_name_discord: string # command name as it is in Discord
     handler: string # path to handler
-    path_to_deployment_package: string # deployment ZIP path relative to terraform root module
+    package_zip_name: string # deployment ZIP name
     timeout_seconds: number # lambda timeout
   }))
   description = "All the commands that the bot must process"
