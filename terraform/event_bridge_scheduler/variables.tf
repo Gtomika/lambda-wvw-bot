@@ -27,6 +27,6 @@ variable "time_zone" {
 
 variable "wvw_reset_cron" {
   type = string
-  default = "30 18 * * FRI"
+  default = "30 18 * * FRI *"
   description = "Every friday at 18:30, this way it works no matter if reset is 19:00 or 20:00"
 }

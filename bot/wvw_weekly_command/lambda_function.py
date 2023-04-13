@@ -15,6 +15,10 @@ dynamodb_resource = boto3.resource('dynamodb')
 gw2_users_table_name = os.environ['GW2_USERS_TABLE_NAME']
 repo = gw2_users.Gw2UsersRepo(gw2_users_table_name, dynamodb_resource)
 
+# Unfortunately there is no API to get these IDs unlike the dailies -> not all of them are even present in the API
+# however, they are static
+
+
 
 def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
@@ -24,17 +28,13 @@ def lambda_handler(event, context):
         )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
 
-        # it's an array of achievement IDs
-        daily_wvw_achievements = gw2_api_interactions.get_daily_achievements()['wvw']
-        daily_wvw_achievement_ids = [achi['id'] for achi in daily_wvw_achievements]
-
         # ask the details of these achievements from the API
-        daily_wvw_achievements_details = gw2_api_interactions.get_achievements_by_ids(daily_wvw_achievement_ids)
+        weekly_wvw_achievements_details = gw2_api_interactions.get_achievements_by_ids(weekly_wvw_achievement_ids)
 
         # ask how the user progressed with these achievements: may be None if no key was added
-        progress_array = fetch_progress_if_api_key_provided(info.user_id, daily_wvw_achievement_ids)
+        progress_array = fetch_progress_if_api_key_provided(info.user_id, weekly_wvw_achievement_ids)
 
-        compile_daily_achievements(daily_wvw_achievements_details, progress_array, info)
+        compile_weekly_achievements(weekly_wvw_achievements_details, progress_array, info)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except BaseException as e:
@@ -57,7 +57,7 @@ def fetch_progress_if_api_key_provided(user_id, daily_wvw_achievement_ids):
         return None
 
 
-def compile_daily_achievements(achievement_details_array, progress_array, info: discord_utils.InteractionInfo):
+def compile_weekly_achievements(achievement_details_array, progress_array, info: discord_utils.InteractionInfo):
     potion_emote = discord_utils.custom_emote('wvw_potion', discord_utils.reward_potion_emote_id)
     detail_strings = []
     for achievement in achievement_details_array:
@@ -79,7 +79,8 @@ def compile_daily_achievements(achievement_details_array, progress_array, info: 
         detail_strings.append(detail_string)
 
     total_rewards_string = template_utils.get_localized_template(templates.total_rewards, info.locale).format(
-        emote_gold=discord_utils.custom_emote('gw2_gold', discord_utils.gold_emote_id)
+        emote_gold=discord_utils.custom_emote('gw2_gold', discord_utils.gold_emote_id),
+        emote_potion=potion_emote
     )
 
     if progress_array is not None:

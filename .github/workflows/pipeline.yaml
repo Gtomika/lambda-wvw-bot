@@ -95,137 +95,41 @@ jobs:
           path: scheduled_lambda.zip
     needs: [ run-test-discord-interaction, run-tests-commons ]
 
-  package-help-lambda:
+  package-command-lambdas:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Prepare packages folder
+        run: mkdir command_lambda_packages
       - name: Package help command lambda
-        run: zip -r help_lambda.zip bot/help_command/* -x bot/help_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: help-lambda-package
-          path: help_lambda.zip
-    needs: [run-test-discord-interaction, run-tests-commons]
-
-  package-api-key-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/help_lambda.zip bot/help_command/* -x bot/help_command/test/*
       - name: Package api key add lambda
-        run: zip -r api_key_lambda.zip bot/api_key_command/* -x bot/api_key_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: api-key-lambda-package
-          path: api_key_lambda.zip
-    needs: [run-test-discord-interaction, run-tests-commons]
-
-  package-home-world-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/api_key_lambda.zip bot/api_key_command/* -x bot/api_key_command/test/*
       - name: Package home world lambda
-        run: zip -r home_world_lambda.zip bot/home_world_command/* -x bot/home_world_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: home-world-lambda-package
-          path: home_world_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-manager-role-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/home_world_lambda.zip bot/home_world_command/* -x bot/home_world_command/test/*
       - name: Package manager role lambda
-        run: zip -r manager_role_lambda.zip bot/manager_role_command/* -x bot/manager_role_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: manager-role-lambda-package
-          path: manager_role_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-wvw-role-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/manager_role_lambda.zip bot/manager_role_command/* -x bot/manager_role_command/test/*
       - name: Package wvw role lambda
-        run: zip -r wvw_role_lambda.zip bot/wvw_role_command/* -x bot/wvw_role_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: wvw-role-lambda-package
-          path: wvw_role_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-wvw-rank-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/wvw_role_lambda.zip bot/wvw_role_command/* -x bot/wvw_role_command/test/*
       - name: Package wvw rank lambda
-        run: zip -r wvw_rank_lambda.zip bot/wvw_rank_command/* -x bot/wvw_rank_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: wvw-rank-lambda-package
-          path: wvw_rank_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-wvw-matchup-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/wvw_rank_lambda.zip bot/wvw_rank_command/* -x bot/wvw_rank_command/test/*
       - name: Package wvw matchup lambda
-        run: zip -r wvw_matchup_lambda.zip bot/wvw_matchup_command/* -x bot/wvw_matchup_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: wvw-matchup-lambda-package
-          path: wvw_matchup_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-next-wvw-matchup-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/wvw_matchup_lambda.zip bot/wvw_matchup_command/* -x bot/wvw_matchup_command/test/*
       - name: Package next wvw matchup lambda
-        run: zip -r next_wvw_matchup_lambda.zip bot/next_wvw_matchup_command/* -x bot/next_wvw_matchup_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: next-wvw-matchup-lambda-package
-          path: next_wvw_matchup_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-announcement-channel-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/next_wvw_matchup_lambda.zip bot/next_wvw_matchup_command/* -x bot/next_wvw_matchup_command/test/*
       - name: Package next announcement channel lambda
-        run: zip -r announcement_channel_lambda.zip bot/announcement_channel_command/* -x bot/announcement_channel_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: announcement-channel-lambda-package
-          path: announcement_channel_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-wvw-raid-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/announcement_channel_lambda.zip bot/announcement_channel_command/* -x bot/announcement_channel_command/test/*
       - name: Package wvw raid lambda
-        run: zip -r wvw_raid_lambda.zip bot/wvw_raid_command/* -x bot/wvw_raid_command/test/*
-      - uses: actions/upload-artifact@v3
-        with:
-          name: wvw-raid-lambda-package
-          path: wvw_raid_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
-
-  package-wvw-daily-lambda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+        run: zip -r command_lambda_packages/wvw_raid_lambda.zip bot/wvw_raid_command/* -x bot/wvw_raid_command/test/*
       - name: Package wvw daily lambda
-        run: zip -r wvw_daily_lambda.zip bot/wvw_daily_command/* -x bot/wvw_daily_command/test/*
+        run: zip -r command_lambda_packages/wvw_daily_lambda.zip bot/wvw_daily_command/* -x bot/wvw_daily_command/test/*
+      - name: Package wvw weekly lambda
+        run: zip -r command_lambda_packages/wvw_weekly_lambda.zip bot/wvw_weekly_command/* -x bot/wvw_weekly_command/test/*
       - uses: actions/upload-artifact@v3
         with:
-          name: wvw-daily-lambda-package
-          path: wvw_daily_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
+          name: command-lambda-packages
+          path: command_lambda_packages/
+    needs: [run-test-discord-interaction, run-tests-commons]
 
   terraform-validate:
     environment: staging # does not matter technically
@@ -246,11 +150,7 @@ jobs:
           terraform init -backend-config="bucket=$TERRAFORM_STATE_BUCKET" -backend-config="key=$TERRAFORM_STATE_FILE" -backend-config="region=$AWS_REGION"
           terraform validate
     needs: [
-      package-common-layer, package-discord-interaction-lambda, package-help-lambda,
-      package-api-key-lambda, package-manager-role-lambda, package-wvw-role-lambda,
-      package-wvw-rank-lambda, package-wvw-matchup-lambda, package-next-wvw-matchup-lambda,
-      package-announcement-channel-lambda, package-home-world-lambda, package-wvw-raid-lambda,
-      package-wvw-daily-lambda, package-scheduled-lambda]
+      package-common-layer, package-discord-interaction-lambda, package-scheduled-lambda, package-command-lambdas]
 
   terraform-plan-stg:
     environment: staging

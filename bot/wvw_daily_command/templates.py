@@ -8,16 +8,12 @@ achievements_response = {
 {summary}"""
 }
 
-achievement_detail = {
-    'hu': "**{name}**{emote_status}: {description} ({potion_amount} {emote_potion})"
-}
-
 summary_progress = {
     'hu': 'A heti teljesítményeket a */wvw_weekly* utasítással kérdezheted le.'
 }
 
 total_rewards = {
-    'hu': 'Összesített jutalom: 2 {emote_gold}. Három teljesítmény szükséges hozzá.'
+    'hu': 'Összesített jutalom: 2 {emote_gold}. Három teljesítmény szükséges hozzá és éjjel 2 körül van a reset.'
 }
 
 summary_no_progress = {
