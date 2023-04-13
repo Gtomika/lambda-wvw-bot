@@ -3,7 +3,7 @@ locals {
   common_layer_package_path = "${path.module}/${var.commons_layer_deployment_path}"
   discord_interaction_lambda_package_path = "${path.module}/${var.discord_interaction_lambda_data.path_to_deployment_package}"
   scheduled_lambda_package_path = "${path.module}/${var.scheduled_lambda_data.path_to_deployment_package}"
-  command_lambda_path_prefix = "${path.module}/../command-lambda-packages/command_lambda_packages"
+  command_lambda_path_prefix = "${path.module}/../command-lambda-packages"
 }
 
 module "s3" {
