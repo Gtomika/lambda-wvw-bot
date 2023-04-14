@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "scheduled_lambda_assume_role_policy" {
   }
 }
 
-data aws_iam_policy_document "scheduled_lambda_log_policy" {
+data aws_iam_policy_document "scheduled_lambda_policy" {
   statement {
     sid = "AllowLambdaToLog"
     effect = "Allow"
@@ -19,6 +19,27 @@ data aws_iam_policy_document "scheduled_lambda_log_policy" {
       "logs:PutLogEvents",
     ]
     resources = ["arn:aws:logs:*:*:*"]
+  }
+  statement {
+    sid = "AllowLambdaToAccessGuildsUsers"
+    effect = "Allow"
+    actions = [
+      "dynamodb:BatchGet*",
+      "dynamodb:DescribeStream",
+      "dynamodb:DescribeTable",
+      "dynamodb:Get*",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:BatchWrite*",
+      "dynamodb:CreateTable",
+      "dynamodb:Delete*",
+      "dynamodb:Update*",
+      "dynamodb:PutItem"
+    ]
+    resources = [
+      var.gw2_guilds_table_arn,
+      var.gw2_users_table_arn
+    ]
   }
 }
 
@@ -29,7 +50,7 @@ resource "aws_iam_role" "scheduled_lambda_role" {
   assume_role_policy = data.aws_iam_policy_document.scheduled_lambda_assume_role_policy.json
   inline_policy {
     name = "AllowLambdaToLog"
-    policy = data.aws_iam_policy_document.scheduled_lambda_log_policy.json
+    policy = data.aws_iam_policy_document.scheduled_lambda_policy.json
   }
 }
 

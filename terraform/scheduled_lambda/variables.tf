@@ -29,3 +29,11 @@ variable "common_layer_arn" {
 variable "log_retention_days" {
   type = number
 }
+
+variable "gw2_users_table_arn" {
+  type = string
+}
+
+variable "gw2_guilds_table_arn" {
+  type = string
+}

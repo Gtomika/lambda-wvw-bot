@@ -65,6 +65,9 @@ weekly_achievements = [
     {
         'name': 'Ruin Runner',
         'amount': 5,
+        'unit': {
+            'hu': 'ruin elfoglalása (shrine nem számít bele)'
+        },
         'potion_reward': 2
     },
     {

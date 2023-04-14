@@ -38,7 +38,7 @@ def compile_weekly_achievements(info: discord_utils.InteractionInfo) -> str:
     summary_string = template_utils.get_localized_template(templates.summary, info.locale)
 
     return template_utils.get_localized_template(templates.achievements_response, info.locale).format(
-        emote_notes=discord_utils.default_emote('notebook'),
+        emote_notes=discord_utils.default_emote('notepad_spiral'),
         achievement_details='\n'.join(detail_strings),
         total_rewards=total_rewards_string,
         summary=summary_string

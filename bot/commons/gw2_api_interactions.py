@@ -3,9 +3,6 @@ import requests
 gw2_api_base_url = 'https://api.guildwars2.com/v2'
 gw2_api_timeout = 10  # sec
 
-wvw_potion_api_id = 78485
-
-
 # GW2 API 500
 class ApiException(Exception):
     pass

@@ -13,20 +13,29 @@ achievement_progress_unknown = {
 }
 
 
-def create_achievement_detail_string(
+wvw_exotic_reward_chest_id = 78353
+wvw_rare_reward_chest_id = 78485
+
+
+def create_daily_achievement_detail_string(
         locale: str,
         template_utils,
         achievement,
         reward_type: str,
-        reward_id: int,
         progress: str,
 ):
     """
     Create nicely formatted string of an achievement. Progress string should be assembled with method below.
     """
+    exotic_chest_reward_amount = __get_reward_amount_from_achievement(achievement, wvw_exotic_reward_chest_id)
+    if exotic_chest_reward_amount > 0:
+        potion_amount = 2
+    else:
+        potion_amount = 1
+
     return template_utils.get_localized_template(achievement_detail, locale).format(
         name=achievement['name'],
-        reward_amount=__get_reward_amount_from_achievement(achievement, reward_id),
+        reward_amount=potion_amount,
         reward_type=reward_type,
         progress=progress
     )

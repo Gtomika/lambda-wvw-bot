@@ -21,6 +21,11 @@
     },
     {
       "type": 1,
+      "name": "view",
+      "description": "Az API kulcsod megtekintése. Csak privát üzenetben válaszolok!"
+    },
+    {
+      "type": 1,
       "name": "delete",
       "description": "Az API kulcsod elfelejtése"
     }

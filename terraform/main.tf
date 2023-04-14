@@ -36,9 +36,12 @@ module "scheduled_lambda" {
   environment_variables = {
     APPLICATION_ID = var.discord_application_id
     BOT_TOKEN = var.discord_bot_token
-    # TODO pass table names
+    GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
+    GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
   }
   log_retention_days = var.log_retention_days
+  gw2_users_table_arn = module.dynamodb_tables.gw2_users_table_arn,
+  gw2_guilds_table_arn = module.dynamodb_tables.gw2_guilds_table_arn
 }
 
 module "scheduler" {

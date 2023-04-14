@@ -30,3 +30,9 @@ variable "wvw_reset_cron" {
   default = "30 18 ? * FRI *"
   description = "Every friday at 18:30, this way it works no matter if reset is 19:00 or 20:00"
 }
+
+variable "population_recheck_cron" {
+  type = string
+  default = "0 16 * * ? *"
+  description = "Every day around 4 PM check the home world populations"
+}

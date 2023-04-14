@@ -68,12 +68,11 @@ def compile_daily_achievements(achievement_details_array, progress_array, info: 
             achievement=achievement,
             progress_array=progress_array
         )
-        detail_string = achievement_utils.create_achievement_detail_string(
+        detail_string = achievement_utils.create_daily_achievement_detail_string(
             locale=info.locale,
             template_utils=template_utils,
             achievement=achievement,
             reward_type=potion_emote,
-            reward_id=gw2_api_interactions.wvw_potion_api_id,
             progress=progress_string
         )
         detail_strings.append(detail_string)
@@ -88,7 +87,7 @@ def compile_daily_achievements(achievement_details_array, progress_array, info: 
         summary_string = template_utils.get_localized_template(templates.summary_no_progress, info.locale)
 
     message = template_utils.get_localized_template(templates.achievements_response, info.locale).format(
-        emote_notes=discord_utils.default_emote('notebook'),
+        emote_notes=discord_utils.default_emote('notepad_spiral'),
         achievement_details='\n'.join(detail_strings),
         total_rewards=total_rewards_string,
         summary=summary_string
