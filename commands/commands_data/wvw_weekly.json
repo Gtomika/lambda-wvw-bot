@@ -1,0 +1,7 @@
+{
+  "type": 1,
+  "name": "wvw_weekly",
+  "description": "Heti WvW teljesítmények mutatása",
+  "dm_permission": true,
+  "options": []
+}
