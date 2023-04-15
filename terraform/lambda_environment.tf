@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "scheduler_manager_policy" {
     actions = [
       "scheduler:*Schedule",
       "scheduler:List*"
-    ],
+    ]
     resources = ["*"]
   }
 }
