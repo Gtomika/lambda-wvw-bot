@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "guild_table_manager_lambda_policy" {
 data "aws_iam_policy_document" "wvw_raid_command_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.log_policy.json,
-    data.aws_iam_policy_document.guild_table_manager_lambda_policy.json,
+    data.aws_iam_policy_document.guilds_table_policy.json,
     data.aws_iam_policy_document.scheduler_manager_policy.json
   ]
 }
