@@ -70,6 +70,7 @@ resource "aws_scheduler_schedule" "population_recheck_schedule" {
 
   flexible_time_window {
     mode = "FLEXIBLE"
+    maximum_window_in_minutes = 30
   }
   schedule_expression = "cron(${var.population_recheck_cron})"
   schedule_expression_timezone = var.time_zone
