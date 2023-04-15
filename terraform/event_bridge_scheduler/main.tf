@@ -69,7 +69,7 @@ resource "aws_scheduler_schedule" "population_recheck_schedule" {
   group_name = aws_scheduler_schedule_group.schedule_group.id
 
   flexible_time_window {
-    mode = "ON"
+    mode = "FLEXIBLE"
   }
   schedule_expression = "cron(${var.population_recheck_cron})"
   schedule_expression_timezone = var.time_zone
