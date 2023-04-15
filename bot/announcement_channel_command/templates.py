@@ -25,3 +25,7 @@ channels_listed = {
 no_channels = {
     'hu': 'Jelenleg egyetlen csatornán sem hirdetek {emote_mute}'
 }
+
+too_much = {
+    'hu': 'Nem adhatsz hozzá több csatornát, a maximum **{max}**.'
+}

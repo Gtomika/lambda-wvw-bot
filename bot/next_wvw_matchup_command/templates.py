@@ -12,7 +12,7 @@ next_matchup_response = {
 Figyelem, ez csak akkor lesz így, ha a jelenlegi sorrend a csapatok között nem változik reset-ig {emote_warning}!
 
 A világ jelenlegi szintje: Tier {tier}
- - {prediction_string}
+{prediction_string}
  
 Ezek a szerverek lehetnek a következő matchup-ban:
 {predicted_teams_string}
@@ -29,5 +29,5 @@ prediction = {
 }
 
 predicted_team = {
-    'hu': "{emote_color}{emote_house} **{main_world_name}** {linked_world_names}"
+    'hu': "- {emote_color}{emote_house} **{main_world_name}** {linked_world_names}"
 }

@@ -7,6 +7,7 @@ gem_emote_id = 1095760385149243443
 commander_emote_id = 1095760375393308723
 reward_potion_emote_id = 1095760398902362256
 gold_emote_id = 1095767249475866765
+wvw_icon_id = 1096784371488399420
 
 developer_id = "416289572289249280"
 
@@ -23,6 +24,8 @@ class InteractionInfo:
         self.username = extract_username(event)
         self.locale = extract_locale(event)
         self.interaction_token = extract_interaction_token(event)
+        if is_from_guild(event):
+            self.guild_id = extract_guild_id(event)
 
 # ------- data extraction ------------
 
@@ -44,7 +47,7 @@ def extract_locale(event) -> str:
 
 def extract_username(event) -> str:
     if is_from_guild(event):
-        return event['member']['user']['username']
+        return event['member']['nick']
     else:
         return event['user']['username']
 

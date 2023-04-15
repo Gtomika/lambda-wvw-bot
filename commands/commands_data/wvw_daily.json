@@ -3,5 +3,12 @@
   "name": "wvw_daily",
   "description": "Napi WvW teljesítmények mutatása",
   "dm_permission": true,
-  "options": []
+  "options": [
+    {
+      "type": 5,
+      "name": "tomorrow",
+      "description": "A holnapi teljesítmények mutatása",
+      "required": false
+    }
+  ]
 }

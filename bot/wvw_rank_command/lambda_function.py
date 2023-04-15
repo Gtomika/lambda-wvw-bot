@@ -9,6 +9,7 @@ from bot.commons import common_exceptions
 from bot.commons import template_utils
 from bot.commons import gw2_api_interactions
 from bot.commons import gw2_users
+from bot.commons import monitoring
 from . import templates
 
 dynamodb_resource = boto3.resource('dynamodb')
@@ -18,6 +19,7 @@ gw2_user_repo = gw2_users.Gw2UsersRepo(gw2_users_table_name, dynamodb_resource)
 
 def lambda_handler(event, context):
     info = discord_utils.extract_info(event)
+    monitoring.log_command(info, 'wvw_rank')
 
     progress_message = template_utils.get_localized_template(templates.wvw_rank_reading, info.locale)\
         .format(emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id))

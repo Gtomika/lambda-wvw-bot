@@ -17,3 +17,8 @@ wvw_roles_empty = {
 role_not_provided = {
     'hu': 'Nem adtál meg rangot, pedig ehhez a művelethez szükségem van egyre. Használd a parancs második paraméterét!'
 }
+
+
+too_much = {
+    'hu': 'Nem adhatsz hozzá több WvW rangot, maximum **{max}** lehet!'
+}

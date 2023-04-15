@@ -3,11 +3,13 @@ import traceback
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
 from bot.commons import template_utils
+from bot.commons import monitoring
 from . import templates
 
 
 def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
+    monitoring.log_command(info, 'wvw_weekly')
     try:
         message = compile_weekly_achievements(info)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
@@ -38,7 +40,7 @@ def compile_weekly_achievements(info: discord_utils.InteractionInfo) -> str:
     summary_string = template_utils.get_localized_template(templates.summary, info.locale)
 
     return template_utils.get_localized_template(templates.achievements_response, info.locale).format(
-        emote_notes=discord_utils.default_emote('notepad_spiral'),
+        emote_wvw=discord_utils.custom_emote('wvw_icon', discord_utils.wvw_icon_id),
         achievement_details='\n'.join(detail_strings),
         total_rewards=total_rewards_string,
         summary=summary_string

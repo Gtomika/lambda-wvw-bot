@@ -72,6 +72,12 @@
                     "min_value": 1,
                     "max_value": 24,
                     "required": true
+                },
+                {
+                    "type": 5,
+                    "name": "reminder",
+                    "description": "Legyen-e emlékeztető 30 perccel az esemény előtt?",
+                    "required": true
                 }
             ]
         },

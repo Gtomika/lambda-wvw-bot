@@ -47,6 +47,17 @@ data aws_iam_policy_document "users_table_policy" {
   }
 }
 
+data "aws_iam_policy_document" "scheduler_manager_policy" {
+  statement {
+    sid = "AllowToManageSchedules"
+    effect = "Allow"
+    actions = [
+      "scheduler:*Schedule",
+      "scheduler:List*"
+    ]
+  }
+}
+
 data aws_iam_policy_document "guilds_table_policy" {
   statement {
     sid = "AllowLambdaToAccessGuildsTable"
@@ -86,6 +97,15 @@ data "aws_iam_policy_document" "guild_table_manager_lambda_policy" {
     data.aws_iam_policy_document.guilds_table_policy.json
   ]
 }
+
+data "aws_iam_policy_document" "wvw_raid_command_policy" {
+  source_policy_documents = [
+    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.guild_table_manager_lambda_policy.json,
+    data.aws_iam_policy_document.scheduler_manager_policy.json
+  ]
+}
+
 
 locals {
   common_variables = {
@@ -160,9 +180,14 @@ locals {
     }
 
     WvwRaid = {
-      policy    = data.aws_iam_policy_document.guild_table_manager_lambda_policy
+      policy    = data.aws_iam_policy_document.wvw_raid_command_policy
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
+        SCHEDULE_GROUP_NAME = module.scheduler.schedule_group_name
+        SCHEDULE_ROLE_ARN = module.scheduler.scheduler_role_arn
+        SCHEDULED_LAMBDA_ARN = module.scheduled_lambda.scheduled_lambda_arn
+        APP_NAME = var.app_name
+        ENVIRONMENT = var.environment
       })
     }
 

@@ -10,6 +10,7 @@ from bot.commons import gw2_api_interactions
 from bot.commons import template_utils
 from bot.commons import common_exceptions
 from bot.commons import authorization
+from bot.commons import monitoring
 from . import templates
 
 gw2_guilds_table_name = os.environ['GW2_GUILDS_TABLE_NAME']
@@ -32,14 +33,17 @@ def lambda_handler(event, context):
         subcommand = discord_utils.extract_subcommand(event)
         if subcommand['name'] == 'set':
             home_world_name = discord_utils.extract_subcommand_option(subcommand, 'world_name')
+            monitoring.log_command(info, 'home_world', 'add', home_world_name)
             # user provided new world, they want to set it: this must be authorized
             authorizer.authorize_command(guild_id, event)
             set_home_world(guild_id, home_world_name, info)
             print(f'Home world of guild with ID {str(guild_id)} was changed to {home_world_name}')
         elif subcommand['name'] == 'forget':
+            monitoring.log_command(info, 'home_world', 'forget')
             authorizer.authorize_command(guild_id, event)
             delete_home_world(guild_id, info)
         else:  # view home world
+            monitoring.log_command(info, 'home_world', 'view')
             get_home_world(guild_id, info)
     except common_exceptions.CommandUnauthorizedException:
         template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)

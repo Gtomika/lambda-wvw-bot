@@ -9,6 +9,7 @@ from bot.commons import gw2_guilds
 from bot.commons import template_utils
 from bot.commons import common_exceptions
 from bot.commons import authorization
+from bot.commons import monitoring
 from . import templates
 
 gw2_guilds_table_name = os.environ['GW2_GUILDS_TABLE_NAME']
@@ -21,6 +22,8 @@ app_name = os.environ['APP_NAME']
 app_icon_url = os.environ['APP_ICON_URL']
 webhook_personality = discord_interactions.WebhookPersonality(app_name, app_icon_url)
 
+announcement_channel_max = 3
+
 
 def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
@@ -29,12 +32,15 @@ def lambda_handler(event, context):
     try:
         subcommand = discord_utils.extract_subcommand(event)
         if subcommand['name'] == 'add':
+            monitoring.log_command(info, 'announcement_channel', 'add')
             authorizer.authorize_command(guild_id, event)
             add_announcement_channel(subcommand, guild_id, info)
         elif subcommand['name'] == 'delete':
+            monitoring.log_command(info, 'announcement_channel', 'delete')
             authorizer.authorize_command(guild_id, event)
             remove_announcement_channel(subcommand, guild_id, info)
         else:  # list, can be done by anyone
+            monitoring.log_command(info, 'announcement_channel', 'list')
             list_announcement_channels(guild_id, info)
     except common_exceptions.CommandUnauthorizedException:
         template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
@@ -46,6 +52,11 @@ def lambda_handler(event, context):
 
 def add_announcement_channel(subcommand, guild_id, info):
     try:
+        if is_at_max(guild_id):
+            error_message = template_utils.get_localized_template(templates.too_much, info.locale).format(max=str(announcement_channel_max))
+            discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+            return
+
         channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
         webhook_url = discord_utils.extract_subcommand_option(subcommand, 'webhook_url')
         repo.add_announcement_channel(guild_id, channel_id, webhook_url)
@@ -63,6 +74,10 @@ def add_announcement_channel(subcommand, guild_id, info):
     except discord_utils.OptionNotFoundException:
         message = template_utils.get_localized_template(templates.channel_not_provided, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
+
+
+def is_at_max(guild_id) -> bool:
+    return len(repo.get_announcement_channels(guild_id)) >= announcement_channel_max
 
 
 def remove_announcement_channel(subcommand, guild_id, info):

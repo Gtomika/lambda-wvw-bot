@@ -46,8 +46,8 @@ def get_wvw_matchup_report_by_id(matchup_id: str):
     return gw2_api_request(api_key=None, url=f'/wvw/matches/{matchup_id}')
 
 
-def get_daily_achievements():
-    return gw2_api_request(api_key=None, url='/achievements/daily')
+def get_daily_achievements(tomorrow: bool):
+    return gw2_api_request(api_key=None, url='/achievements/daily/tomorrow' if tomorrow else '/achievements/daily')
 
 
 def get_achievements_by_ids(ids):

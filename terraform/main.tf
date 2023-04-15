@@ -40,7 +40,7 @@ module "scheduled_lambda" {
     GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
   }
   log_retention_days = var.log_retention_days
-  gw2_users_table_arn = module.dynamodb_tables.gw2_users_table_arn,
+  gw2_users_table_arn = module.dynamodb_tables.gw2_users_table_arn
   gw2_guilds_table_arn = module.dynamodb_tables.gw2_guilds_table_arn
 }
 

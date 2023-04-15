@@ -12,6 +12,7 @@ from bot.commons import gw2_api_interactions
 from bot.commons import gw2_guilds
 from bot.commons import matchup_utils
 from bot.commons import time_utils
+from bot.commons import monitoring
 from . import templates
 
 dynamodb_resource = boto3.resource('dynamodb')
@@ -21,7 +22,8 @@ repo = gw2_guilds.Gw2GuildRepo(gw2_guilds_table_name, dynamodb_resource)
 
 def lambda_handler(event, context):
     info = discord_utils.extract_info(event)
-    guild_id = discord_utils.extract_guild_id(event)
+    monitoring.log_command(info, 'wvw_matchup')
+    guild_id = info.guild_id
     try:
         home_world = repo.get_guild_home_world(guild_id)
 

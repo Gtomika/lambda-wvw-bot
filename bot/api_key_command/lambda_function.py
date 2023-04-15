@@ -8,6 +8,7 @@ from bot.commons import discord_utils
 from bot.commons import template_utils
 from bot.commons import gw2_users
 from bot.commons import common_exceptions
+from bot.commons import monitoring
 from . import templates
 
 dynamodb_resource = boto3.resource('dynamodb')
@@ -25,10 +26,13 @@ def lambda_handler(event, context):
         subcommand = discord_utils.extract_subcommand(event)
         if subcommand['name'] == 'set':
             key = discord_utils.extract_subcommand_option(subcommand, 'key')
+            monitoring.log_command(info, 'api_key', 'set', key)
             save_api_key(key, info)
         elif subcommand['name'] == 'delete':
+            monitoring.log_command(info, 'api_key', 'delete')
             delete_api_key(info)
         else:  # must be view
+            monitoring.log_command(info, 'api_key', 'view')
             view_api_key(event, info)
     except BaseException as e:
         print(f'Failed to save/delete API key of user with ID {str(info.user_id)}')

@@ -3,6 +3,7 @@ import traceback
 from bot.commons import discord_interactions
 from bot.commons import discord_utils
 from bot.commons import template_utils
+from bot.commons import monitoring
 from . import templates
 
 documentation_url = 'https://gtomika.github.io/mod-wvw-bot/'  # TODO update this
@@ -13,6 +14,7 @@ def lambda_handler(event, context):
     Handler for the 'help' slash command
     """
     info = discord_utils.InteractionInfo(event)
+    monitoring.log_command(info, 'help')
     try:
         response_template = template_utils.get_localized_template(
             template_map=templates.help_response_template,

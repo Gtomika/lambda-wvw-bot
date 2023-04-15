@@ -6,14 +6,18 @@ class WvwRaid:
     WvW raid event representation.
     """
 
-    def __init__(self, event_name: str, day: str, start_time: str, duration_hours: int):
+    def __init__(self, event_name: str, day: str, start_time: str, duration_hours: int, reminder: bool):
         """
-        Attribute names are intentionally short
+        Attribute names are intentionally short. Additional optional attribute is schedule hash
         """
         self.name = event_name
         self.day = day
         self.time = start_time
         self.dur = duration_hours
+        self.reminder = reminder
+
+    def set_schedule_hash(self, schedule_hash: str):
+        self.hash = schedule_hash
 
 
 guild_id_field_name = 'GuildId'
@@ -52,8 +56,11 @@ class Gw2GuildRepo:
                 "name": "Morning Raid",
                 "day": "monday",
                 "time": "08:00",
-                "dur": 2
-            }
+                "dur": 2,
+                "reminder": false,
+                "hash: "..."
+            },
+            ...
         ]
     }
     Note that GuildID is the discord guild ID in this case.
@@ -277,6 +284,9 @@ class Gw2GuildRepo:
         Convert dict extracted from dynamodb into WvW raid object.
         Should not be used on any other dict.
         """
-        return WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'], raid_dict['dur'])
+        schedule_hash = raid_dict['hash'] if 'hash' in raid_dict else None
+        return WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'],
+                       raid_dict['dur'], raid_dict['reminder'], schedule_hash)
+
 
 

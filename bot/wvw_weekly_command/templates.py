@@ -1,5 +1,5 @@
 achievements_response = {
-    'hu': """Íme a heti WvW-s teljesítmények {emote_notes}
+    'hu': """Íme a heti WvW-s teljesítmények {emote_wvw}
  
 {achievement_details}
 
@@ -9,7 +9,7 @@ achievements_response = {
 }
 
 summary = {
-    'hu': 'A GW2 API nem tartalmazza a heti WvW-s teljesítményeket, ezért nem tudom ezekkel hogy állsz. A napi teljesítményeket a */wvw_daily* utasítással kérdezheted le.'
+    'hu': 'A GW2 API nem tartalmazza a heti WvW-s teljesítményeket, ezért nem tudom hogy állsz velük. A napi teljesítményeket a */wvw_daily* utasítással kérdezheted le.'
 }
 
 total_rewards = {
