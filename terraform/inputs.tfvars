@@ -96,6 +96,13 @@ command_data = [
     handler = "bot/wvw_weekly_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_weekly_lambda.zip"
     timeout_seconds = 8
+  },
+  {
+    command_name = "WvwCurrencies"
+    command_name_discord = "wvw_currencies"
+    handler = "bot/wvw_currencies_command/lambda_function.lambda_handler"
+    package_zip_name = "wvw_currencies_lambda.zip"
+    timeout_seconds = 8
   }
 ]
 

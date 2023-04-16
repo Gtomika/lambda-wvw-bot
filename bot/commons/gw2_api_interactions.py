@@ -1,4 +1,5 @@
 import requests
+from requests.utils import requote_uri
 
 gw2_api_base_url = 'https://api.guildwars2.com/v2'
 gw2_api_timeout = 10  # sec
@@ -58,6 +59,24 @@ def get_achievements_by_ids(ids):
 def get_achievement_progress_by_ids(api_key: str, ids):
     ids_query = ','.join([str(achi_id) for achi_id in ids])
     return gw2_api_request(api_key=api_key, url=f'/account/achievements?ids={ids_query}')
+
+
+def get_wallet(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/wallet')
+
+
+def get_bank(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/bank')
+
+
+def get_character_names(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/characters')
+
+
+def get_character(api_key: str, character_name: str):
+    # required because character name can be strange value...
+    quoted_url = requote_uri(f'/characters/{character_name}/inventory')
+    return gw2_api_request(api_key=api_key, url=quoted_url)
 
 
 def gw2_api_request(api_key, url: str):
