@@ -47,16 +47,20 @@ def create_webhook_message(webhook_url: str, message: str, personality: WebhookP
     """
     Create a new message on Discord using the given webhook.
     """
-    response = requests.post(url=f'{webhook_url}?wait=true', json={
-        'content': message,
-        'username': personality.bot_name,
-        'avatar_url': personality.bot_icon_url
-    }, headers={
-        'Content-Type': 'application/json'
-    }, timeout=discord_interaction_timeout)
+    try:
+        response = requests.post(url=f'{webhook_url}?wait=true', json={
+            'content': message,
+            'username': personality.bot_name,
+            'avatar_url': personality.bot_icon_url
+        }, headers={
+            'Content-Type': 'application/json'
+        }, timeout=discord_interaction_timeout)
 
-    if response.status_code >= 400:
-        print(f"""Error response from Discord API while making webhook request
-        - Status {response.status_code}
-        - Response: {response.text}""")
-
+        if response.status_code >= 400:
+            print(f"""Error response from Discord API while making webhook request
+                - Status {response.status_code}
+                - Response: {response.text}""")
+    except requests.exceptions.RequestException as e:
+        # because the webhook URL is not validated, anything must be expected from the user...
+        # in case of invalid URL requests lib will throw this exception: don't want it to propagate
+        print(f'Failed to send webhook to Discord. Webhook URL: {webhook_url}. Exception: {str(e)}')

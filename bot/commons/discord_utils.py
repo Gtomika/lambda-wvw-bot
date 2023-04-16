@@ -148,3 +148,10 @@ def mention_channel(channel_id: str) -> str:
 
 def escaped_link(link: str) -> str:
     return f'<{link}>'
+
+
+def mention_multiple_roles(role_ids) -> str:
+    if len(role_ids) > 0:
+        return ' '.join([mention_role(role_id) for role_id in role_ids])
+    else:
+        return ''

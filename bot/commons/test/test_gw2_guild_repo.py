@@ -115,6 +115,18 @@ class TestGw2GuildRepo(unittest.TestCase):
         channels = repo.get_announcement_channels(mock_guild_id)
         self.assertEqual([], channels)
 
+    @moto.mock_dynamodb
+    def test_find_all_guild_ids(self):
+        dynamodb_resource = boto3.resource('dynamodb')
+        create_guilds_table(dynamodb_resource, 'guilds')
+        repo = gw2_guilds.Gw2GuildRepo(table_name='guilds', dynamodb_resource=dynamodb_resource)
+
+        repo.save_guild_home_world(guild_id="1", home_world_id=100, home_world_name='Test', population='High')
+        repo.save_guild_home_world(guild_id="2", home_world_id=200, home_world_name='Test 2', population='High')
+
+        guild_ids = repo.find_all_guild_ids()
+        self.assertEqual(["1", "2"], guild_ids)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -69,6 +69,21 @@ class Gw2GuildRepo:
     def __init__(self, table_name, dynamodb_resource):
         self.gw2_guild_table = dynamodb_resource.Table(table_name)
 
+    def find_all_guild_ids(self):
+        """
+        Returns all the guild ID.
+        """
+        response = self.gw2_guild_table.scan(ProjectionExpression=guild_id_field_name)
+        return [guild[guild_id_field_name] for guild in response['Items']]
+
+    def find_all_guilds(self, attributes):
+        """
+        Returns all guild IDs with the projected attributes. IDs will always be included.
+        """
+        attributes.append(guild_id_field_name)
+        response = self.gw2_guild_table.scan(ProjectionExpression=','.join(attributes))
+        return response['Items']
+
     def save_guild_home_world(self, guild_id: str, home_world_id: int, home_world_name: str, population: str) -> None:
         """
         Save a new home world for the selected guild. Throws:

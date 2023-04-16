@@ -93,3 +93,22 @@ common_template_home_world_not_set = {
 def format_and_response_home_world_not_set(discord_interactions, info):
     error_message = get_localized_template(common_template_home_world_not_set, info.locale)
     discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+
+
+populations = {
+    'hu': {
+        'Low': 'Alacsony',
+        'Medium': 'Közepes',
+        'High': 'Magas',
+        'VeryHigh': 'Nagyon Magas',
+        'Full': 'Tele van'
+    }
+}
+
+transfer_costs = {
+    'Low': '500',
+    'Medium': '500',
+    'High': '1000',
+    'VeryHigh': '1800',
+    'Full': '-'
+}

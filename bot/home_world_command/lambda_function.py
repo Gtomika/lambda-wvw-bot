@@ -86,7 +86,7 @@ def get_home_world(guild_id: str, info: discord_utils.InteractionInfo):
                 home_world=home_world['name'],
                 home_world_population=get_localized_population(population, info.locale),
                 transfer_cost=get_transfer_cost(population),
-                emote_gem=discord_utils.custom_emote('gem', discord_utils.gem_emote_id)
+                emote_gem=discord_utils.custom_emote('gw2_gem', discord_utils.gem_emote_id)
             )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
     except gw2_api_interactions.ApiException:
@@ -115,9 +115,9 @@ def find_home_world_with_name(home_world_array, home_world: str):
 
 
 def get_localized_population(population: str, locale: str) -> str:
-    localized_populations = template_utils.get_localized_template(templates.populations, locale)
+    localized_populations = template_utils.get_localized_template(template_utils.populations, locale)
     return localized_populations[population]
 
 
 def get_transfer_cost(population: str) -> str:
-    return templates.transfer_costs[population]
+    return template_utils.transfer_costs[population]
