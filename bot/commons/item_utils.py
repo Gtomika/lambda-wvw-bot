@@ -48,6 +48,10 @@ def count_amounts_in_bank(amounts, bank):
     __count_amounts(amounts, bank, 'count')
 
 
+def count_amounts_in_material_storage(amounts, storage):
+    __count_amounts(amounts, storage, 'count')
+
+
 def count_amounts_in_wallet(amounts, wallet):
     """
     Count the item amounts in the account wallet, wallet array queried from the GW2 API.

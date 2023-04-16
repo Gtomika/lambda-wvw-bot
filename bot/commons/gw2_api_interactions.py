@@ -69,14 +69,22 @@ def get_bank(api_key: str):
     return gw2_api_request(api_key=api_key, url='/account/bank')
 
 
+def get_material_storage(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/materials')
+
+
 def get_character_names(api_key: str):
     return gw2_api_request(api_key=api_key, url='/characters')
 
 
-def get_character(api_key: str, character_name: str):
+def get_character_inventory(api_key: str, character_name: str):
     # required because character name can be strange value...
     quoted_url = requote_uri(f'/characters/{character_name}/inventory')
     return gw2_api_request(api_key=api_key, url=quoted_url)
+
+
+def get_shared_inventory(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/inventory')
 
 
 def gw2_api_request(api_key, url: str):

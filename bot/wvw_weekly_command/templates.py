@@ -17,7 +17,7 @@ total_rewards = {
 }
 
 weekly_detail = {
-    'hu': '- **{name}**: {amount} {unit} ({potion_amount} {emote_potion})'
+    'hu': '- **{name}**: {amount} {unit}, {potion_amount} {emote_potion}'
 }
 
 # Hardcoded values, because they are not in the API

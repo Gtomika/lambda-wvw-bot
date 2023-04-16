@@ -102,31 +102,33 @@ jobs:
       - name: Prepare packages folder
         run: mkdir command_lambda_packages
       - name: Package help command lambda
-        run: zip -r command_lambda_packages/help_lambda.zip bot/help_command/* -x bot/help_command/test/*
+        run: zip -r command_lambda_packages/help_lambda.zip bot/help_command/*
       - name: Package api key add lambda
-        run: zip -r command_lambda_packages/api_key_lambda.zip bot/api_key_command/* -x bot/api_key_command/test/*
+        run: zip -r command_lambda_packages/api_key_lambda.zip bot/api_key_command/*
       - name: Package home world lambda
-        run: zip -r command_lambda_packages/home_world_lambda.zip bot/home_world_command/* -x bot/home_world_command/test/*
+        run: zip -r command_lambda_packages/home_world_lambda.zip bot/home_world_command/*
       - name: Package manager role lambda
-        run: zip -r command_lambda_packages/manager_role_lambda.zip bot/manager_role_command/* -x bot/manager_role_command/test/*
+        run: zip -r command_lambda_packages/manager_role_lambda.zip bot/manager_role_command/*
       - name: Package wvw role lambda
-        run: zip -r command_lambda_packages/wvw_role_lambda.zip bot/wvw_role_command/* -x bot/wvw_role_command/test/*
+        run: zip -r command_lambda_packages/wvw_role_lambda.zip bot/wvw_role_command/*
       - name: Package wvw rank lambda
-        run: zip -r command_lambda_packages/wvw_rank_lambda.zip bot/wvw_rank_command/* -x bot/wvw_rank_command/test/*
+        run: zip -r command_lambda_packages/wvw_rank_lambda.zip bot/wvw_rank_command/*
       - name: Package wvw matchup lambda
-        run: zip -r command_lambda_packages/wvw_matchup_lambda.zip bot/wvw_matchup_command/* -x bot/wvw_matchup_command/test/*
+        run: zip -r command_lambda_packages/wvw_matchup_lambda.zip bot/wvw_matchup_command/*
       - name: Package next wvw matchup lambda
-        run: zip -r command_lambda_packages/next_wvw_matchup_lambda.zip bot/next_wvw_matchup_command/* -x bot/next_wvw_matchup_command/test/*
+        run: zip -r command_lambda_packages/next_wvw_matchup_lambda.zip bot/next_wvw_matchup_command/*
       - name: Package next announcement channel lambda
-        run: zip -r command_lambda_packages/announcement_channel_lambda.zip bot/announcement_channel_command/* -x bot/announcement_channel_command/test/*
+        run: zip -r command_lambda_packages/announcement_channel_lambda.zip bot/announcement_channel_command/*
       - name: Package wvw raid lambda
-        run: zip -r command_lambda_packages/wvw_raid_lambda.zip bot/wvw_raid_command/* -x bot/wvw_raid_command/test/*
+        run: zip -r command_lambda_packages/wvw_raid_lambda.zip bot/wvw_raid_command/*
       - name: Package wvw daily lambda
-        run: zip -r command_lambda_packages/wvw_daily_lambda.zip bot/wvw_daily_command/* -x bot/wvw_daily_command/test/*
+        run: zip -r command_lambda_packages/wvw_daily_lambda.zip bot/wvw_daily_command/*
       - name: Package wvw weekly lambda
-        run: zip -r command_lambda_packages/wvw_weekly_lambda.zip bot/wvw_weekly_command/* -x bot/wvw_weekly_command/test/*
+        run: zip -r command_lambda_packages/wvw_weekly_lambda.zip bot/wvw_weekly_command/*
       - name: Package currencies lambda
-        run: zip -r command_lambda_packages/wvw_currencies_lambda.zip bot/wvw_currencies_command/* -x bot/wvw_currencies_command/test/*
+        run: zip -r command_lambda_packages/wvw_currencies_lambda.zip bot/wvw_currencies_command/*
+      - name: Package items lambda
+        run: zip -r command_lambda_packages/wvw_items_lambda.zip bot/wvw_items_command/*
       - uses: actions/upload-artifact@v3
         with:
           name: command-lambda-packages

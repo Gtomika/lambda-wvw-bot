@@ -103,6 +103,13 @@ command_data = [
     handler = "bot/wvw_currencies_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_currencies_lambda.zip"
     timeout_seconds = 8
+  },
+  {
+    command_name = "WvwItems"
+    command_name_discord = "wvw_items"
+    handler = "bot/wvw_items_command/lambda_function.lambda_handler"
+    package_zip_name = "wvw_items_lambda.zip"
+    timeout_seconds = 180 # checking every character can take a long time
   }
 ]
 
