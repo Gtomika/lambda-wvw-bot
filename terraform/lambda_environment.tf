@@ -218,5 +218,12 @@ locals {
       })
     }
 
+    WvwLegendaries = {
+      policy = data.aws_iam_policy_document.user_table_manager_lambda_policy,
+      variables = merge(local.common_variables, {
+        GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
+      })
+    }
+
   }
 }

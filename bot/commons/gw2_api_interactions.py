@@ -87,6 +87,10 @@ def get_shared_inventory(api_key: str):
     return gw2_api_request(api_key=api_key, url='/account/inventory')
 
 
+def get_legendary_armory(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/legendaryarmory')
+
+
 def gw2_api_request(api_key, url: str):
     headers = {
             'Authorization': f'Bearer {api_key}'

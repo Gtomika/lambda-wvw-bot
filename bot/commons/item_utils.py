@@ -37,6 +37,8 @@ def count_amounts_in_bags(amounts, bags):
     Count the item amounts in a characters bags, bags array queried from the GW2 API.
     """
     for bag in bags:
+        if bag is None:
+            continue
         bag_contents = bag['inventory']
         __count_amounts(amounts, bag_contents, 'count')
 
@@ -66,6 +68,10 @@ def count_amounts_in_shared_inventory(amounts, shared_inventory):
     __count_amounts(amounts, shared_inventory, 'count')
 
 
+def count_amounts_in_legendary_armory(amounts, legendary_armory):
+    __count_amounts(amounts, legendary_armory, 'count')
+
+
 def __count_amounts(amounts, resources, count_field_name: str):
     """
     Counts the amounts in the specified amounts array. Resources is an array of objects with item IDs and amounts,
@@ -83,3 +89,9 @@ def __check_resource(amounts, resource, count_field_name: str):
         if item_amount.item.item_id == resource['id']:
             item_amount.increase_amount(resource[count_field_name])
 
+
+def sum_amounts(amounts) -> int:
+    total_amount = 0
+    for amount in amounts:
+        total_amount += amount.amount
+    return total_amount

@@ -19,11 +19,11 @@ gw2_users_table_name = os.environ['GW2_USERS_TABLE_NAME']
 gw2_user_repo = gw2_users.Gw2UsersRepo(gw2_users_table_name, dynamodb_resource)
 
 wvw_items = [
-    item_utils.Item(71581, "Memories of battle", "memory_of_battle", 971660260026748959),
-    item_utils.Item(93146, "Emblems of the Conqueror", "emblem_conqueror", 971661037814317086),
-    item_utils.Item(93075, "Emblems of the Avenger", "emblem_avenger", 971661017710989322),
-    item_utils.Item(81296, "Legendary Spikes", "legendary_spike", 971661975199289384),
-    item_utils.Item(19678, "Gifts of Battle", "gift_of_battle", 971662334332370995),
+    item_utils.Item(71581, "Memories of battle", "memory_of_battle", 1095760396532584688),
+    item_utils.Item(93146, "Emblems of the Conqueror", "emblem_conqueror", 1095760382280335481),
+    item_utils.Item(93075, "Emblems of the Avenger", "emblem_avenger", 1095760380241924176),
+    item_utils.Item(81296, "Legendary Spikes", "legendary_spike", 1095760391843348480),
+    item_utils.Item(19678, "Gifts of Battle", "gift_of_battle", 1095760386592079903),
     item_utils.Item(78600, 'Reward Potions', 'wvw_potion', discord_utils.reward_potion_emote_id),
     item_utils.Item(96536, 'Skirmish Chest', 'skirmish_chest', 1097236097043537920)  # this is the skirmish chest after EoD
 ]
@@ -97,6 +97,7 @@ def check_shared_inventory(info: discord_utils.InteractionInfo, api_key: str, wv
 
 def check_character_inventory(info: discord_utils.InteractionInfo, api_key: str, wvw_item_amounts, character_name: str):
     loading_message = template_utils.get_localized_template(templates.loading_character, info.locale).format(
+        character_name=character_name,
         emote_loading=loading_emote,
         emote_busy=random.choice(busy_emotes)
     )

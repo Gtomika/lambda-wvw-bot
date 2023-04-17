@@ -110,6 +110,13 @@ command_data = [
     handler = "bot/wvw_items_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_items_lambda.zip"
     timeout_seconds = 180 # checking every character can take a long time
+  },
+  {
+    command_name = "WvwLegendaries"
+    command_name_discord = "wvw_legendaries"
+    handler = "bot/wvw_legendaries_command/lambda_function.lambda_handler"
+    package_zip_name = "wvw_legendaries_lambda.zip"
+    timeout_seconds = 10
   }
 ]
 

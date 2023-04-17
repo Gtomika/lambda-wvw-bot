@@ -129,6 +129,8 @@ jobs:
         run: zip -r command_lambda_packages/wvw_currencies_lambda.zip bot/wvw_currencies_command/*
       - name: Package items lambda
         run: zip -r command_lambda_packages/wvw_items_lambda.zip bot/wvw_items_command/*
+      - name: Package legendaries lambda
+        run: zip -r command_lambda_packages/wvw_legendaries_lambda.zip bot/wvw_legendaries_command/*
       - uses: actions/upload-artifact@v3
         with:
           name: command-lambda-packages

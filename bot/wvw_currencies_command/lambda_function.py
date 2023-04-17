@@ -18,11 +18,11 @@ gw2_users_table_name = os.environ['GW2_USERS_TABLE_NAME']
 gw2_user_repo = gw2_users.Gw2UsersRepo(gw2_users_table_name, dynamodb_resource)
 
 wvw_currencies = [
-    item_utils.Item(15, "Badges of Honor", "badge_of_honor", 971664799131918356),
-    item_utils.Item(26, "Skirmish Claim Tickets", "skirmish_claim_ticket", 971665489904431105),
-    item_utils.Item(31, "Proofs of Heroics", "heroics", 971666141225300048),
-    item_utils.Item(36, "Proofs of Desert Heroics", "desert_heroics", 971666140877185037),
-    item_utils.Item(65, "Proofs of Jade Heroics", "jade_heroics", 976053286975193118)
+    item_utils.Item(15, "Badges of Honor", "badge_of_honor", 1095760372297900102),
+    item_utils.Item(26, "Skirmish Claim Tickets", "skirmish_claim_ticket", 1095760400592683038),
+    item_utils.Item(31, "Proofs of Heroics", "heroics", 1095760388928311377),
+    item_utils.Item(36, "Proofs of Desert Heroics", "desert_heroics", 1095760377188454440),
+    item_utils.Item(65, "Proofs of Jade Heroics", "jade_heroics", 1095760390153052162)
 ]
 
 
