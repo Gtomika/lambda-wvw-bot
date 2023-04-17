@@ -32,11 +32,11 @@ def empty_amounts(items):
     return [__empty_amount(item) for item in items]
 
 
-def count_amounts_in_bags(amounts, bags):
+def count_amounts_in_bags(amounts, character_inventory):
     """
     Count the item amounts in a characters bags, bags array queried from the GW2 API.
     """
-    for bag in bags:
+    for bag in character_inventory['bags']:
         if bag is None:
             continue
         bag_contents = bag['inventory']

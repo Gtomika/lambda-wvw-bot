@@ -57,6 +57,7 @@ eyes_emote = discord_utils.default_emote('eyes')
 
 success_emote = discord_utils.default_emote('white_check_mark')
 fail_emote = discord_utils.default_emote('x')
+armor_emote = discord_utils.custom_emote('legendary_armor', discord_utils.legendary_armor_id)
 
 
 def lambda_handler(event, context):
@@ -83,7 +84,8 @@ def lambda_handler(event, context):
             non_armor_amounts=wvw_legendary_non_armor_amounts,
             light_set_size=light_armor_set_count,
             medium_set_size=medium_armor_set_count,
-            heavy_set_size=heavy_armor_set_count
+            heavy_set_size=heavy_armor_set_count,
+            locale=info.locale
         )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
     except common_exceptions.NotFoundException:
@@ -117,10 +119,16 @@ def count_armor_piece(weight: str, piece: str, legendary_armory) -> int:
     Count how many of the specified pieces there are, from a given armor weight (for example "medium helm")
     """
     piece_ids = wvw_legendary_armor_ids[weight][piece]
-    amounts = item_utils.empty_amounts(piece_ids)
-    item_utils.count_amounts_in_legendary_armory(amounts, legendary_armory)
+    piece_items = [id_to_armor_item(piece_id) for piece_id in piece_ids]
+    piece_amounts = item_utils.empty_amounts(piece_items)
+    item_utils.count_amounts_in_legendary_armory(piece_amounts, legendary_armory)
     # at most 1 weight + piece is counted. unlikely, but possible that a player has more
-    return min(1, item_utils.sum_amounts(amounts))
+    return min(1, item_utils.sum_amounts(piece_amounts))
+
+
+def id_to_armor_item(armor_id: int) -> item_utils.Item:
+    # actual name is not important here, will not be used
+    return item_utils.Item(armor_id, 'armor', 'legendary_armor', discord_utils.legendary_armor_id)
 
 
 def compile_legendaries_message(
@@ -154,6 +162,7 @@ def compile_armor_details_message(weight: str, locale: str, set_size: int) -> st
     return template_utils.get_localized_template(templates.armor_detail, locale).format(
         armor_weight=template_utils.get_localized_template(templates.armor_weights, locale)[weight],
         amount=str(set_size),
-        max=armor_set_size
+        max=armor_set_size,
+        emote_armor=armor_emote
     )
 

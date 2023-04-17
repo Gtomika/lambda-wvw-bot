@@ -59,7 +59,7 @@ def create_matchup_report(home_world_id: int) -> matchup_utils.Matchup:
 
 def format_matchup_report(home_world: matchup_utils.WvwWorld, matchup: matchup_utils.Matchup, locale) -> str:
     # convert current and matchup end time to the desired locale
-    time_zone = pendulum.timezone(template_utils.get_localized_template(matchup_utils.locale_time_zones, locale))
+    time_zone = pendulum.timezone(template_utils.get_localized_template(time_utils.locale_time_zones, locale))
     current_time = pendulum.now(time_zone)
     reset_end_time = time_zone.convert(matchup.end_at)
 

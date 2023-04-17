@@ -3,6 +3,9 @@ import os
 import json
 import pendulum
 
+from bot.commons import time_utils
+from bot.commons import template_utils
+
 scheduler = boto3.client('scheduler')
 
 schedule_group_name = os.environ['SCHEDULE_GROUP_NAME']
@@ -15,7 +18,7 @@ environment = os.environ['ENVIRONMENT']
 region = os.environ['AWS_REGION']
 
 
-def create_schedule(guild_id: str, raid) -> str:
+def create_schedule(guild_id: str, raid, locale: str) -> str:
     """
     Create a new AWS scheduler schedule that triggers the event reminder. Returns the
     scheduler hash, that must be stored for this event.
@@ -30,7 +33,9 @@ def create_schedule(guild_id: str, raid) -> str:
         FlexibleTimeWindow={
             'Mode': 'OFF'
         },
-        Target=__build_schedule_target(guild_id, raid)
+        Target=__build_schedule_target(guild_id, raid),
+        ScheduleExpressionTimezone=template_utils.get_localized_template(time_utils.locale_time_zones, locale),
+        Description=f'Raid reminder schedule for the guild with ID {guild_id} and event with name {raid.name}'
     )
     # individual schedules cannot be tagged, only groups
     print(f'A new EventBridge Schedule was created: {schedule_name}. It reminds about the raid {raid.name} of guild with ID {guild_id}')
@@ -47,12 +52,13 @@ def delete_schedule(schedule_hash: str):
 
 
 def __schedule_hash(guild_id: str, event_name: str) -> str:
-    return str(hash(f'{guild_id}{event_name}'))
+    schedule_hash = hash(f'{guild_id}{event_name}')
+    return str(abs(schedule_hash))
 
 
 def __build_schedule_name(schedule_hash: str) -> str:
     # guild ID + raid name is a unique combination
-    return f'{schedule_hash}-{app_name}-${environment}-${region}'
+    return f'{schedule_hash}-{app_name}-{environment}-{region}'
 
 
 def __build_reminder_cron(raid) -> str:

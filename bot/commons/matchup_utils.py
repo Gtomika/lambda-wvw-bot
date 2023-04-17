@@ -130,11 +130,6 @@ result_stays = MatchupResult(0, 'chains')
 result_drops = MatchupResult(-1, 'arrow_down')
 
 
-locale_time_zones = {
-    'hu': "Europe/Budapest"
-}
-
-
 def build_matchup_id(region_id: int, tier: int) -> str:
     return f'{str(region_id)}-{str(tier)}'
 

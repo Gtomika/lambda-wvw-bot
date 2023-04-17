@@ -41,6 +41,7 @@ def lambda_handler(event, context):
         home_world = gw2_api_interactions.get_home_world_by_id(home_world_id)['name']
 
         success_message = template_utils.get_localized_template(templates.wvw_rank_response, info.locale).format(
+            emote_wvw=discord_utils.custom_emote('wvw_icon', discord_utils.wvw_icon_id),
             wvw_rank=str(wvw_rank),
             wvw_title=wvw_title,
             home_world=home_world,

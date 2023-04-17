@@ -48,7 +48,7 @@ def extract_locale(event) -> str:
 
 def extract_username(event) -> str:
     if is_from_guild(event):
-        return event['member']['nick']
+        return event['member']['user']['username']
     else:
         return event['user']['username']
 

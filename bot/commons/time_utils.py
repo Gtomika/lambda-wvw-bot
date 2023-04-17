@@ -75,3 +75,7 @@ day_localizations = {
         'every_day': 'minden nap'
     }
 }
+
+locale_time_zones = {
+    'hu': "Europe/Budapest"
+}

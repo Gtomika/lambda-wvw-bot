@@ -3,8 +3,8 @@ wvw_rank_reading = {
 }
 
 wvw_rank_response = {
-    'hu': """**WvW profil jelentés**:
-- Rang: {wvw_rank} ({wvw_title})
+    'hu': """**WvW {emote_wvw} profil jelentés**:
+- Rang: **{wvw_rank}** (*{wvw_title}*)
 - Világ: {home_world}
 - Commander tag {emote_commander}: {commander_tag_status}"""
 }
