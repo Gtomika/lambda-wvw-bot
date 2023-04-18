@@ -59,7 +59,7 @@ def add_announcement_channel(subcommand, guild_id, info):
 
         channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
         webhook_url = discord_utils.extract_subcommand_option(subcommand, 'webhook_url')
-        repo.add_announcement_channel(guild_id, channel_id, webhook_url)
+        repo.put_announcement_channel(guild_id, channel_id, webhook_url)
 
         test_webhook_message = template_utils.get_localized_template(templates.webhook_test, info.locale).format(
             emote_success=discord_utils.default_emote('white_check_mark')
@@ -83,7 +83,13 @@ def is_at_max(guild_id) -> bool:
 def remove_announcement_channel(subcommand, guild_id, info):
     try:
         channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
-        repo.delete_announcement_channel(guild_id, channel_id)
+        previous_webhook = repo.delete_announcement_channel(guild_id, channel_id)
+
+        if previous_webhook is not None:
+            goodbye_message = template_utils.get_localized_template(templates.goodbye_message, info.locale).format(
+                emote_wave=discord_utils.default_emote('wave')
+            )
+            discord_interactions.create_webhook_message(previous_webhook, goodbye_message, webhook_personality)
 
         success_message = template_utils.get_localized_template(templates.channel_deleted, info.locale).format(
             channel=discord_utils.mention_channel(channel_id),

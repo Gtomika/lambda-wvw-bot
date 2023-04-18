@@ -123,7 +123,7 @@ class Gw2GuildRepo:
         """
         guild = self.__get_or_empty_guild(guild_id)
         if manager_roles_field_name in guild:
-            if role_id in guild[manager_roles_field_name]:
+            if role_id not in guild[manager_roles_field_name]:  # avoids duplication
                 guild[manager_roles_field_name].append(role_id)
                 self.__save_guild(guild)
         else:
@@ -163,7 +163,7 @@ class Gw2GuildRepo:
         """
         guild = self.__get_or_empty_guild(guild_id)
         if wvw_roles_field_name in guild:
-            if role_id in guild[wvw_roles_field_name]:
+            if role_id not in guild[wvw_roles_field_name]: # avoids duplication
                 guild[wvw_roles_field_name].append(role_id)
                 self.__save_guild(guild)
         else:
@@ -196,7 +196,7 @@ class Gw2GuildRepo:
         except common_exceptions.NotFoundException:
             return []
 
-    def add_announcement_channel(self, guild_id: str, channel_id: str, webhook_url: str):
+    def put_announcement_channel(self, guild_id: str, channel_id: str, webhook_url: str):
         """
         Save a discord channel ID as announcement channel for this guild
         """
@@ -206,9 +206,13 @@ class Gw2GuildRepo:
         }
         guild = self.__get_or_empty_guild(guild_id)
         if announcement_channels_field_name in guild:
-            if channel_id in guild[announcement_channels_field_name]:
+            if channel_id not in guild[announcement_channels_field_name]:  # avoids duplication
                 guild[announcement_channels_field_name].append(announcement_channel_dict)
-                self.__save_guild(guild)
+            else:  # need to replace, webhook possible changed
+                for channel in guild[announcement_channels_field_name]:
+                    if channel['id'] == channel_id:
+                        channel['webhook'] = webhook_url
+            self.__save_guild(guild)
         else:
             announcement_channels = [announcement_channel_dict]
             guild[announcement_channels_field_name] = announcement_channels
@@ -216,16 +220,24 @@ class Gw2GuildRepo:
 
     def delete_announcement_channel(self, guild_id: str, channel_id: str):
         """
-        Delete an announcement channel.
+        Delete an announcement channel. Previously existing webhook is returned so
+        that goodbye message can be invoked (only if existed).
         """
         try:
             guild = self.__get_guild(guild_id)
             if announcement_channels_field_name in guild:
+                webhook = None
                 current_channels = guild[announcement_channels_field_name]
+                for channel in guild[announcement_channels_field_name]:
+                    if channel['id'] == channel_id:
+                        webhook = channel['webhook']
                 guild[announcement_channels_field_name] = [channel_data for channel_data in current_channels if channel_data['id'] != channel_id]
                 self.__save_guild(guild)
+                return webhook
+            else:
+                return None
         except common_exceptions.NotFoundException:
-            return
+            return None
 
     def get_announcement_channels(self, guild_id: str):
         """

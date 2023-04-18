@@ -104,7 +104,7 @@ class TestGw2GuildRepo(unittest.TestCase):
         channels = repo.get_announcement_channels(mock_guild_id)
         self.assertEqual([], channels)
 
-        repo.add_announcement_channel(mock_guild_id, mock_channel_id, mock_webhook_url)
+        repo.put_announcement_channel(mock_guild_id, mock_channel_id, mock_webhook_url)
         channels = repo.get_announcement_channels(mock_guild_id)
         self.assertEqual([{
             'id': mock_channel_id,

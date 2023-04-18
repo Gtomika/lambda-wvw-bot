@@ -278,7 +278,7 @@ jobs:
       - name: Invoke announcement lambda function
         run: |
           aws lambda invoke --function-name "$ANNOUNCEMENT_FUNCTION_ARN" --invocation-type Event \
-            --payload '{"lambda_wvw_event_type":"release","commit_message":"$COMMIT_MESSAGE"}'
+            --payload '{"lambda_wvw_event_type":"release","commit_message":"$COMMIT_MESSAGE"}' response.json
     needs: register-commands-test-guild
 
   terraform-plan-prd:
@@ -399,6 +399,6 @@ jobs:
       - name: Invoke announcement lambda function
         run: |
           aws lambda invoke --function-name "$ANNOUNCEMENT_FUNCTION_ARN" --invocation-type Event \
-            --payload '{"lambda_wvw_event_type":"release","commit_message":"$COMMIT_MESSAGE"}'
+            --payload '{"lambda_wvw_event_type":"release","commit_message":"$COMMIT_MESSAGE"}' response.json
     needs: register-commands-global
 
