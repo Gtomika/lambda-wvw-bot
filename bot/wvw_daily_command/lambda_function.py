@@ -49,7 +49,7 @@ def lambda_handler(event, context):
 def show_tomorrow(event) -> bool:
     try:
         return discord_utils.extract_option(event, 'tomorrow')
-    except discord_utils.OptionNotFoundException:
+    except common_exceptions.OptionNotFoundException:
         return False
 
 

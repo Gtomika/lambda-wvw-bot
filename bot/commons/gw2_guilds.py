@@ -110,11 +110,11 @@ class Gw2GuildRepo:
         """
         Get selected guilds home world. Throws:
          - ClientError: internal error
-         - NotFoundException: this guild does not have home world set
+         - HomeWorldNotSetException: this guild does not have home world set
         """
         guild = self.__get_guild(guild_id)
         if home_world_field_name not in guild:
-            raise common_exceptions.NotFoundException
+            raise common_exceptions.HomeWorldNotSetException
         return guild[home_world_field_name]
 
     def add_manager_role(self, guild_id: str, role_id: str):

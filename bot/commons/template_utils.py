@@ -90,8 +90,20 @@ common_template_home_world_not_set = {
 }
 
 
-def format_and_response_home_world_not_set(discord_interactions, info):
+def format_and_respond_home_world_not_set(discord_interactions, info):
     error_message = get_localized_template(common_template_home_world_not_set, info.locale)
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+
+
+common_template_invalid_world = {
+    'hu': "A *'{home_world}'* nem egy GW2 világ. Ellenőrizd, hogy nem gépelted-e el. **Figyelem**, a nem angol világoknál a nyelvi tag is a név része, pl: *'Dzagonur [DE]'*."
+}
+
+
+def format_and_response_invalid_world(discord_interactions, info, world_name: str):
+    error_message = get_localized_template(common_template_invalid_world, info.locale).format(
+        home_world=world_name
+    )
     discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
 
 

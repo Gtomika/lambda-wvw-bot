@@ -11,6 +11,7 @@ from bot.commons import template_utils
 from bot.commons import gw2_api_interactions
 from bot.commons import gw2_guilds
 from bot.commons import matchup_utils
+from bot.commons import world_utils
 from bot.commons import time_utils
 from bot.commons import monitoring
 from . import templates
@@ -25,7 +26,7 @@ def lambda_handler(event, context):
     monitoring.log_command(info, 'wvw_matchup')
     guild_id = info.guild_id
     try:
-        home_world = repo.get_guild_home_world(guild_id)
+        home_world = world_utils.identify_selected_world(guild_id, repo, event)
 
         loading_message = template_utils.get_localized_template(templates.matchup_calculation_in_progress, info.locale).format(
             emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id)
@@ -37,8 +38,10 @@ def lambda_handler(event, context):
         matchup = create_matchup_report(home_world.world_id)
         success_message = format_matchup_report(home_world, matchup, info.locale)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except common_exceptions.NotFoundException:
-        template_utils.format_and_response_home_world_not_set(discord_interactions, info)
+    except common_exceptions.HomeWorldNotSetException:
+        template_utils.format_and_respond_home_world_not_set(discord_interactions, info)
+    except common_exceptions.InvalidWorldException as e:
+        template_utils.format_and_response_invalid_world(discord_interactions, info, e.world_name)
     except gw2_api_interactions.ApiKeyUnauthorizedException:
         template_utils.format_and_respond_api_key_unauthorized(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiException:

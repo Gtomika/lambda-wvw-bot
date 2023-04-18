@@ -51,29 +51,26 @@ def lambda_handler(event, context):
 
 
 def add_announcement_channel(subcommand, guild_id, info):
-    try:
-        if is_at_max(guild_id):
-            error_message = template_utils.get_localized_template(templates.too_much, info.locale).format(max=str(announcement_channel_max))
-            discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
-            return
+    if is_at_max(guild_id):
+        error_message = template_utils.get_localized_template(templates.too_much, info.locale).format(
+            max=str(announcement_channel_max))
+        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+        return
 
-        channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
-        webhook_url = discord_utils.extract_subcommand_option(subcommand, 'webhook_url')
-        repo.put_announcement_channel(guild_id, channel_id, webhook_url)
+    channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
+    webhook_url = discord_utils.extract_subcommand_option(subcommand, 'webhook_url')
+    repo.put_announcement_channel(guild_id, channel_id, webhook_url)
 
-        test_webhook_message = template_utils.get_localized_template(templates.webhook_test, info.locale).format(
-            emote_success=discord_utils.default_emote('white_check_mark')
-        )
-        discord_interactions.create_webhook_message(webhook_url, test_webhook_message, webhook_personality)
+    test_webhook_message = template_utils.get_localized_template(templates.webhook_test, info.locale).format(
+        emote_success=discord_utils.default_emote('white_check_mark')
+    )
+    discord_interactions.create_webhook_message(webhook_url, test_webhook_message, webhook_personality)
 
-        success_message = template_utils.get_localized_template(templates.channel_added, info.locale).format(
-            channel=discord_utils.mention_channel(channel_id),
-            emote_speaker=discord_utils.default_emote('loudspeaker')
-        )
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except discord_utils.OptionNotFoundException:
-        message = template_utils.get_localized_template(templates.channel_not_provided, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
+    success_message = template_utils.get_localized_template(templates.channel_added, info.locale).format(
+        channel=discord_utils.mention_channel(channel_id),
+        emote_speaker=discord_utils.default_emote('loudspeaker')
+    )
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
 
 
 def is_at_max(guild_id) -> bool:
@@ -81,24 +78,20 @@ def is_at_max(guild_id) -> bool:
 
 
 def remove_announcement_channel(subcommand, guild_id, info):
-    try:
-        channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
-        previous_webhook = repo.delete_announcement_channel(guild_id, channel_id)
+    channel_id = discord_utils.extract_subcommand_option(subcommand, 'channel')  # it's ID actually
+    previous_webhook = repo.delete_announcement_channel(guild_id, channel_id)
 
-        if previous_webhook is not None:
-            goodbye_message = template_utils.get_localized_template(templates.goodbye_message, info.locale).format(
-                emote_wave=discord_utils.default_emote('wave')
-            )
-            discord_interactions.create_webhook_message(previous_webhook, goodbye_message, webhook_personality)
-
-        success_message = template_utils.get_localized_template(templates.channel_deleted, info.locale).format(
-            channel=discord_utils.mention_channel(channel_id),
-            emote_mute=discord_utils.default_emote('mute')
+    if previous_webhook is not None:
+        goodbye_message = template_utils.get_localized_template(templates.goodbye_message, info.locale).format(
+            emote_wave=discord_utils.default_emote('wave')
         )
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except discord_utils.OptionNotFoundException:
-        message = template_utils.get_localized_template(templates.channel_not_provided, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
+        discord_interactions.create_webhook_message(previous_webhook, goodbye_message, webhook_personality)
+
+    success_message = template_utils.get_localized_template(templates.channel_deleted, info.locale).format(
+        channel=discord_utils.mention_channel(channel_id),
+        emote_mute=discord_utils.default_emote('mute')
+    )
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
 
 
 def list_announcement_channels(guild_id, info):

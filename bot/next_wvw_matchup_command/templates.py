@@ -22,9 +22,9 @@ Inkább a jelenlegi matchup érdekel? Használd a */wvw_matchup* parancsot!"""
 
 prediction = {
     'hu': {
-        1: 'Várhatóan feljebb lépünk, új szint: tier {tier} {emote}',
-        0: 'Várhatóan ugyanezen a szinten maradunk: tier {tier} {emote}',
-        -1: 'Várhatóan visszaesünk, új szint: tier {tier} {emote}'
+        1: 'Várhatóan feljebb lép, új szint: tier {tier} {emote}',
+        0: 'Várhatóan ugyanezen a szinten marad: tier {tier} {emote}',
+        -1: 'Várhatóan visszaesik, új szint: tier {tier} {emote}'
     }
 }
 

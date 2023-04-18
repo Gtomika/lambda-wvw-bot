@@ -3,5 +3,14 @@
   "name": "wvw_matchup",
   "description": "WvW jelen állapotának lekérése.",
   "dm_permission": false,
-  "options": []
+  "options": [
+    {
+      "type": 3,
+      "name": "world_name",
+      "description": "Ha a guild világa helyett egy másik világ matchup-ja érdekel, itt add meg a nevét.",
+      "required": false,
+      "min_length": 3,
+      "max_length": 100
+    }
+  ]
 }

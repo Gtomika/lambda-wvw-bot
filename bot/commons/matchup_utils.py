@@ -1,5 +1,7 @@
 import pendulum
 
+from bot.commons import common_exceptions
+
 
 eu_region_constant = 2
 eu_lowest_tier = 5
@@ -204,5 +206,4 @@ def is_relink(next_reset_time: pendulum.DateTime) -> bool:
         # re-link is on the last friday of NEXT month
         relink_day = now.add(months=1).last_of(unit='month', day_of_week=pendulum.FRIDAY)
     return next_reset_time.is_same_day(relink_day)
-
 

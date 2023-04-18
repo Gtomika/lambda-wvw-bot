@@ -3,5 +3,14 @@
   "name": "next_wvw_matchup",
   "description": "Jövő heti WvW állapot becslése.",
   "dm_permission": false,
-  "options": []
+  "options": [
+    {
+      "type": 3,
+      "name": "world_name",
+      "description": "Ha a guild világa helyett egy másik világ következő matchup-ja érdekel, itt add meg a nevét.",
+      "required": false,
+      "min_length": 3,
+      "max_length": 100
+    }
+  ]
 }

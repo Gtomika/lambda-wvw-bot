@@ -1,3 +1,5 @@
+from bot.commons import common_exceptions
+
 ACK_TYPE = 1
 RESPONSE_TYPE = 4
 DEFER_TYPE = 5
@@ -13,10 +15,6 @@ legendary_armor_id = 1097446125230891078
 developer_id = "416289572289249280"
 
 admin_permission = 0x0000000000000008
-
-
-class OptionNotFoundException(Exception):
-    pass
 
 
 class InteractionInfo:
@@ -70,13 +68,13 @@ def extract_option(event, option_name: str):
      - OptionNotFoundException
     """
     if 'options' not in event['data']:
-        raise OptionNotFoundException
+        raise common_exceptions.OptionNotFoundException
     options = event['data']['options']
 
     for option in options:
         if option['name'] == option_name:
             return option['value']
-    raise OptionNotFoundException
+    raise common_exceptions.OptionNotFoundException
 
 
 def extract_subcommand_option(subcommand, option_name: str):
@@ -87,7 +85,7 @@ def extract_subcommand_option(subcommand, option_name: str):
     for option in subcommand['options']:
         if option['name'] == option_name:
             return option['value']
-    raise OptionNotFoundException
+    raise common_exceptions.OptionNotFoundException
 
 
 def extract_subcommand(event):

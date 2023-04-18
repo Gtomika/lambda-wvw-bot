@@ -58,7 +58,7 @@ class TestGw2GuildRepo(unittest.TestCase):
         create_guilds_table(dynamodb_resource, 'guilds')
 
         repo = gw2_guilds.Gw2GuildRepo(table_name='guilds', dynamodb_resource=dynamodb_resource)
-        with self.assertRaises(common_exceptions.NotFoundException):
+        with self.assertRaises(common_exceptions.HomeWorldNotSetException):
             repo.get_guild_home_world("1237546")
 
     @moto.mock_dynamodb

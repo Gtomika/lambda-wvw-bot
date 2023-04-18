@@ -47,20 +47,17 @@ def lambda_handler(event, context):
 
 
 def add_manager_role(subcommand, guild_id, info):
-    try:
-        if is_at_max(guild_id):
-            error_message = template_utils.get_localized_template(templates.too_much, info.locale).format(max=str(max_roles))
-            discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
-            return
+    if is_at_max(guild_id):
+        error_message = template_utils.get_localized_template(templates.too_much, info.locale).format(
+            max=str(max_roles))
+        discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+        return
 
-        role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
-        repo.add_manager_role(guild_id, role_id)
-        success_message = template_utils.get_localized_template(templates.manager_role_added, info.locale)\
-            .format(role=discord_utils.mention_role(role_id))
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except discord_utils.OptionNotFoundException:
-        message = template_utils.get_localized_template(templates.role_not_provided, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
+    role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
+    repo.add_manager_role(guild_id, role_id)
+    success_message = template_utils.get_localized_template(templates.manager_role_added, info.locale) \
+        .format(role=discord_utils.mention_role(role_id))
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
 
 
 def is_at_max(guild_id: str) -> bool:
@@ -68,15 +65,11 @@ def is_at_max(guild_id: str) -> bool:
 
 
 def remove_manager_role(subcommand, guild_id, info):
-    try:
-        role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
-        repo.delete_manager_role(guild_id, role_id)
-        success_message = template_utils.get_localized_template(templates.manager_role_removed, info.locale) \
-            .format(role=discord_utils.mention_role(role_id))
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
-    except discord_utils.OptionNotFoundException:
-        message = template_utils.get_localized_template(templates.role_not_provided, info.locale)
-        discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
+    role_id = discord_utils.extract_subcommand_option(subcommand, 'role')
+    repo.delete_manager_role(guild_id, role_id)
+    success_message = template_utils.get_localized_template(templates.manager_role_removed, info.locale) \
+        .format(role=discord_utils.mention_role(role_id))
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
 
 
 def list_manager_roles(guild_id, info):

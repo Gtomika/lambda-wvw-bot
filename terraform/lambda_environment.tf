@@ -80,6 +80,22 @@ data aws_iam_policy_document "guilds_table_policy" {
   }
 }
 
+data "aws_iam_policy_document" "pass_role_to_scheduler_policy" {
+  statement {
+    sid = "AllowToPassRoleToScheduler"
+    effect = "Allow"
+    actions = [
+      "iam:PassRole"
+    ]
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PassedToService"
+      values   = ["scheduler.amazonaws.com"]
+    }
+  }
+}
+
 # Here are declared all the IAM policies for the command lambda functions
 # In case the lambda has no complex policy (one of the policies from above is enough) it is not declared here
 
@@ -103,7 +119,8 @@ data "aws_iam_policy_document" "wvw_raid_command_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.log_policy.json,
     data.aws_iam_policy_document.guilds_table_policy.json,
-    data.aws_iam_policy_document.scheduler_manager_policy.json
+    data.aws_iam_policy_document.scheduler_manager_policy.json,
+    data.aws_iam_policy_document.pass_role_to_scheduler_policy.json
   ]
 }
 

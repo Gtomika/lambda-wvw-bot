@@ -3,7 +3,7 @@ home_world_not_set = {
 }
 
 invalid_home_world = {
-    'hu': "A *'{home_world}'* nem egy GW2 világ. Ellenőrizd, hogy nem gépelted-e el. **Figyelem**, a nem angol világoknál a nyelvi tag is a név része, pl: *'Dzagonur [DE]'*."
+
 }
 
 updating_home_world = {
