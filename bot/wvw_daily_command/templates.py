@@ -29,5 +29,5 @@ loading = {
 }
 
 daily_detail = {
-    'hu': '- **{name}**: {description}, {potion_amount} {emote_potion}'
+    'hu': '- **{name}**: {description} {potion_amount} {emote_potion}'
 }

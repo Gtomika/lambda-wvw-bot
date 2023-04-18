@@ -75,7 +75,7 @@ def add_wvw_raid(subcommand, guild_id, info):
 
         # schedule reminder of this raid if needed
         if reminder_needed:
-            schedule_hash = raid_scheduling.create_schedule(guild_id, wvw_raid)
+            schedule_hash = raid_scheduling.create_schedule(guild_id, wvw_raid, info.locale)
             wvw_raid.set_schedule_hash(schedule_hash)
 
         repo.add_wvw_raid(guild_id, wvw_raid)

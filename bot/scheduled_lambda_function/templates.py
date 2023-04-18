@@ -34,3 +34,7 @@ raid_reminder = {
 - Hossz: {duration_hours} óra"""
 }
 
+release_announcement = {
+    'hu': """Új verzióm jelent meg {emote_robot}! Részletek:
+{commit_message}"""
+}

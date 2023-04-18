@@ -9,6 +9,7 @@ from bot.commons import discord_interactions
 from . import wvw_reset_handler
 from . import population_check_handler
 from . import raid_reminder_handler
+from . import release_handler
 
 dynamodb_resource = boto3.resource('dynamodb')
 
@@ -41,6 +42,8 @@ def lambda_handler(event, context):
             raid_reminder_handler.handle_raid_reminder_event(event, guilds_repo, personality, locale)
         elif event_type == 'home_world_population_recheck':
             population_check_handler.handle_home_world_population_recheck(guilds_repo, personality, locale)
+        elif event_type == 'release':
+            release_handler.handler_release_announcement(guilds_repo, personality, locale)
         else:
             print(f'Cannot handle event because event type is unknown: {event_type}')
     except BaseException as e:

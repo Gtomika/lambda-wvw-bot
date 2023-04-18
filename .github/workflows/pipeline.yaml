@@ -7,6 +7,7 @@ on:
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   TERRAFORM_STATE_BUCKET: ${{ vars.TERRAFORM_STATE_BUCKET }}
@@ -267,6 +268,19 @@ jobs:
         run: python commands/register_slash_commands.py
     needs: terraform-apply-stg
 
+  announce-release-stg:
+    environment: staging
+    runs-on: ubuntu-latest
+    env:
+      ANNOUNCEMENT_FUNCTION_ARN: ${{ vars.ANNOUNCEMENT_FUNCTION_ARN }}
+      COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+    steps: # AWS CLI is pre-installed to GitHub actions images
+      - name: Invoke announcement lambda function
+        run: |
+          aws lambda invoke --function-name "$ANNOUNCEMENT_FUNCTION_ARN" --invocation-type Event \
+            --payload '{"lambda_wvw_event_type":"release","commit_message":"$COMMIT_MESSAGE"}'
+    needs: register-commands-test-guild
+
   terraform-plan-prd:
     environment: production
     runs-on: ubuntu-latest
@@ -301,7 +315,7 @@ jobs:
         with:
           name: terraform-plan-prd
           path: terraform/app.tfplan
-    needs: [ register-commands-test-guild ]
+    needs: [ announce-release-stg ]
 
   terraform-apply-prd:
     runs-on: ubuntu-latest
@@ -374,4 +388,17 @@ jobs:
       - name: Register commands globally
         run: python commands/register_slash_commands.py
     needs: terraform-apply-prd
+
+  announce-release-prd:
+    environment: production
+    runs-on: ubuntu-latest
+    env:
+      ANNOUNCEMENT_FUNCTION_ARN: ${{ vars.ANNOUNCEMENT_FUNCTION_ARN }}
+      COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+    steps: # AWS CLI is pre-installed to GitHub actions images
+      - name: Invoke announcement lambda function
+        run: |
+          aws lambda invoke --function-name "$ANNOUNCEMENT_FUNCTION_ARN" --invocation-type Event \
+            --payload '{"lambda_wvw_event_type":"release","commit_message":"$COMMIT_MESSAGE"}'
+    needs: register-commands-global
 
