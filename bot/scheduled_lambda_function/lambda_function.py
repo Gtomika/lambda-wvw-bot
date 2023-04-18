@@ -43,7 +43,7 @@ def lambda_handler(event, context):
         elif event_type == 'home_world_population_recheck':
             population_check_handler.handle_home_world_population_recheck(guilds_repo, personality, locale)
         elif event_type == 'release':
-            release_handler.handler_release_announcement(guilds_repo, personality, locale)
+            release_handler.handler_release_announcement(event, guilds_repo, personality, locale)
         else:
             print(f'Cannot handle event because event type is unknown: {event_type}')
     except BaseException as e:

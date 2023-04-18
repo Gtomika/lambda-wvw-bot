@@ -41,4 +41,4 @@ def identify_selected_world(guild_id: str, guilds_repo: gw2_guilds.Gw2GuildRepo,
         }
     except common_exceptions.OptionNotFoundException:
         # no name specified, fall back to guild home world, may throw HomeWorldNotSetException
-        guilds_repo.get_guild_home_world(guild_id)
+        return guilds_repo.get_guild_home_world(guild_id)

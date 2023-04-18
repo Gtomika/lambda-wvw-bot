@@ -86,12 +86,12 @@ def __build_schedule_target(guild_id: str, raid) -> dict:
         'Input': json.dumps({
             'FunctionName': scheduled_lambda_arn,
             'InvocationType': 'Event',
-            'Payload': {  # the schedule is triggered 30 minutes before the raid
+            'Payload': json.dumps({  # the schedule is triggered 30 minutes before the raid
                 'lambda_wvw_event_type': 'raid_reminder',
                 'guild_id': guild_id,
                 'raid_name': raid.name,
                 'raid_start_time': raid.time,
                 'raid_duration': raid.dur
-            }
+            })
         })
     }
