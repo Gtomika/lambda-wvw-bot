@@ -19,7 +19,7 @@ def __find_home_world_with_name(home_world_array, home_world: str):
     for home_world_item in home_world_array:
         if home_world_item['name'] == home_world:
             return home_world_item
-    raise common_exceptions.InvalidWorldException
+    raise common_exceptions.InvalidWorldException(home_world)
 
 
 def identify_selected_world(guild_id: str, guilds_repo: gw2_guilds.Gw2GuildRepo, event) -> dict:

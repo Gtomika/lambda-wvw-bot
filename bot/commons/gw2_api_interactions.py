@@ -96,11 +96,16 @@ def gw2_api_request(api_key, url: str):
             'Authorization': f'Bearer {api_key}'
     } if api_key is not None else None
 
-    response = requests.get(
-        url=f'{gw2_api_base_url}{url}',
-        headers=headers,
-        timeout=gw2_api_timeout
-    )
+    try:
+        response = requests.get(
+            url=f'{gw2_api_base_url}{url}',
+            headers=headers,
+            timeout=gw2_api_timeout
+        )
+    except requests.exceptions.ReadTimeout:
+        print(f'The request to the GW2 API timed out. Relative URL: {url}')
+        raise ApiException
+
     code = response.status_code
     if code == 401 or code == 403:
         print(f'Unauthorized to make response to GW2 API - code: {response.status_code}, content: {response.content}')
@@ -110,5 +115,5 @@ def gw2_api_request(api_key, url: str):
         raise BadRequestException
     if response.status_code >= 500:
         print(f'Internal error from GW2 API - code: {response.status_code}, content: {response.content}')
-        raise ApiException()
+        raise ApiException
     return response.json()

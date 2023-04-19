@@ -36,4 +36,4 @@ def handler_release_announcement(
                 personality=personality
             )
     else:
-        print(f'The deployment with commit message "{commit_message} was not marked for announcement, and is ignored."')
+        print(f'The deployment with commit message "{commit_message}" was not marked for announcement, and is ignored.')
