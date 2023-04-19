@@ -4,7 +4,7 @@ time_parsing_failed = {
 
 raid_added = {
     'hu': """Elementettem ezt az eseményt:
-- {raid_description}
+{raid_description}
 A */wvw_raid list* utasítással kérheted le az összes eseményt."""
 }
 

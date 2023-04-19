@@ -44,6 +44,7 @@ resource "aws_iam_role" "scheduler_role" {
 resource "aws_scheduler_schedule" "wvw_reset_schedule" {
   name = "ResetSchedule-${local.name_suffix}"
   group_name = aws_scheduler_schedule_group.schedule_group.id
+  description = "Scheduled before the WvW reset to trigger reminders."
 
   flexible_time_window {
     mode = "OFF"
@@ -57,9 +58,9 @@ resource "aws_scheduler_schedule" "wvw_reset_schedule" {
     input = jsonencode({
       FunctionName = var.scheduled_lambda_arn
       InvocationType = "Event"
-      Payload = {
+      Payload = jsonencode({
         lambda_wvw_event_type: "wvw_reset" # It's also responsible for the wvw relink
-      }
+      })
     })
   }
 }
@@ -67,6 +68,7 @@ resource "aws_scheduler_schedule" "wvw_reset_schedule" {
 resource "aws_scheduler_schedule" "population_recheck_schedule" {
   name = "PopulationRecheck-${local.name_suffix}"
   group_name = aws_scheduler_schedule_group.schedule_group.id
+  description = "Scheduled to check if a selected GW2 world has changed in population."
 
   flexible_time_window {
     mode = "FLEXIBLE"
@@ -81,9 +83,9 @@ resource "aws_scheduler_schedule" "population_recheck_schedule" {
     input = jsonencode({
       FunctionName = var.scheduled_lambda_arn
       InvocationType = "Event"
-      Payload = {
+      Payload = jsonencode({
         lambda_wvw_event_type: "home_world_population_recheck"
-      }
+      })
     })
   }
 }

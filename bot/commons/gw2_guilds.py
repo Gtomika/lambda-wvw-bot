@@ -315,8 +315,10 @@ class Gw2GuildRepo:
         Should not be used on any other dict.
         """
         schedule_hash = raid_dict['hash'] if 'hash' in raid_dict else None
-        return WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'],
-                       raid_dict['dur'], raid_dict['reminder'], schedule_hash)
+        raid = WvwRaid(raid_dict['name'], raid_dict['day'], raid_dict['time'],
+                       raid_dict['dur'], raid_dict['reminder'])
+        raid.set_schedule_hash(schedule_hash)
+        return raid
 
 
 

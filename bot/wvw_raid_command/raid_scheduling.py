@@ -63,8 +63,9 @@ def __build_schedule_name(schedule_hash: str) -> str:
 
 def __build_reminder_cron(raid) -> str:
     start_time = pendulum.parse(raid.time)
+    reminder_time = start_time.subtract(minutes=time_utils.reminder_delay_minutes)
     day = cron_day_mappings[raid.day]
-    return f'{str(start_time.minute)} {str(start_time.hour)} ? * {day} *'
+    return f'{str(reminder_time.minute)} {str(reminder_time.hour)} ? * {day} *'
 
 
 cron_day_mappings = {

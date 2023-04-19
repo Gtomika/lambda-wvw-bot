@@ -2,6 +2,9 @@ import pendulum
 
 __date_time_format = 'YYYY-MM-DD HH:mm'
 
+# if this is changed, also change the command description '/wvw_raid add'
+reminder_delay_minutes = 30
+
 
 def format_date_time(dt: pendulum.DateTime) -> str:
     return dt.format(fmt=__date_time_format)
