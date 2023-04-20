@@ -23,7 +23,8 @@ def handler_release_announcement(
         trimmed_commit_message = commit_message.removeprefix(announce_prefix).strip()
         announcement_message = template_utils.get_localized_template(templates.release_announcement, locale).format(
             emote_robot=discord_utils.default_emote('robot'),
-            commit_message=trimmed_commit_message
+            commit_message=trimmed_commit_message,
+            emote_github=discord_utils.custom_emote('github', discord_utils.github_emote_id)
         )
         for guild in guilds_repo.find_all_guilds([
             gw2_guilds.announcement_channels_field_name

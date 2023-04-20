@@ -15,7 +15,7 @@ non_armor_detail = {
 }
 
 armor_detail = {
-    'hu': '- Legendás WvW {armor_weight} páncélzat {emote_armor}: {amount}/{max} darab'
+    'hu': '- **Legendás WvW {armor_weight} páncélzat** {emote_armor}: {amount}/{max} darab'
 }
 
 armor_weights = {

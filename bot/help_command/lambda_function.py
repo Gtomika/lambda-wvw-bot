@@ -6,7 +6,8 @@ from bot.commons import template_utils
 from bot.commons import monitoring
 from . import templates
 
-documentation_url = 'https://gtomika.github.io/mod-wvw-bot/'  # TODO update this
+documentation_url = 'https://gtomika.github.io/lambda-wvw-bot'
+source_code_url = 'https://github.com/Gtomika/lambda-wvw-bot'
 
 
 def lambda_handler(event, context):
@@ -24,6 +25,7 @@ def lambda_handler(event, context):
             developer=discord_utils.mention_user(discord_utils.developer_id),
             emote_docu=discord_utils.default_emote('bookmark_tabs'),
             docu_url=discord_utils.escaped_link(documentation_url),
+            source_url=discord_utils.escaped_link(source_code_url),
             emote_e=discord_utils.default_emote('regional_indicator_e'),
             emote_n=discord_utils.default_emote('regional_indicator_n')
         )

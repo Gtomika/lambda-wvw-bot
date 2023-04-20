@@ -35,6 +35,10 @@ raid_reminder = {
 }
 
 release_announcement = {
-    'hu': """Új verzióm jelent meg {emote_robot}! Részletek:
-{commit_message}"""
+    'hu': """Új verzióm jelent meg {emote_robot}
+
+Részletek:
+*{commit_message}*
+
+Ez egy automatizált üzenet a GitHub-ról {emote_github}"""
 }
