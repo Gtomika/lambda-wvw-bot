@@ -1,17 +1,26 @@
 {
   "type": 1,
   "name": "wvw_role",
-  "description": "WvW releváns rangok beállítása",
+  "description": "Settings of WvW roles.",
+  "description_localizations": {
+    "hu": "WvW releváns rangok beállítása."
+  },
   "dm_permission": false,
   "options": [
     {
       "name": "add",
-      "description": "Új WvW rang hozzáadása",
+      "description": "Add a new WvW role.",
+      "description_localizations": {
+        "hu": "Új WvW rang hozzáadása."
+      },
       "type": 1,
       "options": [
         {
           "name": "role",
-          "description": "Melyik rangot?",
+          "description": "Which role?",
+          "description_localizations": {
+            "hu": "Melyik rangot?"
+          },
           "type": 8,
           "required": true
         }
@@ -19,12 +28,18 @@
     },
     {
       "name": "delete",
-      "description": "WvW rang eltávolítása",
+      "description": "Delete a WvW role.",
+      "description_localizations": {
+        "hu": "WvW rang eltávolítása."
+      },
       "type": 1,
       "options": [
         {
           "name": "role",
-          "description": "Melyik rangot?",
+          "description": "Which role?",
+          "description_localizations": {
+            "hu": "Melyik rangot?"
+          },
           "required": true,
           "type": 8
         }
@@ -32,7 +47,10 @@
     },
     {
       "name": "list",
-      "description": "WvW rangok mutatása",
+      "description": "Show WvW roles.",
+      "description_localizations": {
+        "hu": "WvW rangok mutatása."
+      },
       "type": 1
     }
   ]

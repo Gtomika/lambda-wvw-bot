@@ -136,6 +136,8 @@ jobs:
       - name: Package legendaries lambda
         run: zip -r command_lambda_packages/wvw_legendaries_lambda.zip bot/wvw_legendaries_command/*
       - uses: actions/upload-artifact@v3
+        run: zip -r command_lambda_packages/guild_language_lambda.zip bot/guild_language_command/*
+      - uses: actions/upload-artifact@v3
         with:
           name: command-lambda-packages
           path: command_lambda_packages/
@@ -283,7 +285,7 @@ jobs:
           aws lambda invoke --function-name "$ANNOUNCEMENT_FUNCTION_ARN" --invocation-type Event \
             --cli-binary-format raw-in-base64-out \
             --payload '{"lambda_wvw_event_type":"release","commit_message":"${{ env.COMMIT_MESSAGE }}"}' response.json
-    needs: register-commands-test-guild
+    needs: terraform-apply-stg
 
   terraform-plan-prd:
     environment: production
@@ -319,7 +321,7 @@ jobs:
         with:
           name: terraform-plan-prd
           path: terraform/app.tfplan
-    needs: [ announce-release-stg ]
+    needs: terraform-apply-stg
 
   terraform-apply-prd:
     runs-on: ubuntu-latest
@@ -405,5 +407,5 @@ jobs:
           aws lambda invoke --function-name "$ANNOUNCEMENT_FUNCTION_ARN" --invocation-type Event \
             --cli-binary-format raw-in-base64-out \
             --payload '{"lambda_wvw_event_type":"release","commit_message":"${{ env.COMMIT_MESSAGE }}"}' response.json
-    needs: register-commands-global
+    needs: terraform-apply-prd
 

@@ -19,8 +19,6 @@ guilds_repo = gw2_guilds.Gw2GuildRepo(table_name=gw2_guilds_table_name, dynamodb
 gw2_users_table_name = os.environ['GW2_USERS_TABLE_NAME']
 users_repo = gw2_users.Gw2UsersRepo(table_name=gw2_users_table_name, dynamodb_resource=dynamodb_resource)
 
-locale = 'hu'  # TODO find a way to use the appropriate locale
-
 app_name = os.environ['APP_NAME']
 app_icon = os.environ['APP_ICON_URL']
 
@@ -37,13 +35,13 @@ def lambda_handler(event, context):
     event_type = event['lambda_wvw_event_type']
     try:
         if event_type == 'wvw_reset':
-            wvw_reset_handler.handle_wvw_reset_event(guilds_repo, personality, locale)
+            wvw_reset_handler.handle_wvw_reset_event(guilds_repo, personality)
         elif event_type == 'raid_reminder':
-            raid_reminder_handler.handle_raid_reminder_event(event, guilds_repo, personality, locale)
+            raid_reminder_handler.handle_raid_reminder_event(event, guilds_repo, personality)
         elif event_type == 'home_world_population_recheck':
-            population_check_handler.handle_home_world_population_recheck(guilds_repo, personality, locale)
+            population_check_handler.handle_home_world_population_recheck(guilds_repo, personality)
         elif event_type == 'release':
-            release_handler.handler_release_announcement(event, guilds_repo, personality, locale)
+            release_handler.handler_release_announcement(event, guilds_repo, personality)
         else:
             print(f'Cannot handle event because event type is unknown: {event_type}')
     except BaseException as e:

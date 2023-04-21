@@ -1,24 +1,36 @@
 {
   "type": 1,
   "name": "announcement_channel",
-  "description": "WvW hirdető csatornák beállítása",
+  "description": "Manage WvW announcement channels",
+  "description_localizations": {
+    "hu": "WvW hirdető csatornák beállítása"
+  },
   "dm_permission": false,
   "options": [
     {
       "name": "add",
-      "description": "Új hirdető csatorna hozzáadása",
+      "description": "Set a new announcement channel",
+      "description_localizations": {
+        "hu": "Új hirdető csatorna hozzáadása"
+      },
       "type": 1,
       "options": [
         {
           "name": "channel",
-          "description": "Melyik csatornát?",
+          "description": "Which channel?",
+          "description_localizations": {
+            "hu": "Melyik csatornát?"
+          },
           "type": 7,
           "required": true
         },
         {
           "type": 3,
           "name": "webhook_url",
-          "description": "Discord webhook link: ezt a szerver beállításoknál lehet létrehozni.",
+          "description": "Discord webhook link: you can create it in the server settings/integrations.",
+          "description_localizations": {
+            "hu": "Discord webhook link: ezt a szerver beállításoknál (azon belül integrációk) lehet létrehozni."
+          },
           "required": true,
           "min_length": 5
         }
@@ -26,12 +38,18 @@
     },
     {
       "name": "delete",
-      "description": "Hirdető csatorna eltávolítása",
+      "description": "Remove announcement channel (I will not announce on it anymore)",
+      "description_localizations": {
+        "hu": "Hirdető csatorna eltávolítása (már nem fogok hirdetni rajta)"
+      },
       "type": 1,
       "options": [
         {
           "name": "channel",
-          "description": "Melyik csatornát?",
+          "description": "Which channel?",
+          "description_localizations": {
+            "hu": "Melyik csatornát?"
+          },
           "type": 7,
           "required": true
         }
@@ -39,7 +57,10 @@
     },
     {
       "name": "list",
-      "description": "Hirdető csatornák mutatása",
+      "description": "Show announcement channels",
+      "description_localizations": {
+        "hu": "Hirdető csatornák mutatása"
+      },
       "type": 1
     }
   ]

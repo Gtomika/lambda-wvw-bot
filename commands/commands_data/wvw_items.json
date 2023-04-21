@@ -1,7 +1,10 @@
 {
   "type": 1,
   "name": "wvw_items",
-  "description": "A WvW-s tárgyaid listázása.",
+  "description": "List your WvW items.",
+  "description_localizations": {
+    "hu": "A WvW-s tárgyaid összeszámolása."
+  },
   "dm_permission": true,
   "options": []
 }

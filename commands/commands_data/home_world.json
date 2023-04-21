@@ -1,17 +1,26 @@
 {
   "type": 1,
   "name": "home_world",
-  "description": "Guild világának (szerverének) kezelése.",
+  "description": "Managing the guild's world (GW2 server).",
+  "description_localizations": {
+    "hu": "Guild világának (GW2 szerverének) kezelése."
+  },
   "dm_permission": false,
   "options": [
     {
       "type": 1,
       "name": "set",
-      "description": "Új világ megadása a guild számára",
+      "description": "Specify a new world for the guild.",
+      "description_localizations": {
+        "hu": "Új világ megadása a guild számára"
+      },
       "options": [
         {
           "name": "world_name",
-          "description": "A világ (szerver) neve, például 'Piken Square' vagy 'Dzagonur [DE]'.",
+          "description": "The name of the world (server), such as 'Piken Square' or 'Dzagonur [DE]'.",
+          "description_localizations": {
+            "hu": "A világ (szerver) neve, például 'Piken Square' vagy 'Dzagonur [DE]'."
+          },
           "required": false,
           "type": 3,
           "min_length": 3,
@@ -22,12 +31,18 @@
     {
       "type": 1,
       "name": "forget",
-      "description": "A guild világának elfelejtése"
+      "description": "Forget the guild's world.",
+      "description_localizations": {
+        "hu": "A guild világának elfelejtése"
+      }
     },
     {
       "type": 1,
       "name": "view",
-      "description": "A guild világának, továbbá telítettségi és transfer adatok mutatása"
+      "description": "Show the guild's world, population, and transfer data.",
+      "description_localizations": {
+        "hu": "A guild világának, továbbá telítettségi és transfer adatok mutatása"
+      }
     }
   ]
 }

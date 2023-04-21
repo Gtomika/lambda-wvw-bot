@@ -1,7 +1,10 @@
 {
   "type": 1,
   "name": "wvw_weekly",
-  "description": "Heti WvW teljesítmények mutatása",
+  "description": "Show weekly WvW achievements",
+  "description_localizations": {
+    "hu": "A heti WvW teljesítmények listázása"
+  },
   "dm_permission": true,
   "options": []
 }

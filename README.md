@@ -16,7 +16,7 @@ When the bot has joined a new server (using the link above), the following actio
 
  - At first, only server administrators can change bot behaviour. The `/manager_role add` command can be used to 
 authorize up to 3 roles to change bot behaviour.
- - Select the preferred locale of the guild (`/preferred_locale set`). By default, the bot will try to determine the locale from the 
+ - Select the preferred locale of the guild (`/guild_language set`). By default, the bot will try to determine the locale from the 
 user's profile who issued the command, but sometimes this is not possible: in these cases, the guild's preferred locale is used.
  - Select up to 3 "wvw roles" using `/wvw_role add`. Members with such roles will get the pings about WvW reminders.
  - Choose a home world for the guild with `/home_world set`. This world will act as a default value for all commands 

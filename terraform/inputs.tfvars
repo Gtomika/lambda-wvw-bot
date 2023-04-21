@@ -117,6 +117,13 @@ command_data = [
     handler = "bot/wvw_legendaries_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_legendaries_lambda.zip"
     timeout_seconds = 10
+  },
+  {
+    command_name = "GuildLanguage"
+    command_name_discord = "guild_language"
+    handler = "bot/guild_language_command/lambda_function.lambda_handler"
+    package_zip_name = "guild_language_lambda.zip"
+    timeout_seconds = 10
   }
 ]
 

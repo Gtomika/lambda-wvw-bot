@@ -26,6 +26,7 @@ announcement_channels_field_name = 'AnnouncementChannels'
 manager_roles_field_name = 'ManagerRoles'
 wvw_roles_field_name = 'WvwRoles'
 wvw_raids_field_name = 'WvwRaids'
+language_field_name = 'Language'
 
 
 class Gw2GuildRepo:
@@ -34,6 +35,7 @@ class Gw2GuildRepo:
     This table has the following structure:
     {
         "GuildId": "1234567",
+        "Language": "en",
         "HomeWorld": {
             "id": 1003,
             "name": "Far Shiverpeaks",
@@ -119,6 +121,21 @@ class Gw2GuildRepo:
             return guild[home_world_field_name]
         except common_exceptions.NotFoundException:
             raise common_exceptions.HomeWorldNotSetException
+
+    def save_language(self, guild_id: str, language: str):
+        guild = self.__get_or_empty_guild(guild_id)
+        guild[language_field_name] = language
+        self.__save_guild(guild)
+
+    def get_language(self, guild_id: str):
+        """
+        Throws: not found exception if the guild has no language saved
+        """
+        guild = self.__get_guild(guild_id)
+        if language_field_name in guild:
+            return guild[language_field_name]
+        else:
+            raise common_exceptions.NotFoundException
 
     def add_manager_role(self, guild_id: str, role_id: str):
         """

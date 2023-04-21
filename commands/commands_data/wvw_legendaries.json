@@ -1,7 +1,10 @@
 {
   "type": 1,
   "name": "wvw_legendaries",
-  "description": "Legendás WvW-s tárgyaid megtekintése.",
+  "description": "View your legendary WvW items.",
+  "description_localizations": {
+    "hu": "Legendás WvW-s tárgyaid megtekintése."
+  },
   "dm_permission": true,
   "options": []
 }

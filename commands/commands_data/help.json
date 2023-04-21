@@ -1,7 +1,10 @@
 {
   "type": 1,
   "name": "help",
-  "description": "Bot információk és dokumentáció.",
+  "description": "Bot information and documentation.",
+  "description_localizations": {
+    "hu": "Bot információk és dokumentáció."
+  },
   "dm_permission": true,
   "options": []
 }

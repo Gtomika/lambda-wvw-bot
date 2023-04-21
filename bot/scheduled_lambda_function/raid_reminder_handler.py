@@ -9,8 +9,7 @@ from . import templates
 def handle_raid_reminder_event(
     event,
     guilds_repo: gw2_guilds.Gw2GuildRepo,
-    personality: discord_interactions.WebhookPersonality,
-    locale: str
+    personality: discord_interactions.WebhookPersonality
 ):
     """
     An event where a guild raid is due soon. Posted to the guilds announcement channels. Details are in the event param.
@@ -19,6 +18,11 @@ def handle_raid_reminder_event(
     raid_name = event['raid_name']
     start_time = event['raid_start_time']
     duration_hours = event['raid_duration']
+
+    try:
+        locale = guilds_repo.get_language(guild_id)
+    except BaseException:
+        locale = template_utils.default_locale
 
     reminder_string = template_utils.get_localized_template(templates.raid_reminder, locale).format(
         event_name=raid_name,

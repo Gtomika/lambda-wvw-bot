@@ -1,13 +1,19 @@
 {
   "type": 1,
   "name": "wvw_daily",
-  "description": "Napi WvW teljesítmények mutatása",
+  "description": "Display daily WvW achievements",
+  "description_localizations": {
+    "hu": "Napi WvW teljesítmények mutatása"
+  },
   "dm_permission": true,
   "options": [
     {
       "type": 5,
       "name": "tomorrow",
-      "description": "A holnapi teljesítmények mutatása",
+      "description": "Display tomorrow's achievements",
+      "description_localizations": {
+        "hu": "Holnapi teljesítmények mutatása"
+      },
       "required": false
     }
   ]

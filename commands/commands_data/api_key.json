@@ -1,17 +1,26 @@
 {
   "type": 1,
   "name": "api_key",
-  "description": "API kulcs hozzáadása",
+  "description": "API key commands",
+  "description_localizations": {
+    "hu": "API kulcs parancsok"
+  },
   "dm_permission": true,
   "options": [
     {
       "type": 1,
       "name": "set",
-      "description": "Új API kulcs megadása",
+      "description": "Save an API key",
+      "description_localizations": {
+        "hu": "Új API kulcs megadása"
+      },
       "options": [
         {
           "name": "key",
-          "description": "Érvényes GW2 API kulcs",
+          "description": "A valid GW2 API key",
+          "description_localizations": {
+            "hu": "Érvényes GW2 API kulcs"
+          },
           "required": true,
           "type": 3,
           "min_length": 72,
@@ -22,12 +31,18 @@
     {
       "type": 1,
       "name": "view",
-      "description": "Az API kulcsod megtekintése. Csak privát üzenetben válaszolok!"
+      "description": "View your API key. I will only show it in a private message!",
+      "description_localizations": {
+        "hu": "Az API kulcsod megtekintése. Csak privát üzenetben válaszolok!"
+      }
     },
     {
       "type": 1,
       "name": "delete",
-      "description": "Az API kulcsod elfelejtése"
+      "description": "Make me forget your API key",
+      "description_localizations": {
+        "hu": "Az API kulcsod elfelejtése"
+      }
     }
   ]
 }

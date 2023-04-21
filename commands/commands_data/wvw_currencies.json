@@ -1,7 +1,10 @@
 {
   "type": 1,
   "name": "wvw_currencies",
-  "description": "A WvW-s fizetőeszközeid listázása.",
+  "description": "List your WvW currencies.",
+  "description_localizations": {
+    "hu": "Listázd a WvW-s fizetőeszközeidet."
+  },
   "dm_permission": true,
   "options": []
 }

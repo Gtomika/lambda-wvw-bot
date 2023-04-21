@@ -1,0 +1,48 @@
+{
+  "type": 1,
+  "name": "guild_language",
+  "description": "Manage or view the guilds language",
+  "description_localizations": {
+    "hu": "A guild nyelvének beállítása"
+  },
+  "dm_permission": false,
+  "options": [
+    {
+      "type": 1,
+      "name": "set",
+      "description": "Set a new langauge for the guild. I will use it for my announcements.",
+      "description_localizations": {
+        "hu": "A guild választott nyelvének beállítása. Hirdetéseimhez ezt a nyelvet használom majd."
+      },
+      "options": [
+        {
+          "type": 3,
+          "name": "language",
+          "description": "The selected language",
+          "description_localizations": {
+            "hu": "A választott nyelv"
+          },
+          "required": true,
+          "choices": [
+            {
+              "name": "English",
+              "value": "en"
+            },
+            {
+              "name": "Hungarian (magyar)",
+              "value": "hu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name": "view",
+      "description": "View the guilds selected language",
+      "description_localizations": {
+        "hu": "A guild választott nyelvének megtekintése."
+      }
+    }
+  ]
+}

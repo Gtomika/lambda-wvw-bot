@@ -1,17 +1,26 @@
 {
   "type": 1,
   "name": "manager_role",
-  "description": "WvW kezelő rangok beállítása",
+  "description": "Set WvW management roles",
+  "description_localizations": {
+    "hu": "WvW kezelő rangok beállítása"
+  },
   "dm_permission": false,
   "options": [
     {
       "name": "add",
-      "description": "Új WvW kezelő hozzáadása",
+      "description": "Add a new WvW management role",
+      "description_localizations": {
+        "hu": "Új WvW kezelő hozzáadása"
+      },
       "type": 1,
       "options": [
         {
           "name": "role",
-          "description": "Melyik rangot?",
+          "description": "Which role?",
+          "description_localizations": {
+            "hu": "Melyik rangot?"
+          },
           "type": 8,
           "required": true
         }
@@ -19,12 +28,18 @@
     },
     {
       "name": "delete",
-      "description": "WvW kezelő rang eltávolítása",
+      "description": "Remove a WvW management role",
+      "description_localizations": {
+        "hu": "WvW kezelő rang eltávolítása"
+      },
       "type": 1,
       "options": [
         {
           "name": "role",
-          "description": "Melyik rangot?",
+          "description": "Which role?",
+          "description_localizations": {
+            "hu": "Melyik rangot?"
+          },
           "required": true,
           "type": 8
         }
@@ -32,7 +47,10 @@
     },
     {
       "name": "list",
-      "description": "WvW kezelő rangok mutatása",
+      "description": "Show WvW management roles",
+      "description_localizations": {
+        "hu": "WvW kezelő rangok mutatása"
+      },
       "type": 1
     }
   ]

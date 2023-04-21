@@ -1,7 +1,10 @@
 {
   "type": 1,
   "name": "wvw_rank",
-  "description": "WvW szinted megtekintése.",
+  "description": "View your WvW rank.",
   "dm_permission": true,
-  "options": []
+  "options": [],
+  "description_localizations": {
+    "hu": "Nézd meg a WvW szinted."
+  }
 }

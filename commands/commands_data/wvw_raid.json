@@ -1,18 +1,27 @@
 {
     "type": 1,
     "name": "wvw_raid",
-    "description": "WvW események kezelése",
+    "description": "Managing WvW events",
+    "description_localizations": {
+        "hu": "WvW események kezelése"
+    },
     "dm_permissions": false,
     "options": [
         {
             "type": 1,
             "name": "add",
-            "description": "Új esemény létrehozása",
+            "description": "Create a new event",
+            "description_localizations": {
+                "hu": "Új esemény létrehozása"
+            },
             "options": [
                 {
                     "type": 3,
                     "name": "name",
-                    "description": "Az esemény neve",
+                    "description": "Unique name of the event",
+                    "description_localizations": {
+                        "hu": "Az esemény neve, egyedinek kell lennie"
+                    },
                     "required": true,
                     "min_length": 3,
                     "max_length": 50
@@ -20,39 +29,66 @@
                 {
                     "type": 3,
                     "name": "day",
-                    "description": "Melyik napon legyen?",
+                    "description": "Which day should it be?",
+                    "description_localizations": {
+                        "hu": "Melyik napon legyen?"
+                    },
                     "required": true,
                     "choices": [
                         {
-                            "name": "Hétfő",
+                            "name": "Monday",
+                            "name_localizations": {
+                                "hu": "Hétfő"
+                            },
                             "value": "monday"
                         },
                         {
-                            "name": "Kedd",
+                            "name": "Tuesday",
+                            "name_localizations": {
+                                "hu": "Kedd"
+                            },
                             "value": "tuesday"
                         },
                         {
-                            "name": "Szerda",
+                            "name": "Wednesday",
+                            "name_localizations": {
+                                "hu": "Szerda"
+                            },
                             "value": "wednesday"
                         },
                         {
-                            "name": "Csütörtök",
+                            "name": "Thursday",
+                            "name_localizations": {
+                                "hu": "Csütörtök"
+                            },
                             "value": "thursday"
                         },
                         {
-                            "name": "Péntek",
+                            "name": "Friday",
+                            "name_localizations": {
+                                "hu": "Péntek"
+                            },
                             "value": "friday"
                         },
                         {
-                            "name": "Szombat",
+                            "name": "Saturday",
+                            "name_localizations": {
+                                "hu": "Szombat"
+                            },
                             "value": "saturday"
                         },
                         {
-                            "name": "Vasárnap",
+                            "name": "Sunday",
+                            "name_localizations": {
+                                "hu": "Vasárnap"
+                            },
                             "value": "sunday"
                         },
                         {
-                            "name": "Minden nap",
+                            "name": "Every day",
+                            "name_localizations": {
+                                "hu": "Minden nap"
+                            },
                             "value": "every_day"
                         }
                     ]
@@ -60,7 +96,10 @@
                 {
                     "type": 3,
                     "name": "start_time",
-                    "description": "Mikor kezdődjön az esemény? Pl: 20:00 vagy 08:35",
+                    "description": "When should the event start? Example: 20:00 or 08:35",
+                    "description_localizations": {
+                        "hu": "Mikor kezdődjön az esemény? Pl: 20:00 vagy 08:35"
+                    },
                     "required": true,
                     "min_length": 5,
                     "max_length": 5
@@ -68,7 +107,10 @@
                 {
                     "type": 4,
                     "name": "duration",
-                    "description": "Milyen hosszú legyen? Órákban kell megadni",
+                    "description": "How long should it be? Specify in hours",
+                    "description_localizations": {
+                        "hu": "Milyen hosszú legyen? Órákban kell megadni"
+                    },
                     "min_value": 1,
                     "max_value": 24,
                     "required": true
@@ -76,7 +118,10 @@
                 {
                     "type": 5,
                     "name": "reminder",
-                    "description": "Legyen-e emlékeztető 30 perccel az esemény előtt?",
+                    "description": "Should there be a reminder 30 minutes before the event?",
+                    "description_localizations": {
+                        "hu": "Legyen-e emlékeztető 30 perccel az esemény előtt?"
+                    },
                     "required": true
                 }
             ]
@@ -84,12 +129,18 @@
         {
             "type": 1,
             "name": "delete",
-            "description": "Esemény törlése",
+            "description": "Delete an event",
+            "description_localizations": {
+                "hu": "Esemény törlése"
+            },
             "options": [
                 {
                     "type": 3,
                     "name": "name",
-                    "description": "Az esemény neve, amit törölni kell",
+                    "description": "Name of the event to delete",
+                    "description_localizations": {
+                        "hu": "Az esemény neve, amit törölni kell"
+                    },
                     "required": true,
                     "min_length": 3,
                     "max_length": 50
@@ -99,7 +150,10 @@
         {
             "type": 1,
             "name": "list",
-            "description": "Események listázása"
+            "description": "List all events",
+            "description_localizations": {
+                "hu": "Események listázása"
+            }
         }
     ]
 }

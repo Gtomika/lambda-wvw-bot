@@ -1,13 +1,19 @@
 {
   "type": 1,
   "name": "wvw_matchup",
-  "description": "WvW jelen állapotának lekérése.",
+  "description": "Retrieve the current state of the WvW matchup.",
+  "description_localizations": {
+    "hu": "A WvW jelen állapotának lekérése."
+  },
   "dm_permission": false,
   "options": [
     {
       "type": 3,
       "name": "world_name",
-      "description": "Ha a guild világa helyett egy másik világ matchup-ja érdekel, itt add meg a nevét.",
+      "description": "If you're interested in a matchup of a different world instead of the guild's world, specify its name here.",
+      "description_localizations": {
+        "hu": "Ha a guild világa helyett egy másik világ matchup-ja érdekel, itt add meg a nevét."
+      },
       "required": false,
       "min_length": 3,
       "max_length": 100

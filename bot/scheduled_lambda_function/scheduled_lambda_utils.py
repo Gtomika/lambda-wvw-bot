@@ -1,5 +1,14 @@
 from bot.commons import common_exceptions
 from bot.commons import discord_interactions
+from bot.commons import template_utils
+from bot.commons import gw2_guilds
+
+
+def get_guild_language_or_default(guild):
+    if gw2_guilds.language_field_name in guild:
+        return guild[gw2_guilds.language_field_name]
+    else:
+        return template_utils.default_locale
 
 
 def get_guild_attribute_or_throw(guild, attribute: str):
