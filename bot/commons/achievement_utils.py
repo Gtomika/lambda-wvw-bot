@@ -1,15 +1,18 @@
 import traceback
 
 achievement_detail = {
-    'hu': "- **{name}**: Jutalom {reward_amount}{reward_type}. Állapot: {progress}"
+    'hu': "- **{name}**: Jutalom {reward_amount}{reward_type}. Állapot: {progress}",
+    'en': "- **{name}** Reward {reward_amount}{reward_type}. Progress: {progress}"
 }
 
 achievement_progress = {
-    'hu': '{current}/{max} {emote_progress}'
+    'hu': '{current}/{max} {emote_progress}',
+    'en': '{current}/{max} {emote_progress}'
 }
 
 achievement_progress_unknown = {
-    'hu': '{emote_question}'
+    'hu': '{emote_question}',
+    'en': '{emote_question}'
 }
 
 

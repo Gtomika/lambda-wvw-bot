@@ -58,9 +58,7 @@ resource "aws_scheduler_schedule" "wvw_reset_schedule" {
     input = jsonencode({
       FunctionName = var.scheduled_lambda_arn
       InvocationType = "Event"
-      Payload = jsonencode({
-        lambda_wvw_event_type: "wvw_reset" # It's also responsible for the wvw relink
-      })
+      Payload = "{\"lambda_wvw_event_type\":\"wvw_reset\"}" # also responsible for the re-link
     })
   }
 }
@@ -83,9 +81,7 @@ resource "aws_scheduler_schedule" "population_recheck_schedule" {
     input = jsonencode({
       FunctionName = var.scheduled_lambda_arn
       InvocationType = "Event"
-      Payload = jsonencode({
-        lambda_wvw_event_type: "home_world_population_recheck"
-      })
+      Payload = "{\"lambda_wvw_event_type\":\"home_world_population_recheck\"}"
     })
   }
 }

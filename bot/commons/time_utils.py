@@ -63,7 +63,7 @@ day_mappings = {
     'friday': pendulum.FRIDAY,
     'saturday': pendulum.SATURDAY,
     'sunday': pendulum.SUNDAY,
-    'every_day': 100  # just has to be bigger then all other
+    'every_day': 100  # just has to be bigger than all other
 }
 
 day_localizations = {
@@ -76,9 +76,20 @@ day_localizations = {
         'saturday': 'szombat',
         'sunday': 'vasárnap',
         'every_day': 'minden nap'
+    },
+    'en': {
+        'monday': 'monday',
+        'tuesday': 'tuesday',
+        'wednesday': 'wednesday',
+        'thursday': 'thursday',
+        'friday': 'friday',
+        'saturday': 'saturday',
+        'sunday': 'sunday',
+        'every_day': 'every day'
     }
 }
 
 locale_time_zones = {
-    'hu': "Europe/Budapest"
+    'hu': "Europe/Budapest",
+    'en': "Europe/Budapest"  # TODO maybe another TZ is better for 'en'?
 }
