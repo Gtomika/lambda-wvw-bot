@@ -17,6 +17,8 @@ class RateLimit:
 
 
 def register_slash_command(command_json_path: str) -> RateLimit:
+    print(f'Attempting to register slash command: {command_json_path}')
+
     with open(command_json_path, 'r') as command_file:
         command_data = command_file.read()
 

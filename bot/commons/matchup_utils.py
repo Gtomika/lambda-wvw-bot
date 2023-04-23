@@ -1,13 +1,9 @@
 import pendulum
 
-from bot.commons import common_exceptions
-
-
 eu_region_constant = 2
 eu_lowest_tier = 5
 reset_time_summer = 20
 reset_time_winter = 19
-
 
 placement_emote_names = {
     1: 'first_place',

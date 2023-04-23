@@ -53,35 +53,6 @@ def show_tomorrow(event) -> bool:
         return False
 
 
-# def fetch_progress_if_api_key_provided(user_id, daily_wvw_achievement_ids):
-#     try:
-#         api_key = repo.get_api_key(user_id)
-#         return gw2_api_interactions.get_achievement_progress_by_ids(api_key, daily_wvw_achievement_ids)
-#     except common_exceptions.NotFoundException:
-#         return None  # user has no key, expected
-#     except gw2_api_interactions.ApiKeyUnauthorizedException:
-#         return None  # user has key without permissions, expected
-#     except BaseException as e:
-#         print(f'Exception while fetching daily wvw progress of user with ID {str(user_id)}')
-#         traceback.print_exc()
-#         return None
-
-
-# progress_string = achievement_utils.create_achievement_progress_string(
-#     locale=info.locale,
-#     discord_utils=discord_utils,
-#     template_utils=template_utils,
-#     achievement=achievement,
-#     progress_array=progress_array
-# )
-# detail_string = achievement_utils.create_daily_achievement_detail_string(
-#     locale=info.locale,
-#     template_utils=template_utils,
-#     achievement=achievement,
-#     reward_type=potion_emote,
-#     progress=progress_string
-# )
-
 def compile_daily_achievements(achievement_details_array, tomorrow: bool, info: discord_utils.InteractionInfo) -> str:
     potion_emote = discord_utils.custom_emote('wvw_potion', discord_utils.reward_potion_emote_id)
     detail_strings = []

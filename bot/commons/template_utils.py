@@ -1,6 +1,6 @@
 # to be used when the interaction has no locale or not supported locale
 # it must be in ALL template maps
-default_locale = 'hu'  # TODO change to 'en'
+default_locale = 'en'
 
 anet_accounts_url = 'https://account.arena.net/applications'
 api_key_info_url = 'https://wiki.guildwars2.com/wiki/API:API_key'
@@ -18,7 +18,7 @@ common_template_internal_error = {
     'hu': """Ismeretlen hiba történt! Kérlek próbáld újra, és ha ez továbbra is fent áll, jelezd a készítőmnek!
 - Figyelem, {developer}, ezt a hibát vizsgáld meg.""",
     'en': """An unexpected error happened! Please try again, and if it keeps happening, notify my creator!
-- Alarm, {developer}, investigate this error."""
+- Alarm {developer}, investigate this error."""
 }
 
 

@@ -10,6 +10,8 @@ def fetch_and_validate_gw2_world(home_world_name: str):
     Throws InvalidWorldException if this home world is invalid
     Throws ApiException if GW2 API failed
     """
+    home_world_name = home_world_name.lower().strip()
+
     home_worlds_array = gw2_api_interactions.get_home_worlds()
     home_world = __find_home_world_with_name(home_worlds_array, home_world_name)
     return home_world['id'], home_world['population']
@@ -17,7 +19,7 @@ def fetch_and_validate_gw2_world(home_world_name: str):
 
 def __find_home_world_with_name(home_world_array, home_world: str):
     for home_world_item in home_world_array:
-        if home_world_item['name'] == home_world:
+        if home_world_item['name'].lower() == home_world:
             return home_world_item
     raise common_exceptions.InvalidWorldException(home_world)
 
