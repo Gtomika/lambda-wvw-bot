@@ -55,12 +55,15 @@ release_announcement = {
 Részletek:
 *{commit_message}*
 
-Ez egy automatizált üzenet a GitHub-ról {emote_github}""",
+- Akár 1 óra is kellhet, hogy az új vagy módosított parancsok láthatóak legyenek a Discordon!
+- Ez egy automatizált üzenet a GitHub-ról {emote_github}""",
+
     'en': """A new version has been released {emote_robot}
 
 Details:
 *{commit_message}*
 
-This is an automated message from GitHub {emote_github}"""
+- It might take up to 1 hour for the new or modified commands to appear in Discord!
+- This is an automated message from GitHub {emote_github}"""
 }
 

@@ -42,7 +42,9 @@ def lambda_handler(event, context):
 
 def save_api_key(key: str, info: discord_utils.InteractionInfo):
     gw2_user_repo.save_api_key(info.user_id, key)
-    message = template_utils.get_localized_template(templates.key_added, info.locale)
+    message = template_utils.get_localized_template(templates.key_added, info.locale).format(
+        emote_key=discord_utils.default_emote('key')
+    )
     discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
     print(f'Saved new API key for user {info.username}, Discord ID {str(info.user_id)}. Key: {key}')
 

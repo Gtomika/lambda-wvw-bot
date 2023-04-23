@@ -54,7 +54,7 @@ def lambda_handler(event, context):
     except common_exceptions.NotFoundException:
         template_utils.format_and_respond_api_key_required(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiKeyUnauthorizedException:
-        template_utils.format_and_respond_to_command_unauthorized(discord_interactions, discord_utils, info)
+        template_utils.format_and_respond_api_key_unauthorized(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except BaseException as e:

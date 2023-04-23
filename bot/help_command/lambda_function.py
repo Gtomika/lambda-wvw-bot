@@ -31,7 +31,8 @@ def lambda_handler(event, context):
         )
         discord_interactions.respond_to_discord_interaction(
             interaction_token=info.interaction_token,
-            message=message
+            message=message,
+            allowed_mention=discord_interactions.allow_user_mentions
         )
     except BaseException as e:
         print(f'Error while responding to help command of user {info.username}')

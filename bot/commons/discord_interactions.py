@@ -21,15 +21,40 @@ class WebhookPersonality:
         self.bot_icon_url = bot_icon_url
 
 
-# Sends response to Discord interaction that is in 'deferred' (5) state.
-# this is going to use Discord API to make the update.
-def respond_to_discord_interaction(interaction_token: str, message: str) -> bool:
+class AllowedMention:
+    """
+    Class for the possible allowed mention types in a message.
+    """
+
+    def __init__(self, mention_type: str):
+        self.mention_type = mention_type
+
+    def mentions_allowed(self) -> bool:
+        return self.mention_type != 'none'
+
+
+allow_role_mentions = AllowedMention('roles')
+allow_user_mentions = AllowedMention('users')
+allow_everyone_mentions = AllowedMention('everyone')  # includes @here
+allow_no_mentions = AllowedMention('none')
+
+
+def respond_to_discord_interaction(
+        interaction_token: str,
+        message: str,
+        allowed_mention: AllowedMention = allow_no_mentions
+) -> bool:
     """
     Respond to a discord interaction, identified by the interaction token.
+    Allowed mention should be used to control who this message can ping. By default
+    it cannot ping anyone or any role.
     """
     url = edit_original_response_url.format(application_id=application_id, interaction_token=interaction_token)
     response = requests.patch(url, json={
-        'content': message
+        'content': message,
+        'allowed_mentions': {
+            'parse': [allowed_mention.mention_type] if allowed_mention.mentions_allowed() else []
+        }
     }, headers={
         'Authorization': f'Bot {bot_token}',
         'Content-Type': 'application/json'
@@ -43,15 +68,25 @@ def respond_to_discord_interaction(interaction_token: str, message: str) -> bool
         return False
 
 
-def create_webhook_message(webhook_url: str, message: str, personality: WebhookPersonality):
+def create_webhook_message(
+        webhook_url: str,
+        message: str,
+        personality: WebhookPersonality,
+        allowed_mention: AllowedMention = allow_no_mentions
+):
     """
     Create a new message on Discord using the given webhook.
+    Allowed mention should be used to control who this message can ping. By default
+    it cannot ping anyone or any role.
     """
     try:
         response = requests.post(url=f'{webhook_url}?wait=true', json={
             'content': message,
             'username': personality.bot_name,
-            'avatar_url': personality.bot_icon_url
+            'avatar_url': personality.bot_icon_url,
+            'allowed_mentions': {
+                'parse': [allowed_mention.mention_type] if allowed_mention.mentions_allowed() else []
+            }
         }, headers={
             'Content-Type': 'application/json'
         }, timeout=discord_interaction_timeout)

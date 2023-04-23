@@ -45,5 +45,6 @@ def post_to_announcement_channels(
         discord_interactions.create_webhook_message(
             webhook_url=channel['webhook'],
             personality=personality,
-            message=message
+            message=message,
+            allowed_mention=discord_interactions.allow_role_mentions
         )

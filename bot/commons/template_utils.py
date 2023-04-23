@@ -24,9 +24,13 @@ common_template_internal_error = {
 
 def format_and_respond_internal_error(discord_interactions, discord_utils, info):
     error_message = get_localized_template(common_template_internal_error, info.locale).format(
-        developer = discord_utils.mention_user(discord_utils.developer_id)
+        developer=discord_utils.mention_user(discord_utils.developer_id)
     )
-    discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+    discord_interactions.respond_to_discord_interaction(
+        interaction_token=info.interaction_token,
+        mesage=error_message,
+        allowed_mention=discord_interactions.allow_user_mentions
+    )
 
 
 common_template_command_unauthorized = {
@@ -44,13 +48,13 @@ def format_and_respond_to_command_unauthorized(discord_interactions, discord_uti
 common_template_api_key_required = {
     'hu': """Ahhoz, hogy ezt a parancsot végre tudjam hajtani, szükségem van egy GW2 API kulcsra {emote_key}
 - Ilyet az ArenaNet fiókodnál tudsz létrehozni: {anet_applications_url}
-- Add hozzá **legalább** ezeket az engedélyeket: {permissions}
-- Add meg nekem a `/api_key_add` paranccsal.
+- Add hozzá **legalább** ezeket az engedélyeket: `{permissions}`
+- Add meg nekem a `/api_key set` paranccsal.
 - Az API kulcs megadása semmilyen veszélyt nem jelent a GW2 fiókodra. Itt olvashatsz róla bővebben: {api_key_info_url}""",
     'en': """To be able to execute this command, I need a GW2 API key {emote_key}
 - You can create one on your ArenaNet account: {anet_applications_url}
-- Please grant me **at least** the following permissions: {permissions}
-- Add the key with the command `/api_key_add`.
+- Please grant me **at least** the following permissions: `{permissions}`
+- Add the key with the command `/api_key set`.
 - Providing your API key doesn't pose any risk to your GW2 account. You can read more about it here: {api_key_info_url}"""
 }
 
@@ -68,12 +72,12 @@ def format_and_respond_api_key_required(discord_interactions, discord_utils, inf
 common_template_api_key_unauthorized = {
     'hu': """Az API kulcsodnak {emote_key} nincs meg minden szükséges engedélye, ezért a parancs végrehajtása nem sikerült.
 - Kulcsot az ArenaNet fiókodnál tudsz létrehozni: {anet_applications_url}
-- Add hozzá **legalább** ezeket az engedélyeket: {permissions}
-- Az új kulcsot add meg nekem a `/api_key_add` parancssal.""",
+- Add hozzá **legalább** ezeket az engedélyeket: `{permissions}`
+- Az új kulcsot add meg nekem a `/api_key set` parancssal.""",
     'en': """Your API key {emote_key} is hasn't got the required permissions, and I could not perform this action.
 - You can create a key at the ANET applications page: {anet_applications_url}
-- Add **at least** these permissions to the key: {permissions}
-- Send me the new key using the `/api_key_add` command."""
+- Add **at least** these permissions to the key: `{permissions}`
+- Send me the new key using the `/api_key set` command."""
 }
 
 

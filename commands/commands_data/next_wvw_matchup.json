@@ -10,7 +10,7 @@
     {
       "type": 3,
       "name": "world_name",
-      "description": "If you are interested in the next matchup of another world instead of the guild world, enter its name here.",
+      "description": "If you are interested in the next matchup of another world instead of the guild world.",
       "description_localizations": {
         "hu": "Ha a guild világa helyett egy másik világ következő matchup-ja érdekel, itt add meg a nevét."
       },
