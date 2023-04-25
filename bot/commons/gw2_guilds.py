@@ -26,7 +26,7 @@ announcement_channels_field_name = 'AnnouncementChannels'
 manager_roles_field_name = 'ManagerRoles'
 wvw_roles_field_name = 'WvwRoles'
 wvw_raids_field_name = 'WvwRaids'
-language_field_name = 'Language'
+language_field_name = 'GuildLanguage'
 
 
 class Gw2GuildRepo:
@@ -35,7 +35,7 @@ class Gw2GuildRepo:
     This table has the following structure:
     {
         "GuildId": "1234567",
-        "Language": "en",
+        "GuildLanguage": "en",
         "HomeWorld": {
             "id": 1003,
             "name": "Far Shiverpeaks",
