@@ -42,7 +42,10 @@ def extract_info(event) -> InteractionInfo:
 
 
 def extract_locale(event) -> str:
-    return event['locale']
+    locale: str = event['locale']
+    if locale.startswith('en'):
+        locale = 'en'  # to avoid all this bullshit with 'en-UK' or 'en-US'
+    return locale
 
 
 def extract_username(event) -> str:

@@ -96,3 +96,9 @@ are manual actions, that must be authorized.
 Staging bot. You cannot add it, not public, just a reminder for me.
 
 ```https://discord.com/api/oauth2/authorize?client_id=968767607501115462&permissions=2048&scope=applications.commands%20bot```
+
+## Release announcements.
+
+Commits that are starting with `[ANNOUNCE]` will trigger an announcement message on every announcement channel.
+The commit message will be included (without the prefix) into the message that is posted to Discord. The commit 
+message must be **escaped** of all characters that are not allowed in a JSON string!

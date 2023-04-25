@@ -12,12 +12,12 @@ variable "environment" {
 
 variable "dynamodb_read_capacity" {
   type = number
-  default = 5
+  default = 100
 }
 
 variable "dynamodb_write_capacity" {
   type = number
-  default = 5
+  default = 50
 }
 
 variable "gw2_users_hash_key" {
