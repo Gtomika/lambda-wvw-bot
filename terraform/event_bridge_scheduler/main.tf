@@ -61,6 +61,10 @@ resource "aws_scheduler_schedule" "wvw_reset_schedule" {
       Payload = "{\"lambda_wvw_event_type\":\"wvw_reset\"}" # also responsible for the re-link
     })
   }
+
+  retry_policy {
+    maximum_retry_attempts = 0
+  }
 }
 
 resource "aws_scheduler_schedule" "population_recheck_schedule" {
@@ -83,5 +87,9 @@ resource "aws_scheduler_schedule" "population_recheck_schedule" {
       InvocationType = "Event"
       Payload = "{\"lambda_wvw_event_type\":\"home_world_population_recheck\"}"
     })
+  }
+
+  retry_policy {
+    maximum_retry_attempts = 0
   }
 }

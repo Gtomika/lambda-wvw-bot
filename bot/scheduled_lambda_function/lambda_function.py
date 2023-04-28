@@ -1,6 +1,7 @@
 import os
 import boto3
 import traceback
+import json
 
 from bot.commons import gw2_guilds
 from bot.commons import gw2_users
@@ -32,8 +33,9 @@ def lambda_handler(event, context):
     """
     The "scheduled" lambda: all scheduler actions trigger this lambda with different event types
     """
-    event_type = event['lambda_wvw_event_type']
+    event_type = 'unknown'
     try:
+        event_type = event['lambda_wvw_event_type']
         if event_type == 'wvw_reset':
             wvw_reset_handler.handle_wvw_reset_event(guilds_repo, personality)
         elif event_type == 'raid_reminder':
@@ -45,7 +47,8 @@ def lambda_handler(event, context):
         else:
             print(f'Cannot handle event because event type is unknown: {event_type}')
     except BaseException as e:
-        print(f'Failed to handle event with type {event_type} due to unexpected error')
+        print(f'Failed to handle event with type {event_type} due to unexpected error. Event body follows:')
+        print(json.dumps(event))
         traceback.print_exc()
 
 
