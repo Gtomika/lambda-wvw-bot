@@ -275,7 +275,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
-      layers = concat(local.required_layers, aws_lambda_layer_version.image_lambda_layer.arn)
+      layers = concat(local.required_layers, [aws_lambda_layer_version.image_lambda_layer.arn])
     }
 
   }
