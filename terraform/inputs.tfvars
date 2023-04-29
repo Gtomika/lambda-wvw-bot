@@ -1,6 +1,8 @@
 app_name = "LambdaWvwBot"
 
+libraries_layer_deployment_path = "../libraries-layer-deployment-package/libraries_layer.zip"
 commons_layer_deployment_path = "../common-layer-deployment-package/common_layer.zip"
+image_layer_deployment_path = "../image-layer-deployment-package/image_layer.zip"
 
 discord_interaction_lambda_data = {
   handler = "bot/discord_interaction_lambda_function/lambda_function.lambda_handler"

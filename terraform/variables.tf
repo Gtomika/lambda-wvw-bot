@@ -5,7 +5,15 @@ variable "app_name" {
   description = "A name for the bot to be used in resource naming"
 }
 
+variable "libraries_layer_deployment_path" {
+  type = string
+}
+
 variable "commons_layer_deployment_path" {
+  type = string
+}
+
+variable "image_layer_deployment_path" {
   type = string
 }
 

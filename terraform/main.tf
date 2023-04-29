@@ -1,6 +1,9 @@
 
 locals {
+  libraries_layer_package_path = "${path.module}/${var.libraries_layer_deployment_path}"
   common_layer_package_path = "${path.module}/${var.commons_layer_deployment_path}"
+  image_layer_package_path = "${path.module}/${var.image_layer_deployment_path}"
+
   discord_interaction_lambda_package_path = "${path.module}/${var.discord_interaction_lambda_data.path_to_deployment_package}"
   scheduled_lambda_package_path = "${path.module}/${var.scheduled_lambda_data.path_to_deployment_package}"
   command_lambda_path_prefix = "${path.module}/../command-lambda-packages"
@@ -56,11 +59,27 @@ module "scheduler" {
   scheduled_lambda_arn = module.scheduled_lambda.scheduled_lambda_arn
 }
 
-# The lambda layer that contains the libraries
+# The lambda layer that contains the required libraries
+resource "aws_lambda_layer_version" "libraries_lambda_layer" {
+  layer_name = "Libraries-${var.app_name}-${var.environment}-${var.aws_region}"
+  filename = local.libraries_layer_package_path
+  source_code_hash = filebase64sha256(local.libraries_layer_package_path)
+  compatible_runtimes = ["python3.9"]
+}
+
+# The lambda layer that contains the 'commons' module
 resource "aws_lambda_layer_version" "common_lambda_layer" {
   layer_name = "Commons-${var.app_name}-${var.environment}-${var.aws_region}"
   filename = local.common_layer_package_path
   source_code_hash = filebase64sha256(local.common_layer_package_path)
+  compatible_runtimes = ["python3.9"]
+}
+
+# The lambda layer that contains the image processing libraries
+resource "aws_lambda_layer_version" "image_lambda_layer" {
+  layer_name = "Image-${var.app_name}-${var.environment}-${var.aws_region}"
+  filename = local.image_layer_package_path
+  source_code_hash = filebase64sha256(local.image_layer_package_path)
   compatible_runtimes = ["python3.9"]
 }
 

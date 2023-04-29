@@ -131,12 +131,18 @@ locals {
     BOT_TOKEN = var.discord_bot_token
   }
 
+  required_layers = [
+    aws_lambda_layer_version.libraries_lambda_layer.arn,
+    aws_lambda_layer_version.common_lambda_layer.arn
+  ]
+
   # Build map objects from the lambda environments: to be used later
   lambda_environments = {
 
     Help = {
       policy    = data.aws_iam_policy_document.log_policy
       variables = local.common_variables
+      layers = local.required_layers
     }
 
     ApiKey = {
@@ -144,6 +150,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
+      layers = local.required_layers
     }
 
     HomeWorld = {
@@ -151,6 +158,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
+      layers = local.required_layers
     }
 
     ManagerRole = {
@@ -158,6 +166,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
+      layers = local.required_layers
     }
 
     WvwRole = {
@@ -165,6 +174,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
+      layers = local.required_layers
     }
 
     WvwRank = {
@@ -172,6 +182,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
+      layers = local.required_layers
     }
 
     WvwMatchup = {
@@ -179,6 +190,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
+      layers = local.required_layers
     }
 
     NextWvwMatchup = {
@@ -186,6 +198,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
+      layers = local.required_layers
     }
 
     AnnouncementChannel = {
@@ -195,6 +208,7 @@ locals {
         APP_NAME = var.discord_application_name
         APP_ICON_URL = module.s3.app_icon_url
       })
+      layers = local.required_layers
     }
 
     WvwRaid = {
@@ -207,6 +221,7 @@ locals {
         APP_NAME = var.app_name
         ENVIRONMENT = var.environment
       })
+      layers = local.required_layers
     }
 
     WvwDaily = {
@@ -214,11 +229,13 @@ locals {
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
+      layers = local.required_layers
     }
 
     WvwWeekly = {
       policy    = data.aws_iam_policy_document.log_policy
       variables = local.common_variables
+      layers = local.required_layers
     }
 
     WvwCurrencies = {
@@ -226,6 +243,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
+      layers = local.required_layers
     }
 
     WvwItems = {
@@ -233,6 +251,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
+      layers = local.required_layers
     }
 
     WvwLegendaries = {
@@ -240,6 +259,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_USERS_TABLE_NAME = module.dynamodb_tables.gw2_users_table_name
       })
+      layers = local.required_layers
     }
 
     GuildLanguage = {
@@ -247,6 +267,7 @@ locals {
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
       })
+      layers = local.required_layers
     }
 
   }
