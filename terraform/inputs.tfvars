@@ -131,7 +131,7 @@ command_data = [
     command_name = "WvwMap"
     command_name_discord = "wvw_map"
     handler = "bot/wvw_map_command/lambda_function.lambda_handler"
-    package_zip_name = "wvw_lambda_lambda.zip"
+    package_zip_name = "wvw_map_lambda.zip"
     timeout_seconds = 30
   }
 ]
