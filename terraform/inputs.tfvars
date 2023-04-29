@@ -1,7 +1,7 @@
 app_name = "LambdaWvwBot"
 
 libraries_layer_deployment_path = "../libraries-layer-deployment-package/libraries_layer.zip"
-commons_layer_deployment_path = "../common-layer-deployment-package/common_layer.zip"
+commons_layer_deployment_path = "../commons-layer-deployment-package/commons_layer.zip"
 image_layer_deployment_path = "../image-layer-deployment-package/image_layer.zip"
 
 discord_interaction_lambda_data = {
@@ -126,6 +126,13 @@ command_data = [
     handler = "bot/guild_language_command/lambda_function.lambda_handler"
     package_zip_name = "guild_language_lambda.zip"
     timeout_seconds = 10
+  },
+  {
+    command_name = "WvwMap"
+    command_name_discord = "wvw_map"
+    handler = "bot/wvw_map_command/lambda_function.lambda_handler"
+    package_zip_name = "wvw_lambda_lambda.zip"
+    timeout_seconds = 30
   }
 ]
 

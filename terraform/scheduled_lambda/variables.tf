@@ -26,6 +26,10 @@ variable "common_layer_arn" {
   type = string
 }
 
+variable "libraries_layer_arn" {
+  type = string
+}
+
 variable "log_retention_days" {
   type = number
 }

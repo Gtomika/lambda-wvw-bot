@@ -10,8 +10,8 @@ variable "environment" {
   type = string
 }
 
-variable "common_layer_arn" {
-  type = string
+variable "layer_arns" {
+  type = list(string)
 }
 
 variable "command_name" {

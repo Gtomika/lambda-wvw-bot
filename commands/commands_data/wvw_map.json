@@ -1,0 +1,49 @@
+{
+  "type": 1,
+  "name": "wvw_map",
+  "description": "State of Wvw maps",
+  "description_localizations": {
+    "hu": "WvW csatamezők állapotának lekérdezése"
+  },
+  "dm_permission": false,
+  "options": [
+    {
+      "type": 3,
+      "name": "map_name",
+      "required": true,
+      "description": "Select the map",
+      "description_localizations": {
+        "hu": "Melyik csatamező érdekel?"
+      },
+      "options": [
+        {
+            "name": "Eternal Battlegrounds",
+            "value": "ebg"
+        },
+        {
+            "name": "Green Borderlands",
+            "value": "green_bl"
+        },
+        {
+            "name": "Blue Borderlands",
+            "value": "blue_bl"
+        },
+        {
+            "name": "Red Borderlands",
+            "value": "red_bl"
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "name": "world_name",
+      "description": "If you are interested in the next matchup of another world instead of the guild world.",
+      "description_localizations": {
+        "hu": "Ha a guild világa helyett egy másik világ érdekel, itt add meg a nevét."
+      },
+      "required": false,
+      "min_length": 3,
+      "max_length": 100
+    }
+  ]
+}

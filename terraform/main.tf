@@ -34,6 +34,8 @@ module "scheduled_lambda" {
 
   handler_name = var.scheduled_lambda_data.handler
   path_to_deployment_package = local.scheduled_lambda_package_path
+
+  libraries_layer_arn = aws_lambda_layer_version.libraries_lambda_layer.arn
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
 
   environment_variables = {
@@ -97,9 +99,9 @@ module "command_lambda_modules" {
   handler_name = var.command_data[count.index].handler
   timeout_seconds = var.command_data[count.index].timeout_seconds
   path_to_deployment_package = "${local.command_lambda_path_prefix}/${var.command_data[count.index].package_zip_name}"
-  common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
 
   # in the pre-defined map, find the policy and the variables for this lambda
+  layer_arns = local.lambda_environments[var.command_data[count.index].command_name]["layers"]
   command_policy = local.lambda_environments[var.command_data[count.index].command_name]["policy"]
   environment_variables = local.lambda_environments[var.command_data[count.index].command_name]["variables"]
   log_retention_days = var.log_retention_days
@@ -126,6 +128,8 @@ module "discord_interaction_lambda" {
 
   handler_name = var.discord_interaction_lambda_data.handler
   path_to_deployment_package = local.discord_interaction_lambda_package_path
+
+  libraries_layer_arn = aws_lambda_layer_version.libraries_lambda_layer.arn
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
 
   command_handler_lambda_arns = [for command_handler in module.command_lambda_modules: command_handler.command_handler_lambda_arn]

@@ -87,8 +87,8 @@ jobs:
           path: libraries_layer.zip
       - uses: actions/upload-artifact@v3
         with:
-          name: common-layer-deployment-package
-          path: common_layer.zip
+          name: commons-layer-deployment-package
+          path: commons_layer.zip
       - uses: actions/upload-artifact@v3
         with:
           name: image-layer-deployment-package

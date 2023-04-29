@@ -73,7 +73,7 @@ resource "aws_lambda_function" "discord_interaction_lambda" {
   filename = var.path_to_deployment_package
   source_code_hash = filebase64sha256(var.path_to_deployment_package)
 
-  layers = [var.common_layer_arn]
+  layers = [var.common_layer_arn, var.libraries_layer_arn]
   runtime = "python3.9"
   handler = var.handler_name
   environment {
