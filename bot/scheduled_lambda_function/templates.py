@@ -10,13 +10,13 @@ wvw_reset_reminder = {
 }
 
 wvw_reset_summary = {
-    'hu': 'Sorbanállástól és laggolástól mentes resetet kívánok {emote_commander}',
-    'en': 'Wishing you a lag-free and queue-free reset {emote_commander}'
+    'hu': 'Kellemes resetet kívánok mindenkinek {emote_commander}',
+    'en': 'Wishing you a pleasant reset {emote_commander}'
 }
 
 wvw_reset_summary_relink = {
-    'hu': 'Figyelem {emote_warning}, egyben re-link is lesz! Sorbanállástól és laggolástól mentes resetet kívánok {emote_commander}',
-    'en': 'Attention {emote_warning}, there will also be a re-link! Wishing you a lag-free and queue-free reset {emote_commander}'
+    'hu': 'Figyelem {emote_warning}, egyben re-link is lesz! Kellemes resetet kívánok mindenkinek {emote_commander}',
+    'en': 'Attention {emote_warning}, there will also be a re-link! Wishing you a pleasant reset {emote_commander}'
 }
 
 population_changed = {

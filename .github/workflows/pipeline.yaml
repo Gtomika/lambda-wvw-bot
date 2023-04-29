@@ -288,7 +288,7 @@ jobs:
     needs: terraform-apply-stg
 
   terraform-plan-prd:
-    environment: production
+    # environment: production -> do not block pipeline on this job
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
@@ -377,7 +377,7 @@ jobs:
 
   register-commands-global:
     runs-on: ubuntu-latest
-    environment: production
+    # environment: production -> to not block pipeline
     env:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
@@ -396,7 +396,7 @@ jobs:
     needs: terraform-apply-prd
 
   announce-release-prd:
-    environment: production
+    # environment: production -> to not block pipeline
     runs-on: ubuntu-latest
     env:
       ANNOUNCEMENT_FUNCTION_ARN: ${{ vars.ANNOUNCEMENT_FUNCTION_ARN }}

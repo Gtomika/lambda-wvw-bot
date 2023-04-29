@@ -11,15 +11,16 @@ variable "environment" {
 }
 
 # Free tier maximum is 25 read and 25 write units in TOTAL
+# includes both environments of course
 
 variable "dynamodb_read_capacity" {
   type = number
-  default = 12
+  default = 6
 }
 
 variable "dynamodb_write_capacity" {
   type = number
-  default = 12
+  default = 6
 }
 
 variable "gw2_users_hash_key" {
