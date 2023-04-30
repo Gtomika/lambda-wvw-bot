@@ -1,33 +1,59 @@
-import cv2
+from PIL import Image
 
 
-def shift_image_from_center_point(image, center):
+class Coordinate:
+
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    def as_tuple(self) -> tuple[int, int]:
+        return self.x, self.y
+
+
+def load_image_rgba(file_name: str) -> Image:
+    """
+    Load an RGBA image.
+    """
+    img = Image.open(file_name)
+    img = img.convert('RGBA')
+    print(f'Image opened: {file_name}. Mode: {img.mode}')
+    return img
+
+
+def save_image_png(image: Image, file_name: str):
+    """
+    Save an image as PNG.
+    """
+    if not file_name.endswith('.png'):
+        raise Exception(f'File should be a png but was {file_name}')
+    image.save(file_name)
+
+
+def save_image_jpg(image: Image, file_name: str):
+    """
+    Save an image as JPEG.
+    """
+    if not file_name.endswith('.jpg'):
+        raise Exception(f'File should be a jpg but was {file_name}')
+    image = image.convert('RGB')
+    image.save(file_name)
+
+
+def shift_image_from_center_point(image: Image, center: Coordinate):
     """
     Find the top left coordinate of the image, given the center point.
     """
-    center_x = center[0]
-    center_y = center[1]
+    image_width = image.width
+    image_height = image.height
 
-    image_width = image.shape[0]
-    image_height = image.shape[1]
-
-    return [center_x - int(image_width/2), center_y - int(image_height/2)]
+    return center.x - int(image_width/2), center.y - int(image_height/2)
 
 
-def overlay_image_at_point(image, overlay_image, point):
+def place_image_to_point(image: Image, overlay_image: Image, point: Coordinate):
     """
     Modify the 'image' in such a way that 'overlay_image' is placed over it at the specified point.
-    Transparency is handled.
     """
-    x1 = point[1]
-    y1 = point[0]
-    x2 = x1 + overlay_image.shape[1]
-    y2 = y1 + overlay_image.shape[0]
-
-    alpha_overlay_image = overlay_image[:, :, 3] / 255.0
-    alpha_image = 1.0 - alpha_overlay_image
-
-    for c in range(0, 3):
-        image[y1:y2, x1:x2, c] = (alpha_overlay_image * overlay_image[:, :, c] + alpha_image * image[y1:y2, x1:x2, c])
+    image.paste(overlay_image, point.as_tuple(), overlay_image)  # 3. parameter ensures transparency is kept
 
 
