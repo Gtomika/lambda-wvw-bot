@@ -28,6 +28,8 @@ personality = discord_interactions.WebhookPersonality(
     bot_icon_url=app_icon
 )
 
+event_type_key = 'lambda_wvw_event_type'
+
 
 def lambda_handler(event, context):
     """
@@ -35,7 +37,8 @@ def lambda_handler(event, context):
     """
     event_type = 'unknown'
     try:
-        event_type = event['lambda_wvw_event_type']
+        payload = extract_event_payload(event)
+        event_type = extract_event_type(payload)
         if event_type == 'wvw_reset':
             wvw_reset_handler.handle_wvw_reset_event(guilds_repo, personality)
         elif event_type == 'raid_reminder':
@@ -44,6 +47,9 @@ def lambda_handler(event, context):
             population_check_handler.handle_home_world_population_recheck(guilds_repo, personality)
         elif event_type == 'release':
             release_handler.handler_release_announcement(event, guilds_repo, personality)
+        elif event_type == 'test':
+            print('Test event, ignoring...')
+            return payload, event_type
         else:
             print(f'Cannot handle event because event type is unknown: {event_type}')
     except BaseException as e:
@@ -51,6 +57,27 @@ def lambda_handler(event, context):
         print(json.dumps(event))
         traceback.print_exc()
 
+
+def extract_event_payload(event: dict) -> dict:
+    """
+    The event payload may be at a different spot depending on if this event was provisioned from
+    Python SDK, or with Terraform.
+    """
+    if event_type_key in event:
+        return event  # payload is the root event, already parsed
+    elif 'Payload' in event:
+        payload: str = event['Payload']
+        return json.loads(payload)
+    else:
+        print(f'Event is in an unsupported format, cannot extract payload! Event: {json.dumps(event)}')
+        raise Exception
+
+
+def extract_event_type(payload: dict) -> str:
+    if event_type_key in payload:
+        return payload[event_type_key]
+    else:
+        print(f'Key {event_type_key} is not present in payload, cannot extract event type! Payload: {json.dumps(payload)}')
 
 
 

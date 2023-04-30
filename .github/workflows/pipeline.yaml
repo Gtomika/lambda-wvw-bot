@@ -34,6 +34,22 @@ jobs:
       - name: Run Discord interaction lambda tests
         run: python -m unittest bot/discord_interaction_lambda_function/test/test_discord_interaction_lambda.py
 
+  run-test-scheduled-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+          python -m pip install ./bot/commons
+          python -m pip install ./bot/scheduled_lambda_function
+      - name: Run scheduled lambda tests
+        run: python -m unittest bot/scheduled_lambda_function/test/test_scheduled_lambda.py
+
   run-tests-commons:
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +109,7 @@ jobs:
         with:
           name: image-layer-deployment-package
           path: image_layer.zip
-    needs: [run-test-discord-interaction, run-tests-commons]
+    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons]
 
   package-discord-interaction-lambda:
     runs-on: ubuntu-latest
@@ -105,7 +121,7 @@ jobs:
         with:
           name: discord-interaction-lambda-package
           path: discord_interaction_lambda.zip
-    needs: [run-test-discord-interaction, run-tests-commons]
+    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons]
 
   package-scheduled-lambda:
     runs-on: ubuntu-latest
@@ -117,7 +133,7 @@ jobs:
         with:
           name: scheduled-lambda-package
           path: scheduled_lambda.zip
-    needs: [ run-test-discord-interaction, run-tests-commons ]
+    needs: [ run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons ]
 
   package-command-lambdas:
     runs-on: ubuntu-latest
@@ -163,7 +179,7 @@ jobs:
         with:
           name: command-lambda-packages
           path: command_lambda_packages/
-    needs: [run-test-discord-interaction, run-tests-commons]
+    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons]
 
   terraform-validate:
     environment: staging # does not matter technically

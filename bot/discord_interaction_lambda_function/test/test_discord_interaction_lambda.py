@@ -202,7 +202,7 @@ def mock_create_lambda(function_name: str) -> str:
     response = conn.create_function(
         FunctionName=function_name,
         Runtime='python3.9',
-        Role= get_mock_role_arn(),
+        Role=get_mock_role_arn(),
         Handler='lambda_function.lambda_handler',
         Code={
             'ZipFile': get_test_zip_file(),
