@@ -1,4 +1,5 @@
 import traceback
+from typing import Union
 
 from bot.commons import gw2_guilds
 from bot.commons import discord_interactions
@@ -13,7 +14,7 @@ from . import scheduled_lambda_utils
 def handle_home_world_population_recheck(
     guilds_repo: gw2_guilds.Gw2GuildRepo,
     personality: discord_interactions.WebhookPersonality
-):
+) -> None:
     """
     An event where guilds home worlds must be re-checked in case their population has changed.
     Notification is sent if the population was changed.
@@ -31,6 +32,9 @@ def handle_home_world_population_recheck(
             current_population = gw2_api_interactions.get_home_world_by_id(home_world['id'])['population']
 
             notification_string = create_populations_update(home_world['name'], saved_population, current_population, locale)
+            if notification_string is None:
+                print(f'Guild with ID {guild[gw2_guilds.guild_id_field_name]} and home world {home_world["name"]} has no population change.')
+                continue
 
             wvw_role_ids = scheduled_lambda_utils.get_guild_attribute_or_empty(guild, gw2_guilds.wvw_roles_field_name)
             if len(wvw_role_ids) > 0:
@@ -50,7 +54,11 @@ def handle_home_world_population_recheck(
             traceback.print_exc()
 
 
-def create_populations_update(world_name: str, saved: str, current: str, locale: str):
+def create_populations_update(world_name: str, saved: str, current: str, locale: str) -> Union[str, None]:
+    """
+    Create a string that displays the population update for the selected world. Return none if
+    there is no update for the world.
+    """
     if saved != current:
         if current == 'Full':
             transfer_summary = template_utils.get_localized_template(templates.transfer_summary_full, locale)

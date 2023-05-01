@@ -42,5 +42,6 @@ loading = {
     'en': "Querying daily achievements... {emote_loading}"
 }
 daily_detail = {
-    'hu': '- **{name}**: {description} {potion_amount} {emote_potion}'
+    'hu': '- **{name}**: {description} {potion_amount} {emote_potion}',
+    'en': '- **{name}**: {description} {potion_amount} {emote_potion}'
 }

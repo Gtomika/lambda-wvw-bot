@@ -1,19 +1,3 @@
-achievement_detail = {
-    'hu': "- **{name}**: Jutalom {reward_amount}{reward_type}. Állapot: {progress}",
-    'en': "- **{name}** Reward {reward_amount}{reward_type}. Progress: {progress}"
-}
-
-achievement_progress = {
-    'hu': '{current}/{max} {emote_progress}',
-    'en': '{current}/{max} {emote_progress}'
-}
-
-achievement_progress_unknown = {
-    'hu': '{emote_question}',
-    'en': '{emote_question}'
-}
-
-
 wvw_exotic_reward_chest_id = 78353
 wvw_rare_reward_chest_id = 78485
 

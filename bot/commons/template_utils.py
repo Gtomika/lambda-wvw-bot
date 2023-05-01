@@ -28,7 +28,7 @@ def format_and_respond_internal_error(discord_interactions, discord_utils, info)
     )
     discord_interactions.respond_to_discord_interaction(
         interaction_token=info.interaction_token,
-        mesage=error_message,
+        message=error_message,
         allowed_mention=discord_interactions.allow_user_mentions
     )
 

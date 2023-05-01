@@ -68,6 +68,20 @@ jobs:
       - name: Run guild DynamoDB table tests
         run: python -m unittest bot/commons/test/test_gw2_guild_repo.py
 
+  translations-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Run translation check
+        run: python translations_check.py
+
   package-layers:
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +123,7 @@ jobs:
         with:
           name: image-layer-deployment-package
           path: image_layer.zip
-    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons]
+    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons, translations-check]
 
   package-discord-interaction-lambda:
     runs-on: ubuntu-latest
@@ -121,7 +135,7 @@ jobs:
         with:
           name: discord-interaction-lambda-package
           path: discord_interaction_lambda.zip
-    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons]
+    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons, translations-check]
 
   package-scheduled-lambda:
     runs-on: ubuntu-latest
@@ -133,7 +147,7 @@ jobs:
         with:
           name: scheduled-lambda-package
           path: scheduled_lambda.zip
-    needs: [ run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons ]
+    needs: [ run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons, translations-check]
 
   package-command-lambdas:
     runs-on: ubuntu-latest
@@ -179,7 +193,7 @@ jobs:
         with:
           name: command-lambda-packages
           path: command_lambda_packages/
-    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons]
+    needs: [run-test-discord-interaction, run-test-scheduled-lambda, run-tests-commons, translations-check]
 
   terraform-validate:
     environment: staging # does not matter technically

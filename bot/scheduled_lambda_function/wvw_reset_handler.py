@@ -17,7 +17,6 @@ def handle_wvw_reset_event(
     An event where guilds must be notified about wvw reset. Includes relink too.
     """
     is_relink = matchup_utils.is_relink(pendulum.today().at(hour=19))  # only the day and month is important
-    reminder_string = compile_reminder_string(is_relink, locale)
 
     for guild in guilds_repo.find_all_guilds([
         gw2_guilds.announcement_channels_field_name,
@@ -25,6 +24,8 @@ def handle_wvw_reset_event(
         gw2_guilds.language_field_name
     ]):
         locale = scheduled_lambda_utils.get_guild_language_or_default(guild)
+        reminder_string = compile_reminder_string(is_relink, locale)
+
         wvw_role_ids = scheduled_lambda_utils.get_guild_attribute_or_empty(guild, gw2_guilds.wvw_roles_field_name)
         if len(wvw_role_ids) > 0:
             wvw_role_mentions = discord_utils.mention_multiple_roles(wvw_role_ids)
