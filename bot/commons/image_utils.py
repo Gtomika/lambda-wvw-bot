@@ -40,14 +40,31 @@ def save_image_jpg(image: Image, file_name: str):
     image.save(file_name)
 
 
-def shift_image_from_center_point(image: Image, center: Coordinate):
+def gw2_api_coordinates_to_pixels(
+        wvw_map,
+        map_image: Image,
+        gw2_api_objective_coordinates: Coordinate,
+) -> Coordinate:
+    """
+    Core method to convert WvW objective coordinates received from the GW2 API to
+    pixel coordinates of the given image.
+    """
+    relative_coordinates = wvw_map.relative_gw2_api_coordinate(gw2_api_objective_coordinates)
+
+    pixels_x = (relative_coordinates.x * map_image.width) / wvw_map.width_gw2_api()
+    pixels_y = (relative_coordinates.y * map_image.height) / wvw_map.height_gw2_api()
+
+    return Coordinate(int(pixels_x), int(pixels_y))
+
+
+def shift_image_from_center_point(image: Image, center: Coordinate) -> Coordinate:
     """
     Find the top left coordinate of the image, given the center point.
     """
     image_width = image.width
     image_height = image.height
 
-    return center.x - int(image_width/2), center.y - int(image_height/2)
+    return Coordinate(center.x - int(image_width/2), center.y - int(image_height/2))
 
 
 def place_image_to_point(image: Image, overlay_image: Image, point: Coordinate):

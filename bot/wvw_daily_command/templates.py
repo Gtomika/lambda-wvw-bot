@@ -12,19 +12,19 @@ today_tomorrow = {
 
 achievements_response = {
     'hu': """Íme a(z) {day} WvW-s teljesítmények {emote_wvw}
-    
-    {achievement_details}
-    
-    {total_rewards}
-    
-    {summary}""",
+
+{achievement_details}
+
+{total_rewards}
+
+{summary}""",
     'en': """Here are the WvW achievements for {day} {emote_wvw}
     
-    {achievement_details}
-    
-    {total_rewards}
-    
-    {summary}"""
+{achievement_details}
+
+{total_rewards}
+
+{summary}"""
 }
 
 summary_progress = {
