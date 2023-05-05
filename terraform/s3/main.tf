@@ -28,7 +28,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "map_images_lifecycle" {
   bucket = aws_s3_bucket.assets_bucket.id
   rule {
     id     = "expire_map_images_lifecycle"
-    filter = {
+    filter {
       prefix = var.map_images_prefix
     }
     expiration {
