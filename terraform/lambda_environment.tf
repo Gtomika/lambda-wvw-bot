@@ -144,7 +144,7 @@ data "aws_iam_policy_document" "wvw_map_command_policy" {
     data.aws_iam_policy_document.log_policy.json,
     data.aws_iam_policy_document.dynamodb_describe_policy.json,
     data.aws_iam_policy_document.guilds_table_policy.json,
-    data.aws_iam_policy_document.s3_assets_policy
+    data.aws_iam_policy_document.s3_assets_policy.json
   ]
 }
 
