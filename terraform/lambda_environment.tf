@@ -80,6 +80,21 @@ data aws_iam_policy_document "guilds_table_policy" {
   }
 }
 
+data "aws_iam_policy_document" "s3_assets_policy" {
+  statement {
+    sid = "AllowToManageS3Assets"
+    effect = "Allow"
+    actions = [
+      "s3:*Object",
+      "s3:ListBucket"
+    ]
+    resources = [
+      module.s3.assets_bucket_arn,
+      "${module.s3.assets_bucket_arn}/*"
+    ]
+  }
+}
+
 data "aws_iam_policy_document" "pass_role_to_scheduler_policy" {
   statement {
     sid = "AllowToPassRoleToScheduler"
@@ -121,6 +136,15 @@ data "aws_iam_policy_document" "wvw_raid_command_policy" {
     data.aws_iam_policy_document.guilds_table_policy.json,
     data.aws_iam_policy_document.scheduler_manager_policy.json,
     data.aws_iam_policy_document.pass_role_to_scheduler_policy.json
+  ]
+}
+
+data "aws_iam_policy_document" "wvw_map_command_policy" {
+  source_policy_documents = [
+    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.dynamodb_describe_policy.json,
+    data.aws_iam_policy_document.guilds_table_policy.json,
+    data.aws_iam_policy_document.s3_assets_policy
   ]
 }
 
@@ -271,9 +295,14 @@ locals {
     }
 
     WvwMap = {
-      policy = data.aws_iam_policy_document.guild_table_manager_lambda_policy,
+      policy = data.aws_iam_policy_document.wvw_map_command_policy,
       variables = merge(local.common_variables, {
         GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
+        APP_NAME = var.discord_application_name
+        APP_ICON_URL = module.s3.app_icon_url
+        ASSETS_BUCKET_URL = module.s3.assets_bucket_url
+        ASSETS_BUCKET_NAME = module.s3.assets_bucket_name
+        MAP_IMAGES_PREFIX = module.s3.map_images_prefix
       })
       layers = concat(local.required_layers, [aws_lambda_layer_version.image_lambda_layer.arn])
     }

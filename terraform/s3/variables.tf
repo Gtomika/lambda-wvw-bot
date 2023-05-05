@@ -18,3 +18,13 @@ variable "key_of_app_icon" {
   type = string
   description = "app_icon.png"
 }
+
+variable "map_images_prefix" {
+  type = string
+  default = "map_images/"
+}
+
+variable "map_images_expiration_days" {
+  type = number
+  default = 10
+}

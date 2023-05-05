@@ -1,3 +1,5 @@
+import pendulum
+
 from bot.commons import common_exceptions
 
 ACK_TYPE = 1
@@ -158,3 +160,32 @@ def mention_multiple_roles(role_ids) -> str:
         return ' '.join([mention_role(role_id) for role_id in role_ids])
     else:
         return ''
+
+
+def create_image_embed(
+        title: str,
+        description: str,
+        image_url: str,
+        author_name: str,
+        author_icon_url: str,
+        image_width: int,
+        image_height: int,
+        color: int
+) -> dict:
+    return {
+        'title': title,
+        'type': 'image',
+        'timestamp': pendulum.now().to_iso8601_string(),
+        'description': description,
+        'color': color,
+        'image': {
+            'url': image_url,
+            'height': image_height,
+            'width': image_width
+        },
+        'author': {
+            'name': author_name,
+            'icon_url': author_icon_url
+        },
+        'fields': []
+    }

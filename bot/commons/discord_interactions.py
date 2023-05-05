@@ -1,5 +1,6 @@
 import requests
 import os
+from typing import Union
 
 discord_api_base_url = 'https://discord.com/api/v10'
 discord_interaction_timeout = 5
@@ -42,7 +43,8 @@ allow_no_mentions = AllowedMention('none')
 def respond_to_discord_interaction(
         interaction_token: str,
         message: str,
-        allowed_mention: AllowedMention = allow_no_mentions
+        allowed_mention: AllowedMention = allow_no_mentions,
+        embeds: Union[list[dict], None] = None
 ) -> bool:
     """
     Respond to a discord interaction, identified by the interaction token.
@@ -54,7 +56,8 @@ def respond_to_discord_interaction(
         'content': message,
         'allowed_mentions': {
             'parse': [allowed_mention.mention_type] if allowed_mention.mentions_allowed() else []
-        }
+        },
+        'embeds': embeds if embeds is not None else []
     }, headers={
         'Authorization': f'Bot {bot_token}',
         'Content-Type': 'application/json'

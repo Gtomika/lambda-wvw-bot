@@ -23,6 +23,21 @@ data "aws_iam_policy_document" "assets_bucket_policy" {
   }
 }
 
+# only 1 lifecycle configuration is supported per bucket!
+resource "aws_s3_bucket_lifecycle_configuration" "map_images_lifecycle" {
+  bucket = aws_s3_bucket.assets_bucket.id
+  rule {
+    id     = "expire_map_images_lifecycle"
+    filter = {
+      prefix = var.map_images_prefix
+    }
+    expiration {
+      days = var.map_images_expiration_days
+    }
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_policy" "assets_policy_attachment" {
   bucket = aws_s3_bucket.assets_bucket.id
   policy = data.aws_iam_policy_document.assets_bucket_policy.json
