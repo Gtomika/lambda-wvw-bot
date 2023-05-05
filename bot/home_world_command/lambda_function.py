@@ -56,9 +56,9 @@ def lambda_handler(event, context):
 
 def set_home_world(guild_id: str, home_world_name: str, info: discord_utils.InteractionInfo):
     try:
-        home_world_id, population = world_utils.fetch_and_validate_gw2_world(home_world_name)
+        home_world = world_utils.fetch_and_validate_gw2_world(home_world_name)
         # GW2 API says this world is valid, we can save it
-        repo.save_guild_home_world(guild_id, home_world_id, home_world_name, population)
+        repo.save_guild_home_world(guild_id, home_world['id'], home_world['name'], home_world['population'])
         success_message = template_utils.get_localized_template(templates.home_world_set, info.locale)\
             .format(home_world=home_world_name)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)

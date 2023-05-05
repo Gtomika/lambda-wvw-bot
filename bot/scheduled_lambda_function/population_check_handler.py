@@ -19,6 +19,8 @@ def handle_home_world_population_recheck(
     An event where guilds home worlds must be re-checked in case their population has changed.
     Notification is sent if the population was changed.
     """
+    worlds = gw2_api_interactions.get_home_worlds()
+
     for guild in guilds_repo.find_all_guilds([
         gw2_guilds.home_world_field_name,
         gw2_guilds.announcement_channels_field_name,
@@ -29,7 +31,7 @@ def handle_home_world_population_recheck(
             locale = scheduled_lambda_utils.get_guild_language_or_default(guild)
             home_world = scheduled_lambda_utils.get_guild_attribute_or_throw(guild, gw2_guilds.home_world_field_name)
             saved_population = home_world['population']
-            current_population = gw2_api_interactions.get_home_world_by_id(home_world['id'])['population']
+            current_population = extract_world_population(home_world['id'], worlds)
 
             notification_string = create_populations_update(home_world['name'], saved_population, current_population, locale)
             if notification_string is None:
@@ -52,6 +54,13 @@ def handle_home_world_population_recheck(
         except gw2_api_interactions.ApiException:
             print(f"GW2 API exception while trying to recheck population of guild with ID {guild['id']}")
             traceback.print_exc()
+
+
+def extract_world_population(world_id: int, worlds: list[dict]) -> str:
+    for world in worlds:
+        if world['id'] == world_id:
+            return world['population']
+    raise Exception(f'Internal error, the API did not respond with world with ID {world_id}')
 
 
 def create_populations_update(world_name: str, saved: str, current: str, locale: str) -> Union[str, None]:

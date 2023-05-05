@@ -87,7 +87,7 @@ def lambda_handler(event, context):
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
     except BaseException:
-        print(f'Error while create map report')
+        print(f'Error while creating map report')
         traceback.print_exc()
         template_utils.format_and_respond_internal_error(discord_interactions, discord_utils, info)
 
@@ -151,6 +151,7 @@ def upload_image_to_s3(image: Image) -> str:
 
 def image_to_in_memory_file(image: Image) -> io.BytesIO:
     in_mem_file = io.BytesIO()
-    image.save(in_mem_file, format=image.format)
+    image = image.convert('RGB')
+    image.save(in_mem_file, format='JPEG')
     in_mem_file.seek(0)
     return in_mem_file

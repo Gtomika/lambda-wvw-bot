@@ -24,7 +24,7 @@ def load_image_rgba(file_name: str) -> Image:
 
     img = Image.open(file_name)
     img = img.convert('RGBA')
-    print(f'Image opened: {file_name}. Mode: {img.mode}')
+    # print(f'Image opened: {file_name}. Mode: {img.mode}')
 
     image_cache[file_name] = img  # cache image to avoid repeated loading
     return img
@@ -37,7 +37,7 @@ def save_image_png(image: Image, file_name: str):
     if not file_name.endswith('.png'):
         raise Exception(f'File should be a png but was {file_name}')
     image.save(file_name)
-    print(f'Image saved: {file_name}. Mode: {image.mode}')
+    # print(f'Image saved: {file_name}. Mode: {image.mode}')
 
 
 def save_image_jpg(image: Image, file_name: str):
@@ -82,5 +82,3 @@ def place_image_to_point(image: Image, overlay_image: Image, point: Coordinate):
     Modify the 'image' in such a way that 'overlay_image' is placed over it at the specified point.
     """
     image.paste(overlay_image, point.as_int_tuple(), overlay_image)  # 3. parameter ensures transparency is kept
-
-
