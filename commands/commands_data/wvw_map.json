@@ -15,7 +15,7 @@
       "description_localizations": {
         "hu": "Melyik csatamező érdekel?"
       },
-      "options": [
+      "choices": [
         {
             "name": "Eternal Battlegrounds",
             "value": "ebg"
@@ -42,7 +42,6 @@
         "hu": "Ha a guild világa helyett egy másik világ érdekel, itt add meg a nevét."
       },
       "required": false,
-      "min_length": 3,
       "max_length": 100
     }
   ]

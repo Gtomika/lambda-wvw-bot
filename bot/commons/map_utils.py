@@ -2,7 +2,7 @@ import json
 from typing import Union
 import pathlib
 
-from image_utils import Coordinate
+from bot.commons import image_utils
 
 
 # objectives are loaded from file once
@@ -23,7 +23,7 @@ class WvwMap:
             readable_name: str,
             gw2_api_name: str,
             discord_name: str,
-            map_boundaries: tuple[Coordinate, Coordinate],
+            map_boundaries: tuple[image_utils.Coordinate, image_utils.Coordinate],
             image_path: str,
             color_code: int
     ):
@@ -46,12 +46,12 @@ class WvwMap:
         """
         return self.map_boundaries[1].y - self.map_boundaries[0].y
 
-    def relative_gw2_api_coordinate(self, coordinates: Coordinate) -> Coordinate:
+    def relative_gw2_api_coordinate(self, coordinates: image_utils.Coordinate) -> image_utils.Coordinate:
         """
         Relativize a given coordinate (using GW2 API units) onto this map. Coordinate
         will be returned where the map top left boundary acts as (0,0).
         """
-        return Coordinate(coordinates.x - self.map_boundaries[0].x, coordinates.y - self.map_boundaries[0].y)
+        return image_utils.Coordinate(coordinates.x - self.map_boundaries[0].x, coordinates.y - self.map_boundaries[0].y)
 
 
 # All known WvW maps
@@ -62,7 +62,7 @@ eternal_battlegrounds = WvwMap(
     readable_name='Eternal Battlegrounds',
     gw2_api_name='Center',
     discord_name='ebg',
-    map_boundaries=(Coordinate(8958, 12798), Coordinate(12030, 15870)),
+    map_boundaries=(image_utils.Coordinate(8958, 12798), image_utils.Coordinate(12030, 15870)),
     image_path='img/ebg.jpg',
     color_code=12745742
 )
@@ -71,7 +71,7 @@ blue_borderlands = WvwMap(
     readable_name='Blue Borderlands (alpine)',
     gw2_api_name='BlueHome',
     discord_name='blue_bl',
-    map_boundaries=(Coordinate(12798, 10878), Coordinate(15358, 14462)),
+    map_boundaries=(image_utils.Coordinate(12798, 10878), image_utils.Coordinate(15358, 14462)),
     image_path='img/blue_border.jpg',
     color_code=3447003
 )
@@ -80,7 +80,7 @@ green_borderlands = WvwMap(
     readable_name='Green Borderlands (alpine)',
     gw2_api_name='GreenHome',
     discord_name='green_bl',
-    map_boundaries=(Coordinate(5630, 11518), Coordinate(8190, 15102)),
+    map_boundaries=(image_utils.Coordinate(5630, 11518), image_utils.Coordinate(8190, 15102)),
     image_path='img/green_border.jpg',
     color_code=5763719
 )
@@ -89,7 +89,7 @@ red_borderlands = WvwMap(
     readable_name='Red Borderlands (desert)',
     gw2_api_name='RedHome',
     discord_name='red_bl',
-    map_boundaries=(Coordinate(9214, 8958), Coordinate(12286, 12030)),
+    map_boundaries=(image_utils.Coordinate(9214, 8958), image_utils.Coordinate(12286, 12030)),
     image_path='img/red_border.jpg',
     color_code=15548997
 )
@@ -133,7 +133,7 @@ class WvwObjective:
 
         # for reasons unimaginable, 'Mercenary' objects have no 'coord' in the API, but 'label_coord' instead
         raw_coordinate = objective.get('coord' if self.type != 'Mercenary' else 'label_coord', [0, 0])
-        self.coordinate = Coordinate(raw_coordinate[0], raw_coordinate[1])
+        self.coordinate = image_utils.Coordinate(raw_coordinate[0], raw_coordinate[1])
 
 
     def get_upgrade_tier(self) -> int:
