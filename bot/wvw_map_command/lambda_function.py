@@ -17,7 +17,6 @@ from bot.commons import world_utils
 from bot.commons import monitoring
 from bot.commons import matchup_utils
 
-
 from . import templates
 from . import map_image_generation
 

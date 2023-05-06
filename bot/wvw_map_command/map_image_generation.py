@@ -4,7 +4,6 @@ import pathlib
 from bot.commons import image_utils
 from bot.commons import map_utils
 
-
 lambda_source_dir = img_dir = pathlib.Path(__file__).parent.resolve().as_posix()
 
 

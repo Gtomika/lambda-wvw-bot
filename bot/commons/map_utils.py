@@ -2,7 +2,6 @@ import json
 from typing import Union
 import pathlib
 
-import matchup_utils
 from bot.commons import image_utils
 
 

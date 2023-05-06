@@ -2,7 +2,6 @@ import pendulum
 
 from bot.commons import world_utils
 
-
 eu_region_constant = 2
 eu_lowest_tier = 5
 reset_time_summer = 20
