@@ -1,5 +1,8 @@
 import pendulum
 
+from bot.commons import world_utils
+
+
 eu_region_constant = 2
 eu_lowest_tier = 5
 reset_time_summer = 20
@@ -51,7 +54,7 @@ class MatchupSide:
     multiple worlds (main one + paired ones)
     """
 
-    def __init__(self, color: Color, main_world: WvwWorld, linked_worlds, points: int, kills: int, deaths: int, kd_ratio: float):
+    def __init__(self, color: Color, main_world: WvwWorld, linked_worlds: list[WvwWorld], points: int, kills: int, deaths: int, kd_ratio: float):
         self.color = color
         self.main_world = main_world
         self.linked_worlds = linked_worlds
@@ -109,6 +112,18 @@ class Matchup:
                 return side
         raise MatchupException
 
+    def get_main_world_of_team(self, color: Color) -> WvwWorld:
+        for side in self.sides:
+            if side.color == color:
+                return side.main_world
+        raise MatchupException(f'Internal error: no side with color {str(color)}')
+
+    def get_linked_worlds_of_team(self, color: Color) -> list[WvwWorld]:
+        for side in self.sides:
+            if side.color == color:
+                return side.linked_worlds
+        raise MatchupException(f'Internal error: no side with color {str(color)}')
+
 
 class MatchupResult:
     """
@@ -132,26 +147,26 @@ def build_matchup_id(region_id: int, tier: int) -> str:
     return f'{str(region_id)}-{str(tier)}'
 
 
-def parse_matchup(matchup_api_data, gw2_api_interactions) -> Matchup:
+def parse_matchup(matchup_api_data) -> Matchup:
     """
     Parse matchup data from Gw2 API response. Time zone should be
     selected from 'locale_time_zones' map based on request locale.
     """
     tier = __parse_tier(matchup_api_data['id'])
     end_time = pendulum.parse(matchup_api_data['end_time'])
-    red_side = __parse_matchup_side(matchup_api_data, red, gw2_api_interactions)
-    blue_side = __parse_matchup_side(matchup_api_data, blue, gw2_api_interactions)
-    green_side = __parse_matchup_side(matchup_api_data, green, gw2_api_interactions)
+    red_side = __parse_matchup_side(matchup_api_data, red)
+    blue_side = __parse_matchup_side(matchup_api_data, blue)
+    green_side = __parse_matchup_side(matchup_api_data, green)
     return Matchup(tier=tier, end_at=end_time, sides=[red_side, green_side, blue_side])  # sorting is done inside class
 
 
-def __parse_matchup_side(matchup_api_data, color: Color, gw2_api_interactions) -> MatchupSide:
+def __parse_matchup_side(matchup_api_data, color: Color) -> MatchupSide:
     # extract worlds IDs: main + linked
     main_world_id = matchup_api_data['worlds'][color.color_string]
     all_world_ids = matchup_api_data['all_worlds'][color.color_string]
 
     # make request to gw2 API to get names for these world IDs
-    worlds_data = gw2_api_interactions.get_home_worlds_by_ids(all_world_ids)
+    worlds_data = world_utils.find_home_worlds_by_id(all_world_ids)
     all_worlds = __parse_worlds_data(worlds_data)
     main_world = __pick_main_world(all_worlds, main_world_id)
 

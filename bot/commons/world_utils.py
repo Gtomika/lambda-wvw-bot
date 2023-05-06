@@ -52,3 +52,11 @@ def identify_selected_world(guild_id: str, guilds_repo: gw2_guilds.Gw2GuildRepo,
     except common_exceptions.OptionNotFoundException:
         # no name specified, fall back to guild home world, may throw HomeWorldNotSetException
         return guilds_repo.get_guild_home_world(guild_id)
+
+
+def find_home_worlds_by_id(world_ids: list[int]) -> list[dict]:
+    """
+    Returns a list of home worlds with the given IDs. Static data is used, so the
+    world population is not included.
+    """
+    return [world for world in __wvw_worlds_static if world['id'] in world_ids]

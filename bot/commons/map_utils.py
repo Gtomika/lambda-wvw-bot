@@ -2,6 +2,7 @@ import json
 from typing import Union
 import pathlib
 
+import matchup_utils
 from bot.commons import image_utils
 
 
@@ -185,10 +186,10 @@ class WvwMapDominance:
         List of WvwObjective objects expected. They are expected to be in the same map.
         """
         self.total_ppt, self.red_ppt, self.green_ppt, self.blue_ppt, self.neutral_ppt = self.__calculate_dominance(objectives)
-        self.red_percentage = round(self.red_ppt / self.total_ppt, 2) * 100
-        self.green_percentage = round(self.green_ppt / self.total_ppt, 2) * 100
-        self.blue_percentage = round(self.blue_ppt / self.total_ppt, 2) * 100
-        self.neutral_percentage = round(self.neutral_ppt / self.total_ppt, 2) * 100
+        self.red_percentage = round(self.red_ppt / self.total_ppt) * 100
+        self.green_percentage = round(self.green_ppt / self.total_ppt) * 100
+        self.blue_percentage = round(self.blue_ppt / self.total_ppt) * 100
+        self.neutral_percentage = round(self.neutral_ppt / self.total_ppt) * 100
 
     def __calculate_dominance(self, objectives) -> tuple[int, int, int, int, int]:
         total_ppt = red_ppt = green_ppt = blue_ppt = neutral_ppt = 0
@@ -208,13 +209,13 @@ class WvwMapDominance:
         return total_ppt, red_ppt, green_ppt, blue_ppt, neutral_ppt
 
 
-def get_wvw_objectives_from_map(wvw_map: WvwMap, matchup) -> list[WvwObjective]:
+def get_wvw_objectives_from_map(wvw_map: WvwMap, matchup_raw: dict) -> list[WvwObjective]:
     """
     Return a list of WvwObjective objects from a WvW map. The matchup data is used to
     fill in the actual state of the objectives.
     """
     # find the desired map from the matchup data
-    objectives_matchup_data = [matchup_map['objectives'] for matchup_map in matchup['maps']
+    objectives_matchup_data = [matchup_map['objectives'] for matchup_map in matchup_raw['maps']
                                if matchup_map['type'] == wvw_map.gw2_api_name][0]
 
     # need to merge the static objectives data with the matchup data

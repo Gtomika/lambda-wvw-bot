@@ -111,7 +111,7 @@ def create_matchup_report(home_world_id: int) -> matchup_utils.Matchup:
     Query and compile the current wvw matchup of the selected world.
     """
     matchup_data = gw2_api_interactions.get_wvw_matchup_report_of_world(world_id=home_world_id)
-    return matchup_utils.parse_matchup(matchup_data, gw2_api_interactions)
+    return matchup_utils.parse_matchup(matchup_data)
 
 
 def create_matchup_report_from_id(matchup_id: str) -> matchup_utils.Matchup:
@@ -119,7 +119,7 @@ def create_matchup_report_from_id(matchup_id: str) -> matchup_utils.Matchup:
     Query and compile the selected matchup
     """
     matchup_data = gw2_api_interactions.get_wvw_matchup_report_by_id(matchup_id)
-    return matchup_utils.parse_matchup(matchup_data, gw2_api_interactions)
+    return matchup_utils.parse_matchup(matchup_data)
 
 
 def predict_results(home_world_id: int, matchup: matchup_utils.Matchup):

@@ -15,6 +15,8 @@ from bot.commons import gw2_guilds
 from bot.commons import map_utils
 from bot.commons import world_utils
 from bot.commons import monitoring
+from bot.commons import matchup_utils
+
 
 from . import templates
 from . import map_image_generation
@@ -48,7 +50,9 @@ def lambda_handler(event, context):
             emote_loading=emote_loading
         )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
-        matchup = gw2_api_interactions.get_wvw_matchup_report_of_world(home_world['id'])
+
+        matchup_raw = gw2_api_interactions.get_wvw_matchup_report_of_world(home_world['id'])
+        matchup = matchup_utils.parse_matchup(matchup_raw)
 
         selected_map_discord_name = discord_utils.extract_option(event, 'map_name')
         selected_map = map_utils.select_map(selected_map_discord_name)
@@ -60,11 +64,17 @@ def lambda_handler(event, context):
         )
         discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
 
-        wvw_objectives = map_utils.get_wvw_objectives_from_map(selected_map, matchup)
+        wvw_objectives = map_utils.get_wvw_objectives_from_map(selected_map, matchup_raw)
         map_state_image = map_image_generation.draw_current_map_state(selected_map, wvw_objectives)
-        map_state_image_url = upload_image_to_s3(map_state_image)
 
         # image is processed and uploaded to S3, response to discord
+        loading_message = template_utils.get_localized_template(templates.uploading_image, info.locale).format(
+            emote_loading=emote_loading
+        )
+        discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)
+
+        map_state_image_url = upload_image_to_s3(map_state_image)
+
         map_dominance = map_utils.WvwMapDominance(wvw_objectives)
         message, embed = compile_response(
             world_name=home_world['name'],
@@ -73,6 +83,7 @@ def lambda_handler(event, context):
             map_image_url=map_state_image_url,
             map_image_width=map_state_image.width,
             map_image_height=map_state_image.height,
+            matchup=matchup,
             locale=info.locale
         )
         discord_interactions.respond_to_discord_interaction(
@@ -99,6 +110,7 @@ def compile_response(
         map_image_url: str,
         map_image_width: int,
         map_image_height: int,
+        matchup: matchup_utils.Matchup,
         locale: str
 ) -> tuple[str, dict]:
     """
@@ -107,15 +119,7 @@ def compile_response(
     message = template_utils.get_localized_template(templates.map_state, locale).format(
         map_name=wvw_map.readable_name,
         world_name=world_name,
-        emote_red=discord_utils.default_emote('red'),
-        red_percentage=str(map_dominance.red_percentage),
-        red_points=str(map_dominance.red_ppt),
-        emote_blue=discord_utils.default_emote('blue'),
-        blue_percentage=str(map_dominance.blue_percentage),
-        blue_points=str(map_dominance.blue_ppt),
-        emote_green=discord_utils.default_emote('green'),
-        green_percentage=str(map_dominance.green_percentage),
-        green_points=str(map_dominance.green_ppt),
+        team_states=compile_team_states(map_dominance, matchup, locale),
     )
     short_description = template_utils.get_localized_template(templates.short_description, locale).format(
         map_name=wvw_map.readable_name
@@ -131,6 +135,46 @@ def compile_response(
         color=wvw_map.color_code
     )
     return message, embed
+
+
+def compile_team_states(
+        map_dominance: map_utils.WvwMapDominance,
+        matchup: matchup_utils.Matchup,
+        locale: str
+) -> str:
+    red_state = template_utils.get_localized_template(templates.team_state, locale).format(
+        emote_color=discord_utils.default_emote('red_circle'),
+        main_world_name=matchup.get_main_world_of_team(matchup_utils.red).world_name,
+        linked_world_names=linked_worlds_string(matchup, matchup_utils.red),
+        percentage=str(map_dominance.red_percentage),
+        points=str(map_dominance.red_ppt)
+    )
+
+    blue_state = template_utils.get_localized_template(templates.team_state, locale).format(
+        emote_color=discord_utils.default_emote('blue_circle'),
+        main_world_name=matchup.get_main_world_of_team(matchup_utils.blue).world_name,
+        linked_world_names=linked_worlds_string(matchup, matchup_utils.blue),
+        percentage=str(map_dominance.blue_percentage),
+        points=str(map_dominance.blue_ppt)
+    )
+
+    green_state = template_utils.get_localized_template(templates.team_state, locale).format(
+        emote_color=discord_utils.default_emote('green_circle'),
+        main_world_name=matchup.get_main_world_of_team(matchup_utils.green).world_name,
+        linked_world_names=linked_worlds_string(matchup, matchup_utils.green),
+        percentage=str(map_dominance.green_percentage),
+        points=str(map_dominance.green_ppt)
+    )
+
+    return '\n'.join([red_state, blue_state, green_state])
+
+
+def linked_worlds_string(matchup: matchup_utils.Matchup, color: matchup_utils.Color) -> str:
+    world_names = [world.world_name for world in matchup.get_linked_worlds_of_team(color)]
+    joined_world_names = ', '.join(world_names)
+    if len(joined_world_names) > 0:
+        joined_world_names = f', {joined_world_names}'
+    return joined_world_names
 
 
 def upload_image_to_s3(image: Image) -> str:

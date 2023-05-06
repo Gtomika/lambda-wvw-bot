@@ -8,24 +8,30 @@ drawing_image = {
     'en': 'Drawing image {emote_draw}... {emote_loading}'
 }
 
+uploading_image = {
+    'hu': 'Kép feltöltése... {emote_loading}',
+    'en': 'Uploading image... {emote_loading}'
+}
+
 map_state = {
     'hu': """**{map_name}** jelenlegi állapota (*{world_name}* matchup-ja)
 
 Pontok eloszlása:
-- {emote_red} Piros csapat: {red_percentage}% ({red_points} PPT)
-- {emote_blue} Kék csapat: {blue_percentage}% ({blue_points} PPT)
-- {emote_green} Zöld csapat: {green_percentage}% ({green_points} PPT)
+{team_states}
 """,
     'en': """Current state of **{map_name}** (*{world_name}*'s matchup)
 
 Points per tick distribution:
-- {emote_red} Red team: {red_percentage}% ({red_points} PPT)
-- {emote_blue} Blue team: {blue_percentage}% ({blue_points} PPT)
-- {emote_green} Green team: {green_percentage}% ({green_points} PPT)
+{team_states}
 """
 }
 
+team_state = {
+    'hu': '- {emote_color} **{main_world_name}**{linked_world_names}: {percentage}% ({points} PPT)',
+    'en': '- {emote_color} **{main_world_name}**{linked_world_names}: {percentage}% ({points} PPT)'
+}
+
 short_description = {
-    'hu': 'Ábra {map_name} jelenlegi állapotáról.',
+    'hu': 'Vázlat {map_name} jelenlegi állapotáról.',
     'en': 'Drawing of the current state of {map_name}.'
 }
