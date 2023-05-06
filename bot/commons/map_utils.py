@@ -185,10 +185,10 @@ class WvwMapDominance:
         List of WvwObjective objects expected. They are expected to be in the same map.
         """
         self.total_ppt, self.red_ppt, self.green_ppt, self.blue_ppt, self.neutral_ppt = self.__calculate_dominance(objectives)
-        self.red_percentage = round(self.red_ppt / self.total_ppt) * 100
-        self.green_percentage = round(self.green_ppt / self.total_ppt) * 100
-        self.blue_percentage = round(self.blue_ppt / self.total_ppt) * 100
-        self.neutral_percentage = round(self.neutral_ppt / self.total_ppt) * 100
+        self.red_percentage = round((self.red_ppt / self.total_ppt) * 100)
+        self.green_percentage = round((self.green_ppt / self.total_ppt) * 100)
+        self.blue_percentage = round((self.blue_ppt / self.total_ppt) * 100)
+        self.neutral_percentage = round((self.neutral_ppt / self.total_ppt) * 100)
 
     def __calculate_dominance(self, objectives) -> tuple[int, int, int, int, int]:
         total_ppt = red_ppt = green_ppt = blue_ppt = neutral_ppt = 0
