@@ -35,7 +35,7 @@ def handle_wvw_reset_event(
 
         announcement_channels = scheduled_lambda_utils.get_guild_attribute_or_empty(guild, gw2_guilds.announcement_channels_field_name)
         scheduled_lambda_utils.post_to_announcement_channels(
-            guild_id=guild['id'],
+            guild_id=guild[gw2_guilds.guild_id_field_name],
             announcement_channels=announcement_channels,
             personality=personality,
             message=personalized_reminder_string
