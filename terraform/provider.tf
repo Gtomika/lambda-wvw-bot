@@ -28,6 +28,7 @@ provider "aws" {
       managed_by = "Terraform"
       repository = "https://github.com/Gtomika/lambda-wvw-bot"
       owner = "Tamas Gaspar"
+      environment = var.environment
     }
   }
 }
