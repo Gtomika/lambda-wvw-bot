@@ -33,6 +33,7 @@ module "scheduled_lambda" {
   environment = var.environment
 
   handler_name = var.scheduled_lambda_data.handler
+  memory = var.scheduled_lambda_data.memory
   path_to_deployment_package = local.scheduled_lambda_package_path
 
   libraries_layer_arn = aws_lambda_layer_version.libraries_lambda_layer.arn
@@ -97,6 +98,7 @@ module "command_lambda_modules" {
   command_name = var.command_data[count.index].command_name
   command_name_discord = var.command_data[count.index].command_name_discord
   handler_name = var.command_data[count.index].handler
+  memory = var.command_data[count.index].memory
   timeout_seconds = var.command_data[count.index].timeout_seconds
   path_to_deployment_package = "${local.command_lambda_path_prefix}/${var.command_data[count.index].package_zip_name}"
 
@@ -127,6 +129,7 @@ module "discord_interaction_lambda" {
   environment = var.environment
 
   handler_name = var.discord_interaction_lambda_data.handler
+  memory = var.discord_interaction_lambda_data.memory
   path_to_deployment_package = local.discord_interaction_lambda_package_path
 
   libraries_layer_arn = aws_lambda_layer_version.libraries_lambda_layer.arn

@@ -21,6 +21,7 @@ variable "discord_interaction_lambda_data" {
   type = object({
     handler: string
     path_to_deployment_package: string
+    memory: number
   })
 }
 
@@ -28,6 +29,7 @@ variable "scheduled_lambda_data" {
   type = object({
     handler: string
     path_to_deployment_package: string
+    memory: number
   })
 }
 
@@ -36,6 +38,7 @@ variable "command_data" {
     command_name: string # Terraform friendly command name
     command_name_discord: string # command name as it is in Discord
     handler: string # path to handler
+    memory: number # amount of memory in MB
     package_zip_name: string # deployment ZIP name
     timeout_seconds: number # lambda timeout
   }))

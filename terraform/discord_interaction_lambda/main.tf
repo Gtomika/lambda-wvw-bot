@@ -76,6 +76,7 @@ resource "aws_lambda_function" "discord_interaction_lambda" {
   layers = [var.common_layer_arn, var.libraries_layer_arn]
   runtime = "python3.9"
   handler = var.handler_name
+  memory_size = var.memory
   environment {
     variables = var.environment_variables
   }

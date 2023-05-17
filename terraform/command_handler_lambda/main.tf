@@ -40,6 +40,7 @@ resource "aws_lambda_function" "command_lambda" {
   layers = var.layer_arns
   runtime = "python3.9"
   handler = var.handler_name
+  memory_size = var.memory
   environment {
     variables = var.environment_variables
   }

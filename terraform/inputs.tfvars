@@ -7,11 +7,13 @@ image_layer_deployment_path = "../image-layer-deployment-package/image_layer.zip
 discord_interaction_lambda_data = {
   handler = "bot/discord_interaction_lambda_function/lambda_function.lambda_handler"
   path_to_deployment_package = "../discord-interaction-lambda-package/discord_interaction_lambda.zip"
+  memory = 256
 }
 
 scheduled_lambda_data = {
   handler = "bot/scheduled_lambda_function/lambda_function.lambda_handler"
   path_to_deployment_package = "../scheduled-lambda-package/scheduled_lambda.zip"
+  memory = 256
 }
 
 command_data = [
@@ -21,6 +23,7 @@ command_data = [
     handler = "bot/help_command/lambda_function.lambda_handler"
     package_zip_name = "help_lambda.zip"
     timeout_seconds = 3
+    memory = 128
   },
   {
     command_name = "ApiKey"
@@ -28,6 +31,7 @@ command_data = [
     handler = "bot/api_key_command/lambda_function.lambda_handler"
     package_zip_name = "api_key_lambda.zip"
     timeout_seconds = 3
+    memory = 256
   },
   {
     command_name = "HomeWorld"
@@ -35,6 +39,7 @@ command_data = [
     handler = "bot/home_world_command/lambda_function.lambda_handler"
     package_zip_name = "home_world_lambda.zip"
     timeout_seconds = 10
+    memory = 256
   },
   {
     command_name = "ManagerRole"
@@ -42,6 +47,7 @@ command_data = [
     handler = "bot/manager_role_command/lambda_function.lambda_handler"
     package_zip_name = "manager_role_lambda.zip"
     timeout_seconds = 3
+    memory = 256
   },
   {
     command_name = "WvwRole"
@@ -49,6 +55,7 @@ command_data = [
     handler = "bot/wvw_role_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_role_lambda.zip"
     timeout_seconds = 3
+    memory = 256
   },
   {
     command_name = "WvwRank"
@@ -56,6 +63,7 @@ command_data = [
     handler = "bot/wvw_rank_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_rank_lambda.zip"
     timeout_seconds = 10
+    memory = 256
   },
   {
     command_name = "WvwMatchup"
@@ -63,6 +71,7 @@ command_data = [
     handler = "bot/wvw_matchup_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_matchup_lambda.zip"
     timeout_seconds = 30
+    memory = 512
   },
   {
     command_name = "NextWvwMatchup"
@@ -70,6 +79,7 @@ command_data = [
     handler = "bot/next_wvw_matchup_command/lambda_function.lambda_handler"
     package_zip_name = "next_wvw_matchup_lambda.zip"
     timeout_seconds = 30
+    memory = 512
   },
   {
     command_name = "AnnouncementChannel"
@@ -77,6 +87,7 @@ command_data = [
     handler = "bot/announcement_channel_command/lambda_function.lambda_handler"
     package_zip_name = "announcement_channel_lambda.zip"
     timeout_seconds = 3
+    memory = 256
   },
   {
     command_name = "WvwRaid"
@@ -84,6 +95,7 @@ command_data = [
     handler = "bot/wvw_raid_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_raid_lambda.zip"
     timeout_seconds = 3
+    memory = 256
   },
   {
     command_name = "WvwDaily"
@@ -91,6 +103,7 @@ command_data = [
     handler = "bot/wvw_daily_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_daily_lambda.zip"
     timeout_seconds = 8
+    memory = 256
   },
   {
     command_name = "WvwWeekly"
@@ -98,6 +111,7 @@ command_data = [
     handler = "bot/wvw_weekly_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_weekly_lambda.zip"
     timeout_seconds = 8
+    memory = 256
   },
   {
     command_name = "WvwCurrencies"
@@ -105,6 +119,7 @@ command_data = [
     handler = "bot/wvw_currencies_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_currencies_lambda.zip"
     timeout_seconds = 8
+    memory = 256
   },
   {
     command_name = "WvwItems"
@@ -112,6 +127,7 @@ command_data = [
     handler = "bot/wvw_items_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_items_lambda.zip"
     timeout_seconds = 180 # checking every character can take a long time
+    memory = 256
   },
   {
     command_name = "WvwLegendaries"
@@ -119,6 +135,7 @@ command_data = [
     handler = "bot/wvw_legendaries_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_legendaries_lambda.zip"
     timeout_seconds = 10
+    memory = 256
   },
   {
     command_name = "GuildLanguage"
@@ -126,6 +143,7 @@ command_data = [
     handler = "bot/guild_language_command/lambda_function.lambda_handler"
     package_zip_name = "guild_language_lambda.zip"
     timeout_seconds = 10
+    memory = 256
   },
   {
     command_name = "WvwMap"
@@ -133,6 +151,7 @@ command_data = [
     handler = "bot/wvw_map_command/lambda_function.lambda_handler"
     package_zip_name = "wvw_map_lambda.zip"
     timeout_seconds = 30
+    memory = 1024 # image processing
   }
 ]
 
