@@ -1,4 +1,3 @@
-
 locals {
   libraries_layer_package_path = "${path.module}/${var.libraries_layer_deployment_path}"
   common_layer_package_path = "${path.module}/${var.commons_layer_deployment_path}"
@@ -25,6 +24,14 @@ module "dynamodb_tables" {
   environment = var.environment
 }
 
+module "sns" {
+  source = "./sns"
+  app_name = var.app_name
+  aws_region = var.aws_region
+  environment = var.environment
+  developer_email_address = var.developer_email_address
+}
+
 module "scheduled_lambda" {
   source = "./scheduled_lambda"
 
@@ -35,6 +42,7 @@ module "scheduled_lambda" {
   handler_name = var.scheduled_lambda_data.handler
   memory = var.scheduled_lambda_data.memory
   path_to_deployment_package = local.scheduled_lambda_package_path
+  dead_letter_error_topic_arn = module.sns.error_topic_arn
 
   libraries_layer_arn = aws_lambda_layer_version.libraries_lambda_layer.arn
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn
@@ -101,6 +109,7 @@ module "command_lambda_modules" {
   memory = var.command_data[count.index].memory
   timeout_seconds = var.command_data[count.index].timeout_seconds
   path_to_deployment_package = "${local.command_lambda_path_prefix}/${var.command_data[count.index].package_zip_name}"
+  dead_letter_error_topic_arn = module.sns.error_topic_arn
 
   # in the pre-defined map, find the policy and the variables for this lambda
   layer_arns = local.lambda_environments[var.command_data[count.index].command_name]["layers"]
@@ -131,6 +140,7 @@ module "discord_interaction_lambda" {
   handler_name = var.discord_interaction_lambda_data.handler
   memory = var.discord_interaction_lambda_data.memory
   path_to_deployment_package = local.discord_interaction_lambda_package_path
+  dead_letter_error_topic_arn = module.sns.error_topic_arn
 
   libraries_layer_arn = aws_lambda_layer_version.libraries_lambda_layer.arn
   common_layer_arn = aws_lambda_layer_version.common_lambda_layer.arn

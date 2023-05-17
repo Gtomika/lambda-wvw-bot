@@ -45,6 +45,10 @@ resource "aws_lambda_function" "command_lambda" {
     variables = var.environment_variables
   }
 
+  dead_letter_config {
+    target_arn = var.dead_letter_error_topic_arn
+  }
+
   timeout = var.timeout_seconds
 
   depends_on = [aws_cloudwatch_log_group.lambda_log_group]

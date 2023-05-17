@@ -41,6 +41,16 @@ data aws_iam_policy_document "scheduled_lambda_policy" {
       var.gw2_users_table_arn
     ]
   }
+  statement {
+    sid = "AllowLambdaToSendErrorNotification"
+    effect = "Allow"
+    actions = [
+      "sns:Publish"
+    ],
+    resources = [
+      var.dead_letter_error_topic_arn
+    ]
+  }
 }
 
 # TODO give permission to access user and guild tables
@@ -49,7 +59,7 @@ resource "aws_iam_role" "scheduled_lambda_role" {
   name = "ScheduledLambda-${var.app_name}-${var.environment}-${var.aws_region}"
   assume_role_policy = data.aws_iam_policy_document.scheduled_lambda_assume_role_policy.json
   inline_policy {
-    name = "AllowLambdaToLog"
+    name = "AllowScheduledLamdaActions"
     policy = data.aws_iam_policy_document.scheduled_lambda_policy.json
   }
 }
@@ -78,6 +88,10 @@ resource "aws_lambda_function" "scheduled_lambda" {
   memory_size = var.memory
   environment {
     variables = var.environment_variables
+  }
+
+  dead_letter_config {
+    target_arn = var.dead_letter_error_topic_arn
   }
 
   depends_on = [aws_cloudwatch_log_group.lambda_log_group]

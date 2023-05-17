@@ -110,3 +110,8 @@ variable "discord_application_name" {
   type = string
   description = "The Bots name as it appears in Discord"
 }
+
+variable "developer_email_address" {
+  type = string
+  description = "Email of developer that is subscribed to SNS topics such as error topic"
+}

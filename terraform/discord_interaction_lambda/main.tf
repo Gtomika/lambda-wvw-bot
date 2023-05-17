@@ -22,6 +22,19 @@ data aws_iam_policy_document "discord_interaction_log_policy" {
   }
 }
 
+data aws_iam_policy_document "discord_interaction_error_publish_policy" {
+  statement {
+    sid = "AllowLambdaToSendErrorNotification"
+    effect = "Allow"
+    actions = [
+      "sns:Publish"
+    ],
+    resources = [
+      var.dead_letter_error_topic_arn
+    ]
+  }
+}
+
 # to be able to invoke the command handler lambdas
 data "aws_iam_policy_document" "discord_interaction_invoke_policies" {
   count = length(var.command_handler_lambda_arns)
@@ -42,6 +55,7 @@ data "aws_iam_policy_document" "discord_interaction_merged_invoke_policy" {
 data "aws_iam_policy_document" "discord_interaction_policy" {
   source_policy_documents = [
     data.aws_iam_policy_document.discord_interaction_log_policy.json,
+    data.aws_iam_policy_document.discord_interaction_error_publish_policy.json,
     data.aws_iam_policy_document.discord_interaction_merged_invoke_policy.json
   ]
 }
@@ -79,6 +93,10 @@ resource "aws_lambda_function" "discord_interaction_lambda" {
   memory_size = var.memory
   environment {
     variables = var.environment_variables
+  }
+
+  dead_letter_config {
+    target_arn = var.dead_letter_error_topic_arn
   }
 
   depends_on = [aws_cloudwatch_log_group.lambda_log_group]

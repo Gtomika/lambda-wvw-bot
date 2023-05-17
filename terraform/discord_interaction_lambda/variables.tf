@@ -42,3 +42,7 @@ variable "log_retention_days" {
   type = number
   description = "How long to keep CloudWatch logs"
 }
+
+variable "dead_letter_error_topic_arn" {
+  type = string
+}

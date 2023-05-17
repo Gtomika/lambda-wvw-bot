@@ -1,6 +1,6 @@
 # Some common policies for all lambdas to use
 
-data "aws_iam_policy_document" "log_policy" {
+data "aws_iam_policy_document" "command_lambda_base_policies" {
   statement {
     sid = "AllowLambdaToLog"
     effect = "Allow"
@@ -9,6 +9,16 @@ data "aws_iam_policy_document" "log_policy" {
       "logs:PutLogEvents",
     ]
     resources = ["arn:aws:logs:*:*:*"]
+  }
+  statement {
+    sid = "AllowLambdaToSendErrorNotification"
+    effect = "Allow"
+    actions = [
+      "sns:Publish"
+    ],
+    resources = [
+      module.sns.error_topic_arn
+    ]
   }
 }
 
@@ -116,7 +126,7 @@ data "aws_iam_policy_document" "pass_role_to_scheduler_policy" {
 
 data "aws_iam_policy_document" "user_table_manager_lambda_policy" {
   source_policy_documents = [
-    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.command_lambda_base_policies.json,
     data.aws_iam_policy_document.dynamodb_describe_policy.json,
     data.aws_iam_policy_document.users_table_policy.json
   ]
@@ -124,7 +134,7 @@ data "aws_iam_policy_document" "user_table_manager_lambda_policy" {
 
 data "aws_iam_policy_document" "guild_table_manager_lambda_policy" {
   source_policy_documents = [
-    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.command_lambda_base_policies.json,
     data.aws_iam_policy_document.dynamodb_describe_policy.json,
     data.aws_iam_policy_document.guilds_table_policy.json
   ]
@@ -132,7 +142,7 @@ data "aws_iam_policy_document" "guild_table_manager_lambda_policy" {
 
 data "aws_iam_policy_document" "wvw_raid_command_policy" {
   source_policy_documents = [
-    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.command_lambda_base_policies.json,
     data.aws_iam_policy_document.guilds_table_policy.json,
     data.aws_iam_policy_document.scheduler_manager_policy.json,
     data.aws_iam_policy_document.pass_role_to_scheduler_policy.json
@@ -141,7 +151,7 @@ data "aws_iam_policy_document" "wvw_raid_command_policy" {
 
 data "aws_iam_policy_document" "wvw_map_command_policy" {
   source_policy_documents = [
-    data.aws_iam_policy_document.log_policy.json,
+    data.aws_iam_policy_document.command_lambda_base_policies.json,
     data.aws_iam_policy_document.dynamodb_describe_policy.json,
     data.aws_iam_policy_document.guilds_table_policy.json,
     data.aws_iam_policy_document.s3_assets_policy.json
@@ -164,7 +174,7 @@ locals {
   lambda_environments = {
 
     Help = {
-      policy    = data.aws_iam_policy_document.log_policy
+      policy    = data.aws_iam_policy_document.command_lambda_base_policies
       variables = local.common_variables
       layers = local.required_layers
     }
@@ -257,7 +267,7 @@ locals {
     }
 
     WvwWeekly = {
-      policy    = data.aws_iam_policy_document.log_policy
+      policy    = data.aws_iam_policy_document.command_lambda_base_policies
       variables = local.common_variables
       layers = local.required_layers
     }

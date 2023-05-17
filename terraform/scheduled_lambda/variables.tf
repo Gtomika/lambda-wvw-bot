@@ -45,3 +45,7 @@ variable "gw2_users_table_arn" {
 variable "gw2_guilds_table_arn" {
   type = string
 }
+
+variable "dead_letter_error_topic_arn" {
+  type = string
+}

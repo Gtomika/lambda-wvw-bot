@@ -52,3 +52,7 @@ variable "log_retention_days" {
 variable "timeout_seconds" {
   type = number
 }
+
+variable "dead_letter_error_topic_arn" {
+  type = string
+}
