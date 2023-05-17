@@ -226,6 +226,7 @@ jobs:
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
+      DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -244,7 +245,8 @@ jobs:
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
             -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
-            -var discord_application_name="$DISCORD_APP_NAME"
+            -var discord_application_name="$DISCORD_APP_NAME" \
+            -var developer_email_address="$DEVELOPER_EMAIL_ADDRESS"
           cd ..
       - uses: actions/upload-artifact@v3
         with:
@@ -283,6 +285,7 @@ jobs:
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
+      DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -301,7 +304,8 @@ jobs:
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
             -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
-            -var discord_application_name="$DISCORD_APP_NAME"
+            -var discord_application_name="$DISCORD_APP_NAME" \
+            -var developer_email_address="$DEVELOPER_EMAIL_ADDRESS"
     needs: terraform-plan-stg
 
   register-commands-test-guild:
@@ -349,6 +353,7 @@ jobs:
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
+      DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -367,7 +372,8 @@ jobs:
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
             -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
-            -var discord_application_name="$DISCORD_APP_NAME"
+            -var discord_application_name="$DISCORD_APP_NAME" \
+            -var developer_email_address="$DEVELOPER_EMAIL_ADDRESS"
           cd ..
       - uses: actions/upload-artifact@v3
         with:
@@ -406,6 +412,7 @@ jobs:
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
+      DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
@@ -424,7 +431,8 @@ jobs:
             -var aws_assume_role_external_id="$AWS_STS_EXTERNAL_KEY" \
             -var discord_application_id="$APPLICATION_ID" \
             -var discord_application_public_key="$APPLICATION_PUBLIC_KEY" \
-            -var discord_application_name="$DISCORD_APP_NAME"
+            -var discord_application_name="$DISCORD_APP_NAME" \
+            -var developer_email_address="$DEVELOPER_EMAIL_ADDRESS"
     needs: terraform-plan-prd
 
   register-commands-global:
