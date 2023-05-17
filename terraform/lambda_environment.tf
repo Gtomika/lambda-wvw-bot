@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "command_lambda_base_policies" {
     effect = "Allow"
     actions = [
       "sns:Publish"
-    ],
+    ]
     resources = [
       module.sns.error_topic_arn
     ]

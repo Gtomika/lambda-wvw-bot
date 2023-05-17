@@ -28,7 +28,7 @@ data aws_iam_policy_document "discord_interaction_error_publish_policy" {
     effect = "Allow"
     actions = [
       "sns:Publish"
-    ],
+    ]
     resources = [
       var.dead_letter_error_topic_arn
     ]

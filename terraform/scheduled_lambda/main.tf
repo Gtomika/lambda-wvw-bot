@@ -46,7 +46,7 @@ data aws_iam_policy_document "scheduled_lambda_policy" {
     effect = "Allow"
     actions = [
       "sns:Publish"
-    ],
+    ]
     resources = [
       var.dead_letter_error_topic_arn
     ]
