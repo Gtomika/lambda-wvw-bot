@@ -203,22 +203,17 @@ def __parse_tier(matchup_id: str) -> int:
     return int(parts[1])  # part 0 is region, part 1 is tier
 
 
-def is_relink(next_reset_time: pendulum.DateTime) -> bool:
+def is_relink(date_time: pendulum.DateTime) -> bool:
     """
     Relink is on odd months last friday.
     """
-    now = pendulum.now()
-    is_odd_month = now.month % 2 != 0
-    if is_odd_month:
-        # re-link is on the last friday of this month
-        relink_day = now.last_of(unit="month", day_of_week=pendulum.FRIDAY)
-        # we have already passed this re-link, even though it was this month
-        if relink_day.is_past():
-            relink_day = now.add(months=1).last_of(unit='month', day_of_week=pendulum.FRIDAY)
+    is_odd_month = date_time.month % 2 != 0
+    if is_odd_month and date_time.day_of_week == pendulum.FRIDAY:
+        # it's a friday of an odd month but is it the last one?
+        last_friday_of_month = date_time.last_of("month", pendulum.FRIDAY)
+        return date_time.is_same_day(last_friday_of_month)
     else:
-        # re-link is on the last friday of NEXT month
-        relink_day = now.add(months=1).last_of(unit='month', day_of_week=pendulum.FRIDAY)
-    return next_reset_time.is_same_day(relink_day)
+        return False
 
 
 def predict_results(home_world_id: int, matchup: Matchup):
@@ -393,8 +388,7 @@ These worlds may be in the next matchup:
 {tier_prediction_string}
 
 Ezek a szerverek lehetnek a következő matchup-ban:
-{predicted_sides_string}
-'''
+{predicted_sides_string}'''
 }
 
 tier_prediction = {
