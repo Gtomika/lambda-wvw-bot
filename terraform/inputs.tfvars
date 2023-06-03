@@ -7,13 +7,15 @@ image_layer_deployment_path = "../image-layer-deployment-package/image_layer.zip
 discord_interaction_lambda_data = {
   handler = "bot/discord_interaction_lambda_function/lambda_function.lambda_handler"
   path_to_deployment_package = "../discord-interaction-lambda-package/discord_interaction_lambda.zip"
-  memory = 256
+  memory = 256,
+  timeout_seconds = 10
 }
 
 scheduled_lambda_data = {
   handler = "bot/scheduled_lambda_function/lambda_function.lambda_handler"
   path_to_deployment_package = "../scheduled-lambda-package/scheduled_lambda.zip"
-  memory = 256
+  memory = 512,
+  timeout_seconds = 30
 }
 
 command_data = [

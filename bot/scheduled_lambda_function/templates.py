@@ -1,22 +1,24 @@
 wvw_reset_reminder = {
     'hu': """Hamarosan WvW reset lesz {emote_wvw}!
-- A jelenlegi matchup-ról a `/wvw_matchup` utasítással tudakozódhatsz.
-- Ha a következő matchup-ra vonatkozó jóslatom érdekel, használd a `/next_wvw_matchup` utasítást.
-{summary_string}""",
-    'en': """WvW reset is coming soon {emote_wvw}!
-- You can check the current matchup with the `/wvw_matchup` command.
-- If you're interested in my prediction for the next matchup, use the `/next_wvw_matchup` command.
+
+{matchup_prediction_string}
+
 {summary_string}"""
+}
+
+home_world_not_set = {
+    'hu': 'A guildnek nincs beállítva világa, ezért nem tudok jósolni a következő matchupról. Világot a `/home_world set` utasítással lehet beállítani.',
+    'en': 'The guild has no home world set, so I cannot predict the next matchup. You can set a home world with the `/home_world set` command.'
+}
+
+api_error = {
+    'hu': 'A GW2 API hibás választ adott, ezért nem tudom megjósolni a következő matchupot {emote_cry}. Megpróbálhatod újra a `/next_wvw_matchup` utasítással.',
+    'en': 'The GW2 API gave an invalid response, so I cannot predict the next matchup {emote_cry}. You can try again with `/next_wvw_matchup`.'
 }
 
 wvw_reset_summary = {
     'hu': 'Kellemes resetet kívánok mindenkinek {emote_commander}',
     'en': 'Wishing you a pleasant reset {emote_commander}'
-}
-
-wvw_reset_summary_relink = {
-    'hu': 'Figyelem {emote_warning}, egyben re-link is lesz! Kellemes resetet kívánok mindenkinek {emote_commander}',
-    'en': 'Attention {emote_warning}, there will also be a re-link! Wishing you a pleasant reset {emote_commander}'
 }
 
 population_changed = {

@@ -4,6 +4,7 @@ import traceback
 
 # modify this if additional languages must be present
 required_translations = ['en', 'hu']
+files_with_translations = ['templates.py', 'template_utils.py', 'time_utils.py', 'matchup_utils.py']
 
 
 class TranslationMissingError(Exception):
@@ -37,7 +38,7 @@ def check_variable(file_name: str, variable_name: str, module):
     variable = getattr(module, variable_name)
     if type(variable) is dict:
         # a dictionary has been found in one of the checked files
-        keys: list = variable.keys()
+        keys = variable.keys()
         if any(key in required_translations for key in keys):
             # if at least one translation key was found, then all of them must be found!
             missing_translations = collect_missing_languages(keys)
@@ -70,9 +71,7 @@ translation_errors = []
 for python_file_path in Path('bot').rglob('*.py'):
     try:
         python_file_name = str(python_file_path)
-
-        # these do not need to be checked
-        if python_file_name.endswith('templates.py') or python_file_name.endswith('template_utils.py') or python_file_name.endswith('time_utils.py'):
+        if any([python_file_name.endswith(translation_file) for translation_file in files_with_translations]):
             print(f'Checking the python file {python_file_name}')
             check_translations_for_python_file(python_file_name)
         else:

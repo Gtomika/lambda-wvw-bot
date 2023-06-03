@@ -22,6 +22,10 @@ variable "memory" {
   type = number
 }
 
+variable "timeout_seconds" {
+  type = number
+}
+
 variable "environment_variables" {
   type = map(string)
 }

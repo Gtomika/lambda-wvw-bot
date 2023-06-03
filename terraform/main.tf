@@ -41,6 +41,7 @@ module "scheduled_lambda" {
 
   handler_name = var.scheduled_lambda_data.handler
   memory = var.scheduled_lambda_data.memory
+  timeout_seconds = var.scheduled_lambda_data.timeout_seconds
   path_to_deployment_package = local.scheduled_lambda_package_path
   dead_letter_error_topic_arn = module.sns.error_topic_arn
 
@@ -139,6 +140,7 @@ module "discord_interaction_lambda" {
 
   handler_name = var.discord_interaction_lambda_data.handler
   memory = var.discord_interaction_lambda_data.memory
+  timeout_seconds = var.discord_interaction_lambda_data.timeout_seconds
   path_to_deployment_package = local.discord_interaction_lambda_package_path
   dead_letter_error_topic_arn = module.sns.error_topic_arn
 

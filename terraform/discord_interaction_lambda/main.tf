@@ -91,6 +91,7 @@ resource "aws_lambda_function" "discord_interaction_lambda" {
   runtime = "python3.9"
   handler = var.handler_name
   memory_size = var.memory
+  timeout = var.timeout_seconds
   environment {
     variables = var.environment_variables
   }

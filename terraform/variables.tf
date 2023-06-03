@@ -21,7 +21,8 @@ variable "discord_interaction_lambda_data" {
   type = object({
     handler: string
     path_to_deployment_package: string
-    memory: number
+    memory: number,
+    timeout_seconds: number
   })
 }
 
@@ -29,7 +30,8 @@ variable "scheduled_lambda_data" {
   type = object({
     handler: string
     path_to_deployment_package: string
-    memory: number
+    memory: number,
+    timeout_seconds: number
   })
 }
 

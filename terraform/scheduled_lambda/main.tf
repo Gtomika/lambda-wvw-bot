@@ -53,8 +53,6 @@ data aws_iam_policy_document "scheduled_lambda_policy" {
   }
 }
 
-# TODO give permission to access user and guild tables
-
 resource "aws_iam_role" "scheduled_lambda_role" {
   name = "ScheduledLambda-${var.app_name}-${var.environment}-${var.aws_region}"
   assume_role_policy = data.aws_iam_policy_document.scheduled_lambda_assume_role_policy.json
@@ -86,6 +84,7 @@ resource "aws_lambda_function" "scheduled_lambda" {
   runtime = "python3.9"
   handler = var.handler_name
   memory_size = var.memory
+  timeout = var.timeout_seconds
   environment {
     variables = var.environment_variables
   }
