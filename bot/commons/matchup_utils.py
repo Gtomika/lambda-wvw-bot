@@ -3,6 +3,7 @@ import pendulum
 from bot.commons import world_utils
 from bot.commons import discord_utils
 from bot.commons import template_utils
+from bot.commons import gw2_api_interactions
 
 eu_region_constant = 2
 eu_lowest_tier = 5
@@ -369,6 +370,11 @@ def predict_next_matchup_sides_if_home_stays(
         drops.color = green
         home_world_side.color = blue
         predicted_sides.extend([advances, drops])
+
+
+def create_matchup_report_from_id(matchup_id: str) -> Matchup:
+    raw_report = gw2_api_interactions.get_wvw_matchup_report_by_id(matchup_id)
+    return parse_matchup(raw_report)
 
 
 # used by multiple commands, and so placed here instead of a templates.py file.
