@@ -3,6 +3,11 @@ wvw_reset_reminder = {
 
 {matchup_prediction_string}
 
+{summary_string}""",
+    'en': """WvW reset is coming up soon {emote_wvw}!
+    
+{matchup_prediction_string}
+
 {summary_string}"""
 }
 
