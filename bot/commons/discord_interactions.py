@@ -45,7 +45,7 @@ def respond_to_discord_interaction(
         message: str,
         allowed_mention: AllowedMention = allow_no_mentions,
         embeds: Union[list[dict], None] = None
-) -> bool:
+):
     """
     Respond to a discord interaction, identified by the interaction token.
     Allowed mention should be used to control who this message can ping. By default
@@ -63,12 +63,10 @@ def respond_to_discord_interaction(
         'Content-Type': 'application/json'
     }, timeout=discord_interaction_timeout)
 
-    if response.status_code < 400:
-        return True
-    else:
+    if response.status_code >= 400:
         print(f'Error while making edit to original interaction message, status: {response.status_code},'
               f' data: {response.content}')
-        return False
+        raise requests.exceptions.RequestException(f'Error {response.status_code}: {response.content}')
 
 
 def create_webhook_message(
