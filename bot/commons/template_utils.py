@@ -128,8 +128,8 @@ def format_and_respond_invalid_world(discord_interactions, info, world_name: str
 
 
 common_template_daily_system_rework = {
-    'hu': "A *Wizard's Vault* megjelenése óta a napi és heti teljesítmények nem kérhetőek le az API-tól. Ez a parancs ideiglenesen ki van kapcsolva.",
-    'en': "Since the release of the *Wizard's Vault*, the daily and weekly achievements cannot be queried from the API. This command is temporarily disabled."
+    'hu': "A *Wizard's Vault* megjelenése óta a napi teljesítmények nem kérhetőek le az API-tól. Ez a parancs ideiglenesen ki van kapcsolva.",
+    'en': "Since the release of the *Wizard's Vault*, the daily achievements cannot be queried from the API. This command is temporarily disabled."
 }
 
 

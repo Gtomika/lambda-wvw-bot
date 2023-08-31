@@ -48,8 +48,8 @@ view or delete it with `/api_key view` or `/api_key delete`, respectively.
 ### Known issues
 
 Since the daily system got reworked into the so-called *Wizard's Vault*, the API for 
-getting daily and weekly achievements is not working correctly. For this reason, the 
-`/wvw_daily` and `/wvw_weekly` commands are disabled until a new API endpoint is 
+getting daily achievements is not working correctly. For this reason, the 
+`/wvw_daily` command is disabled until a new API endpoint is 
 made available.
 
 ## Lambda Wvw Bot technical info
