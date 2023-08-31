@@ -41,7 +41,7 @@ def lambda_handler(event, context):
     except common_exceptions.HomeWorldNotSetException:
         template_utils.format_and_respond_home_world_not_set(discord_interactions, info)
     except common_exceptions.InvalidWorldException as e:
-        template_utils.format_and_response_invalid_world(discord_interactions, info, e.world_name)
+        template_utils.format_and_respond_invalid_world(discord_interactions, info, e.world_name)
     except gw2_api_interactions.ApiKeyUnauthorizedException:
         template_utils.format_and_respond_api_key_unauthorized(discord_interactions, discord_utils, info)
     except gw2_api_interactions.ApiException:

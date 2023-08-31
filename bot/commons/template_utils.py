@@ -120,10 +120,21 @@ common_template_invalid_world = {
 }
 
 
-def format_and_response_invalid_world(discord_interactions, info, world_name: str):
+def format_and_respond_invalid_world(discord_interactions, info, world_name: str):
     error_message = get_localized_template(common_template_invalid_world, info.locale).format(
         home_world=world_name
     )
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
+
+
+common_template_daily_system_rework = {
+    'hu': "A *Wizard's Vault* megjelenése óta a napi és heti teljesítmények nem kérhetőek le az API-tól. Ez a parancs ideiglenesen ki van kapcsolva.",
+    'en': "Since the release of the *Wizard's Vault*, the daily and weekly achievements cannot be queried from the API. This command is temporarily disabled."
+}
+
+
+def format_and_respond_daily_system_rework(discord_interactions, info):
+    error_message = get_localized_template(common_template_daily_system_rework, info.locale)
     discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)
 
 

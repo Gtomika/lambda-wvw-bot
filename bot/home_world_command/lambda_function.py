@@ -63,7 +63,7 @@ def set_home_world(guild_id: str, home_world_name: str, info: discord_utils.Inte
             .format(home_world=home_world_name)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, success_message)
     except common_exceptions.InvalidWorldException as e:
-        template_utils.format_and_response_invalid_world(discord_interactions, info, e.world_name)
+        template_utils.format_and_respond_invalid_world(discord_interactions, info, e.world_name)
     except gw2_api_interactions.ApiException:
         template_utils.format_and_respond_gw2_api_error(discord_interactions, info)
 

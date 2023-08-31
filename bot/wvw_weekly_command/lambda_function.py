@@ -11,6 +11,10 @@ def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
     monitoring.log_command(info, 'wvw_weekly')
     try:
+        # remove once daily and weekly API is fixed by ANET
+        if gw2_api_interactions.daily_weekly_api_broken:
+            template_utils.format_and_respond_daily_system_rework(discord_interactions, info)
+            return
         message = compile_weekly_achievements(info)
         discord_interactions.respond_to_discord_interaction(info.interaction_token, message)
     except BaseException as e:

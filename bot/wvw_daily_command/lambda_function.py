@@ -22,6 +22,11 @@ def lambda_handler(event, context):
     info = discord_utils.InteractionInfo(event)
     monitoring.log_command(info, 'wvw_daily')
     try:
+        # remove once daily and weekly API is fixed by ANET
+        if gw2_api_interactions.daily_weekly_api_broken:
+            template_utils.format_and_respond_daily_system_rework(discord_interactions, info)
+            return
+
         loading_message = template_utils.get_localized_template(templates.loading, info.locale).format(
             emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id)
         )

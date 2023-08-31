@@ -4,6 +4,10 @@ from requests.utils import requote_uri
 gw2_api_base_url = 'https://api.guildwars2.com/v2'
 gw2_api_timeout = 10  # sec
 
+# change to False once Wizard's Vault is added to the API
+daily_weekly_api_broken = True
+
+
 # GW2 API 500
 class ApiException(Exception):
     pass
