@@ -108,5 +108,5 @@ Staging bot. You cannot add it, not public, just a reminder for me.
 
 Commits that are starting with `[ANNOUNCE]` will trigger an announcement message on every announcement channel.
 The commit message will be included (without the prefix) into the message that is posted to Discord. The commit 
-message must be **escaped** of all characters that are not allowed in a JSON string! Backtick (`) character 
+message must be **escaped** of all characters that are not allowed in a JSON string! Backtick (`) and quote (') character 
 should also not be included.
