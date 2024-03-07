@@ -99,6 +99,14 @@ def get_wvw_objectives():
     return gw2_api_request(api_key=None, url='/wvw/objectives?ids=all')
 
 
+def get_wizards_vault_weekly(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/wizardsvault/weekly')
+
+
+def get_wizards_vault_daily(api_key: str):
+    return gw2_api_request(api_key=api_key, url='/account/wizardsvault/daily')
+
+
 def gw2_api_request(api_key, url: str):
     headers = {
             'Authorization': f'Bearer {api_key}'

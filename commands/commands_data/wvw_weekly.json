@@ -6,5 +6,31 @@
     "hu": "A heti WvW teljesítmények listázása"
   },
   "dm_permission": true,
-  "options": []
+  "options": [
+    {
+      "type": 3,
+      "name": "weekly_type",
+      "description": "Which type of weeklies to show?",
+      "description_localizations": {
+        "hu": "Melyik heti teljesítményeket mutassam?"
+      },
+      "required": true,
+      "choices": [
+        {
+          "name": "Legacy",
+          "name_localizations": {
+            "hu": "Régi"
+          },
+          "value": "weekly_type_legacy"
+        },
+        {
+          "name": "Wizard's Vault",
+          "name_localizations": {
+            "hu": "Wizard's Vault"
+          },
+          "value": "weekly_type_wizards_vault"
+        }
+      ]
+    }
+  ]
 }

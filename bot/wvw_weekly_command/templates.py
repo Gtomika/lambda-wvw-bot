@@ -114,3 +114,4 @@ weekly_achievements = [
         'potion_reward': 2
     }
 ]
+
