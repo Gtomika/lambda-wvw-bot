@@ -14,8 +14,8 @@ def create_wizards_vault_objectives_message(period: str, gw2_api_wizards_vault_r
 
     period_string = template_utils.get_localized_template(wizard_vault_periods, locale)[period]
 
-    progress_current = gw2_api_wizards_vault_response['progress_current']
-    progress_complete = gw2_api_wizards_vault_response['progress_complete']
+    progress_current = gw2_api_wizards_vault_response['meta_progress_current']
+    progress_complete = gw2_api_wizards_vault_response['meta_progress_complete']
 
     return template_utils.get_localized_template(wizards_vault_response, locale).format(
         period=period_string,
