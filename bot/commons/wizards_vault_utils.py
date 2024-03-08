@@ -66,7 +66,7 @@ wizards_vault_response = {
 Meta reward: {meta_reward} {emote_astral_acclaim}
 
 {objective_details}''',
-    'hu': '''A {period} Wizard's Vault céljaid: {progress_count} / {progress_complete} {emote_complete}
+    'hu': '''A {period} Wizard's Vault céljaid: {progress_current} / {progress_complete} {emote_complete}
 Meta jutalom: {meta_reward} {emote_astral_acclaim}
 
 {objective_details}'''
