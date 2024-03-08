@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         weekly_type = discord_utils.extract_option(event, 'weekly_type')
         if weekly_type == 'weekly_type_legacy':
             message = compile_weekly_legacy_achievements(info)
-        else: # weekly type Wizard's Vault
+        else:  # weekly type Wizard's Vault
             api_key = gw2_user_repo.get_api_key(info.user_id)
             weekly_wizards_vault_response = gw2_api_interactions.get_wizards_vault_weekly(api_key)
             message = wizards_vault_utils.create_wizards_vault_objectives_message(
