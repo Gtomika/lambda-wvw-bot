@@ -127,3 +127,9 @@ variable "parameter_store_name_prefix" {
   type = string
   description = "All the parameter store names will be prefixed with this string (and additionally the environment name)"
 }
+
+variable "bot_api_token" {
+  type = string
+  sensitive = true
+  description = "API token for the bots own API, for example to update SSM parameters"
+}

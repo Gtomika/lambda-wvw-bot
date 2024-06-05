@@ -23,7 +23,9 @@ def handle_ssm_parameter_update(request_body: dict) -> dict:
     try:
         token = request_body['api_token']
         if token != bot_api_token:
-            return agi.to_api_gateway_raw_response(401, 'Invalid API token')
+            return agi.to_api_gateway_response(401, {
+                'message': 'Invalid API token'
+            })
 
         request_parameter_name = request_body['parameter_name']
         full_parameter_name = f'{bot_parameters_prefix}{request_parameter_name}'
@@ -33,7 +35,6 @@ def handle_ssm_parameter_update(request_body: dict) -> dict:
         ssm_client.put_parameter(
             Name=full_parameter_name,
             Value=new_value,
-            Type='String',
             Overwrite=True
         )
 

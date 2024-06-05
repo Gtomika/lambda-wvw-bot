@@ -223,6 +223,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
@@ -239,6 +240,7 @@ jobs:
             -var aws_region="$AWS_REGION" \
             -var environment="$ENVIRONMENT" \
             -var discord_bot_token="$DISCORD_BOT_TOKEN" \
+            -var bot_api_token="$BOT_API_TOKEN" \
             -var aws_key_id="$AWS_ACCESS_KEY_ID" \
             -var aws_secret_key="$AWS_SECRET_ACCESS_KEY" \
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
@@ -261,6 +263,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
@@ -282,6 +285,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
@@ -298,6 +302,7 @@ jobs:
             -var aws_region="$AWS_REGION" \
             -var environment="$ENVIRONMENT" \
             -var discord_bot_token="$DISCORD_BOT_TOKEN" \
+            -var bot_api_token="$BOT_API_TOKEN" \
             -var aws_key_id="$AWS_ACCESS_KEY_ID" \
             -var aws_secret_key="$AWS_SECRET_ACCESS_KEY" \
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
@@ -350,6 +355,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
@@ -366,6 +372,7 @@ jobs:
             -var aws_region="$AWS_REGION" \
             -var environment="$ENVIRONMENT" \
             -var discord_bot_token="$DISCORD_BOT_TOKEN" \
+            -var bot_api_token="$BOT_API_TOKEN" \
             -var aws_key_id="$AWS_ACCESS_KEY_ID" \
             -var aws_secret_key="$AWS_SECRET_ACCESS_KEY" \
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \
@@ -388,6 +395,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
@@ -409,6 +417,7 @@ jobs:
       ENVIRONMENT: ${{ vars.ENVIRONMENT_NAME }}
       TERRAFORM_STATE_FILE: ${{ vars.TERRAFORM_STATE_FILE }}
       DISCORD_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
       DISCORD_APP_NAME: ${{ vars.DISCORD_APPLICATION_NAME }}
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
@@ -425,6 +434,7 @@ jobs:
             -var aws_region="$AWS_REGION" \
             -var environment="$ENVIRONMENT" \
             -var discord_bot_token="$DISCORD_BOT_TOKEN" \
+            -var bot_api_token="$BOT_API_TOKEN" \
             -var aws_key_id="$AWS_ACCESS_KEY_ID" \
             -var aws_secret_key="$AWS_SECRET_ACCESS_KEY" \
             -var aws_terraform_role_arn="$AWS_TERRAFORM_ROLE_ARN" \

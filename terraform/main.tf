@@ -64,6 +64,7 @@ module "scheduled_lambda" {
     APP_NAME = var.discord_application_name
     APP_ICON_URL = module.s3.app_icon_url
     BOT_PARAMETERS_PREFIX = local.bot_ssm_parameters_prefix
+    BOT_API_TOKEN = var.bot_api_token
   }
   log_retention_days = var.log_retention_days
   gw2_users_table_arn = module.dynamodb_tables.gw2_users_table_arn
