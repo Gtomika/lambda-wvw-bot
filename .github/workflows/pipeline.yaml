@@ -19,8 +19,8 @@ jobs:
   run-test-discord-interaction:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install test dependencies
@@ -37,8 +37,8 @@ jobs:
   run-test-scheduled-lambda:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install test dependencies
@@ -53,8 +53,8 @@ jobs:
   run-tests-commons:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install test dependencies
@@ -71,8 +71,8 @@ jobs:
   translations-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install test dependencies
@@ -85,8 +85,8 @@ jobs:
   package-layers:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Upgrade Pip
@@ -111,15 +111,15 @@ jobs:
           zip -r image_layer.zip python
           echo "Zipped images layer into archive 'image_layer.zip'"
           stat image_layer.zip
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: libraries-layer-deployment-package
           path: libraries_layer.zip
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: commons-layer-deployment-package
           path: commons_layer.zip
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: image-layer-deployment-package
           path: image_layer.zip
@@ -128,10 +128,10 @@ jobs:
   package-discord-interaction-lambda:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Package discord interaction lambda
         run: zip -r discord_interaction_lambda.zip bot/discord_interaction_lambda_function/* -x bot/discord_interaction_lambda_function/test*
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: discord-interaction-lambda-package
           path: discord_interaction_lambda.zip
@@ -140,10 +140,10 @@ jobs:
   package-scheduled-lambda:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Package scheduled lambda
         run: zip -r scheduled_lambda.zip bot/scheduled_lambda_function/* -x bot/scheduled_lambda_function/test*
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: scheduled-lambda-package
           path: scheduled_lambda.zip
@@ -152,7 +152,7 @@ jobs:
   package-command-lambdas:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare packages folder
         run: mkdir command_lambda_packages
       - name: Package help command lambda
@@ -189,7 +189,7 @@ jobs:
         run: zip -r command_lambda_packages/guild_language_lambda.zip bot/guild_language_command/*
       - name: Package wvw map lambda
         run: zip -r command_lambda_packages/wvw_map_lambda.zip bot/wvw_map_command/*
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: command-lambda-packages
           path: command_lambda_packages/
@@ -205,9 +205,9 @@ jobs:
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-      - uses: hashicorp/setup-terraform@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - uses: hashicorp/setup-terraform@v3
       - name: Validate Terraform configuration
         run: |
           cd terraform
@@ -229,9 +229,9 @@ jobs:
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/download-artifact@v4
       - name: Plan actions by Terraform
         run: |
           cd terraform
@@ -250,7 +250,7 @@ jobs:
             -var discord_application_name="$DISCORD_APP_NAME" \
             -var developer_email_address="$DEVELOPER_EMAIL_ADDRESS"
           cd ..
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-stg
           path: terraform/app.tfplan
@@ -268,9 +268,9 @@ jobs:
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/download-artifact@v4
       - name: Apply Terraform plan
         run: |
           cd terraform
@@ -291,9 +291,9 @@ jobs:
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/download-artifact@v4
       - name: Destroy infrastructure with Terraform
         run: |
           cd terraform
@@ -324,8 +324,8 @@ jobs:
       GUILD_ID: ${{ vars.DISCORD_TEST_GUILD_ID }}
       COMMAND_TYPE: GUILD
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install script dependencies
@@ -361,9 +361,9 @@ jobs:
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/download-artifact@v4
       - name: Plan actions by Terraform
         run: |
           cd terraform
@@ -382,7 +382,7 @@ jobs:
             -var discord_application_name="$DISCORD_APP_NAME" \
             -var developer_email_address="$DEVELOPER_EMAIL_ADDRESS"
           cd ..
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-prd
           path: terraform/app.tfplan
@@ -400,9 +400,9 @@ jobs:
       APPLICATION_ID: ${{ vars.APPLICATION_ID }}
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/download-artifact@v4
       - name: Apply Terraform plan
         run: |
           cd terraform
@@ -423,9 +423,9 @@ jobs:
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       DEVELOPER_EMAIL_ADDRESS: ${{ vars.DEVELOPER_EMAIL_ADDRESS }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: actions/download-artifact@v4
       - name: Destroy infrastructure with Terraform
         run: |
           cd terraform
@@ -455,8 +455,8 @@ jobs:
       APPLICATION_PUBLIC_KEY: ${{ vars.APPLICATION_PUBLIC_KEY }}
       COMMAND_TYPE: GLOBAL
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install script dependencies
