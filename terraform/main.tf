@@ -32,6 +32,12 @@ module "sns" {
   developer_email_address = var.developer_email_address
 }
 
+module "parameter_store" {
+  source = "./parameter_store"
+  world_functionality_enabled_param_name = "${var.parameter_store_name_prefix}/${var.environment}/world_functionality_enabled"
+  world_functionality_enabled = "true"
+}
+
 module "scheduled_lambda" {
   source = "./scheduled_lambda"
 

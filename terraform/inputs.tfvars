@@ -159,3 +159,5 @@ command_data = [
 
 discord_interaction_path = "api/discord/interaction"
 log_retention_days = 30
+
+parameter_store_name_prefix = "/lambda-wvw-bot"

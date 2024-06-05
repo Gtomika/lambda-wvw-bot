@@ -117,3 +117,8 @@ variable "developer_email_address" {
   type = string
   description = "Email of developer that is subscribed to SNS topics such as error topic"
 }
+
+variable "parameter_store_name_prefix" {
+  type = string
+  description = "All the parameter store names will be prefixed with this string (and additionally the environment name)"
+}
