@@ -53,3 +53,7 @@ variable "gw2_guilds_table_arn" {
 variable "dead_letter_error_topic_arn" {
   type = string
 }
+
+variable "bot_ssm_parameters_prefix" {
+  type = string
+}

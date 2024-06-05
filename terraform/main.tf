@@ -6,6 +6,8 @@ locals {
   discord_interaction_lambda_package_path = "${path.module}/${var.discord_interaction_lambda_data.path_to_deployment_package}"
   scheduled_lambda_package_path = "${path.module}/${var.scheduled_lambda_data.path_to_deployment_package}"
   command_lambda_path_prefix = "${path.module}/../command-lambda-packages"
+
+  bot_ssm_parameters_prefix = "${var.parameter_store_name_prefix}/${var.environment}/"
 }
 
 module "s3" {
@@ -34,7 +36,7 @@ module "sns" {
 
 module "parameter_store" {
   source = "./parameter_store"
-  world_functionality_enabled_param_name = "${var.parameter_store_name_prefix}/${var.environment}/world_functionality_enabled"
+  world_functionality_enabled_param_name = "${local.bot_ssm_parameters_prefix}world_functionality_enabled"
   world_functionality_enabled = "true"
 }
 
@@ -61,10 +63,12 @@ module "scheduled_lambda" {
     GW2_GUILDS_TABLE_NAME = module.dynamodb_tables.gw2_guilds_table_name
     APP_NAME = var.discord_application_name
     APP_ICON_URL = module.s3.app_icon_url
+    BOT_PARAMETERS_PREFIX = local.bot_ssm_parameters_prefix
   }
   log_retention_days = var.log_retention_days
   gw2_users_table_arn = module.dynamodb_tables.gw2_users_table_arn
   gw2_guilds_table_arn = module.dynamodb_tables.gw2_guilds_table_arn
+  bot_ssm_parameters_prefix = local.bot_ssm_parameters_prefix
 }
 
 module "scheduler" {
@@ -173,5 +177,10 @@ module "api_gateway" {
   discord_interaction_lambda_name = module.discord_interaction_lambda.discord_interaction_lambda_name
   discord_interaction_lambda_invocation_arn = module.discord_interaction_lambda.discord_interaction_lambda_invoke_arn
   discord_interaction_path = var.discord_interaction_path
+
+  scheduled_lambda_name = module.scheduled_lambda.scheduled_lambda_name
+  scheduled_lambda_invocation_arn = module.scheduled_lambda.scheduled_lambda_invoke_arn
+  parameter_update_interaction_path = var.parameter_update_interaction_path
+
   log_retention_days = var.log_retention_days
 }

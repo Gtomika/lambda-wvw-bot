@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "scheduled_lambda_assume_role_policy" {
   statement {
     sid = "AllowLambdaToAssume"
@@ -49,6 +51,18 @@ data aws_iam_policy_document "scheduled_lambda_policy" {
     ]
     resources = [
       var.dead_letter_error_topic_arn
+    ]
+  }
+  statement {
+    sid = "AllowLambdaToManageSSMParameters"
+    effect = "Allow"
+    actions = [
+      "ssm:GetParameter",
+      "ssm:PutParameter",
+    ]
+    resources = [
+      # variable 'bot_ssm_parameters_prefix' already includes / at start and end
+      "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter${var.bot_ssm_parameters_prefix}*"
     ]
   }
 }

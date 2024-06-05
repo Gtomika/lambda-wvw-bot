@@ -6,11 +6,13 @@ import json
 from bot.commons import gw2_guilds
 from bot.commons import gw2_users
 from bot.commons import discord_interactions
+from bot.commons import api_gateway_interactions as agi
 
 from . import wvw_reset_handler
 from . import population_check_handler
 from . import raid_reminder_handler
 from . import release_handler
+from . import ssm_parameter_update_handler
 
 dynamodb_resource = boto3.resource('dynamodb')
 
@@ -47,6 +49,8 @@ def lambda_handler(event, context):
             population_check_handler.handle_home_world_population_recheck(guilds_repo, personality)
         elif event_type == 'release':
             release_handler.handler_release_announcement(event, guilds_repo, personality)
+        elif event_type == 'ssm_parameter_update':
+            return ssm_parameter_update_handler.handle_ssm_parameter_update(payload)
         elif event_type == 'test':
             print('Test event, ignoring...')
             return payload, event_type
@@ -61,13 +65,16 @@ def lambda_handler(event, context):
 def extract_event_payload(event: dict) -> dict:
     """
     The event payload may be at a different spot depending on if this event was provisioned from
-    Python SDK, or with Terraform.
+    Python SDK, or with Terraform, or with API gateway.
     """
     if event_type_key in event:
-        return event  # payload is the root event, already parsed
+        return event  # payload comes from another Lambda as root event, already parsed
     elif 'Payload' in event:
-        payload: str = event['Payload']
+        payload: str = event['Payload']  # payload comes from Terraform
         return json.loads(payload)
+    elif 'body' in event:
+        headers, body = agi.parse_api_gateway_event(event)  # payload comes from API Gateway
+        return json.loads(body)
     else:
         print(f'Event is in an unsupported format, cannot extract payload! Event: {json.dumps(event)}')
         raise Exception

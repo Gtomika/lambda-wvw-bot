@@ -52,6 +52,11 @@ variable "discord_interaction_path" {
   description = "URL path of the Discord interaction webhook. Must be relative and not start with '/'"
 }
 
+variable "parameter_update_interaction_path" {
+  type = string
+  description = "URL path for SSM parameter update. Must be relative and not start with '/'"
+}
+
 variable "log_retention_days" {
   type = number
   description = "How long to keep CloudWatch logs"

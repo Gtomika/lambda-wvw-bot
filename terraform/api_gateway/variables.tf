@@ -28,3 +28,17 @@ variable "discord_interaction_path" {
   type = string
   description = "URL path of the Discord interaction webhook. Must be relative and not start with '/'"
 }
+
+variable "scheduled_lambda_name" {
+  type = string
+}
+
+variable "scheduled_lambda_invocation_arn" {
+  type = string
+  default = "Invocation ARN of the scheduled lambda: the API gateway must call it"
+}
+
+variable "parameter_update_interaction_path" {
+  type = string
+  description = "URL path for SSM parameter updated. Must be relative and not start with '/'"
+}
