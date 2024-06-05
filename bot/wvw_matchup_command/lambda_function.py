@@ -14,6 +14,7 @@ from bot.commons import matchup_utils
 from bot.commons import world_utils
 from bot.commons import time_utils
 from bot.commons import monitoring
+from bot.commons import ssm_properties_utils
 from . import templates
 
 dynamodb_resource = boto3.resource('dynamodb')
@@ -26,6 +27,10 @@ def lambda_handler(event, context):
     monitoring.log_command(info, 'wvw_matchup')
     guild_id = info.guild_id
     try:
+        if not ssm_properties_utils.is_world_functionality_enabled():
+            template_utils.format_and_respond_world_functionality_disabled(discord_interactions, discord_utils, info)
+            return
+
         home_world = world_utils.identify_selected_world(guild_id, repo, event)
 
         loading_message = template_utils.get_localized_template(templates.matchup_calculation_in_progress, info.locale).format(

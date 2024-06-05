@@ -12,6 +12,7 @@ from bot.commons import common_exceptions
 from bot.commons import authorization
 from bot.commons import monitoring
 from bot.commons import world_utils
+from bot.commons import ssm_properties_utils
 from . import templates
 
 gw2_guilds_table_name = os.environ['GW2_GUILDS_TABLE_NAME']
@@ -27,6 +28,10 @@ def lambda_handler(event, context):
     guild_id = discord_utils.extract_guild_id(event)
 
     try:
+        if not ssm_properties_utils.is_world_functionality_enabled():
+            template_utils.format_and_respond_world_functionality_disabled(discord_interactions, discord_utils, info)
+            return
+
         loading_message = template_utils.get_localized_template(templates.updating_home_world, info.locale) \
             .format(emote_loading=discord_utils.animated_emote('loading', discord_utils.loading_emote_id))
         discord_interactions.respond_to_discord_interaction(info.interaction_token, loading_message)

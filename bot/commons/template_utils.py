@@ -151,3 +151,23 @@ transfer_costs = {
     'VeryHigh': '1800',
     'Full': '-'
 }
+
+
+common_template_world_functionality_disabled = {
+    'hu': '''A WvW világokkal kapcsolatos parancsok és funkciók jelenleg ki vannak kapcsolva {emote_scream}
+    Ez általában akkor történik, ha WvW béta vagy Alliance Restructuring van folyamatban. {developer} igyekszik 
+    minél hamarabb frissíteni és visszakapcsolni a funkciókat {emote_tools}
+    ''',
+    'en': '''The WvW world related commands and functionalities are currently disabled {emote_scream}
+    This usually happens when WvW beta or Alliance Restructuring is in progress. {developer} is trying to
+    update and re-enable the functionalities as soon as possible {emote_tools}'''
+}
+
+
+def format_and_respond_world_functionality_disabled(discord_interactions, discord_utils, info):
+    error_message = get_localized_template(common_template_world_functionality_disabled, info.locale).format(
+        emote_scream=discord_utils.default_emote('scream'),
+        developer=discord_utils.mention_user(discord_utils.developer_id),
+        emote_tools=discord_utils.default_emote('tools')
+    )
+    discord_interactions.respond_to_discord_interaction(info.interaction_token, error_message)

@@ -16,6 +16,7 @@ from bot.commons import map_utils
 from bot.commons import world_utils
 from bot.commons import monitoring
 from bot.commons import matchup_utils
+from bot.commons import ssm_properties_utils
 
 from . import templates
 from . import map_image_generation
@@ -41,6 +42,10 @@ def lambda_handler(event, context):
     monitoring.log_command(info, 'wvw_map')
     guild_id = info.guild_id
     try:
+        if not ssm_properties_utils.is_world_functionality_enabled():
+            template_utils.format_and_respond_world_functionality_disabled(discord_interactions, discord_utils, info)
+            return
+
         # world is selected from either guild or event
         home_world = world_utils.identify_selected_world(guild_id, repo, event)
 

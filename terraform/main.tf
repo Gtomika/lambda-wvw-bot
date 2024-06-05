@@ -37,7 +37,7 @@ module "sns" {
 module "parameter_store" {
   source = "./parameter_store"
   world_functionality_enabled_param_name = "${local.bot_ssm_parameters_prefix}world_functionality_enabled"
-  world_functionality_enabled = "true"
+  world_functionality_enabled_by_default = "true"
 }
 
 module "scheduled_lambda" {

@@ -1,4 +1,5 @@
 # Some common policies for all lambdas to use
+data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "command_lambda_base_policies" {
   statement {
@@ -18,6 +19,17 @@ data "aws_iam_policy_document" "command_lambda_base_policies" {
     ]
     resources = [
       module.sns.error_topic_arn
+    ]
+  }
+  statement {
+    sid = "AllowLambdaToReadSSMParameters"
+    effect = "Allow"
+    actions = [
+      "ssm:GetParameter"
+    ]
+    resources = [
+      # variable 'bot_ssm_parameters_prefix' already includes / at start and end
+      "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter${local.bot_ssm_parameters_prefix}*"
     ]
   }
 }
@@ -163,6 +175,7 @@ locals {
   common_variables = {
     APPLICATION_ID = var.discord_application_id
     BOT_TOKEN = var.discord_bot_token
+    BOT_PARAMETERS_PREFIX = local.bot_ssm_parameters_prefix
   }
 
   required_layers = [
