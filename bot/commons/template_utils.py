@@ -155,12 +155,11 @@ transfer_costs = {
 
 common_template_world_functionality_disabled = {
     'hu': '''A WvW világokkal kapcsolatos parancsok és funkciók jelenleg ki vannak kapcsolva {emote_scream}
-    Ez általában akkor történik, ha WvW béta vagy Alliance Restructuring van folyamatban. {developer} igyekszik 
-    minél hamarabb frissíteni és visszakapcsolni a funkciókat {emote_tools}
-    ''',
+Ez általában akkor történik, ha WvW béta vagy Alliance Restructuring van folyamatban. {developer} igyekszik 
+minél hamarabb frissíteni és visszakapcsolni a funkciókat {emote_tools}''',
     'en': '''The WvW world related commands and functionalities are currently disabled {emote_scream}
-    This usually happens when WvW beta or Alliance Restructuring is in progress. {developer} is trying to
-    update and re-enable the functionalities as soon as possible {emote_tools}'''
+This usually happens when WvW beta or Alliance Restructuring is in progress. {developer} is trying to
+update and re-enable the functionalities as soon as possible {emote_tools}'''
 }
 
 

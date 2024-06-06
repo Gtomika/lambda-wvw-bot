@@ -7,6 +7,7 @@ from bot.commons import common_exceptions
 from bot.commons import gw2_api_interactions
 from bot.commons import template_utils
 from bot.commons import discord_utils
+from bot.commons import ssm_properties_utils
 from . import templates
 from . import scheduled_lambda_utils
 
@@ -19,6 +20,10 @@ def handle_home_world_population_recheck(
     An event where guilds home worlds must be re-checked in case their population has changed.
     Notification is sent if the population was changed.
     """
+    if not ssm_properties_utils.is_world_functionality_enabled():
+        print(f"World functionality is disabled, skipping population recheck for guilds")
+        return
+
     worlds = gw2_api_interactions.get_home_worlds()
 
     for guild in guilds_repo.find_all_guilds([

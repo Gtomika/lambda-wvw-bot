@@ -9,6 +9,7 @@ from bot.commons import discord_utils
 from bot.commons import discord_interactions
 from bot.commons import template_utils
 from bot.commons import gw2_api_interactions
+from bot.commons import ssm_properties_utils
 from . import templates
 from . import scheduled_lambda_utils
 
@@ -36,10 +37,16 @@ def handle_wvw_reset_event(
             # check for relink. invoked on friday, so we can assume today is the reset day
             is_relink = matchup_utils.is_relink(pendulum.today())
             if is_relink:
+                # world data not used here, as we cannot predict it for relink
                 reminder_string = compile_reminder_string(None, locale, build_relink_prediction)
             else:
-                reminder_string = compile_reminder_string(home_world, locale, build_standard_prediction)
+                # world data IS used here, so we must check if it is disabled
+                if not ssm_properties_utils.is_world_functionality_enabled():
+                    reminder_string = compile_reminder_string(home_world, locale, build_world_functionality_disabled_prediction)
+                else:
+                    reminder_string = compile_reminder_string(home_world, locale, build_standard_prediction)
         else:
+            # world data not used here, as guild does not have home world set, and we don't know it
             reminder_string = compile_reminder_string(None, locale, build_no_home_world_set_prediction)
 
         wvw_role_ids = scheduled_lambda_utils.get_guild_attribute_or_empty(guild, gw2_guilds.wvw_roles_field_name)
@@ -90,6 +97,17 @@ def build_relink_prediction(home_world: None, locale: str) -> str:
     """
     return template_utils.get_localized_template(matchup_utils.relink_prediction, locale).format(
         emote_link=discord_utils.default_emote('link')
+    )
+
+
+def build_world_functionality_disabled_prediction(home_world: matchup_utils.WvwWorld, locale: str) -> str:
+    """
+    Home world parameter added to match expected function arguments, but it's unused.
+    """
+    return template_utils.get_localized_template(template_utils.common_template_world_functionality_disabled, locale).format(
+        emote_scream=discord_utils.default_emote('scream'),
+        developer=discord_utils.mention_user(discord_utils.developer_id),
+        emote_tools=discord_utils.default_emote('tools')
     )
 
 
