@@ -88,7 +88,7 @@ resource "aws_lambda_function" "discord_interaction_lambda" {
   source_code_hash = filebase64sha256(var.path_to_deployment_package)
 
   layers = [var.common_layer_arn, var.libraries_layer_arn]
-  runtime = "python3.9"
+  runtime = "python3.13"
   handler = var.handler_name
   memory_size = var.memory
   timeout = var.timeout_seconds

@@ -38,7 +38,7 @@ resource "aws_lambda_function" "command_lambda" {
   source_code_hash = filebase64sha256(var.path_to_deployment_package)
 
   layers = var.layer_arns
-  runtime = "python3.9"
+  runtime = "python3.13"
   handler = var.handler_name
   memory_size = var.memory
   environment {
